@@ -9,7 +9,7 @@
     <script src="http://wl.ngmk.uz/wsdk/script/wialon.js"></script>
     <script src="/map/leaflet.js"></script>
     <title>Dashboard Самосвалов</title>
+    @vite('resources/ts/app.ts')
 </head>
 <body id="app"></body>
-@vite('resources/ts/app.ts')
 </html>
