@@ -1,0 +1,47 @@
+{
+  "_Transports-nrnYIn47.js": {
+    "file": "assets/Transports-nrnYIn47.js",
+    "imports": [
+      "resources/ts/app.ts"
+    ]
+  },
+  "resources/ts/app.ts": {
+    "css": [
+      "assets/app-UMWekcEy.css"
+    ],
+    "dynamicImports": [
+      "resources/ts/pages/Home.vue",
+      "resources/ts/pages/Tables.vue",
+      "resources/ts/pages/Map.vue"
+    ],
+    "file": "assets/app-GBJ28PQR.js",
+    "isEntry": true,
+    "src": "resources/ts/app.ts"
+  },
+  "resources/ts/pages/Home.vue": {
+    "file": "assets/Home-BiX1vHAA.js",
+    "imports": [
+      "resources/ts/app.ts",
+      "_Transports-nrnYIn47.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/ts/pages/Home.vue"
+  },
+  "resources/ts/pages/Map.vue": {
+    "file": "assets/Map-TOjBWfS0.js",
+    "imports": [
+      "resources/ts/app.ts",
+      "_Transports-nrnYIn47.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/ts/pages/Map.vue"
+  },
+  "resources/ts/pages/Tables.vue": {
+    "file": "assets/Tables-FYUsiIi0.js",
+    "imports": [
+      "resources/ts/app.ts"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/ts/pages/Tables.vue"
+  }
+}
