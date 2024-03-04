@@ -1,4 +1,4 @@
-<?
+<?php
 
 namespace App\Wialon;
 use Session;

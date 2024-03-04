@@ -2,12 +2,12 @@ import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
 // @ts-ignore
 window.Pusher = Pusher
-
 class Singleton {
 	
 	private static instance: Singleton;
 	constructor() {
 		const echo = new Echo({
+			// @ts-ignore
 			wsHost: import.meta.env.VITE_URL,
 			wsPort: 6001,
 			broadcaster: 'pusher',
