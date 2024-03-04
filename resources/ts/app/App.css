@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+.slider-item{
+    @apply w-full h-full bg-zinc-900 !flex flex-col rounded-md shadow text-gray-300 py-1
+}
+
+.neomorph {
+    /* background: linear-gradient(145deg, #1a1a1d, #161618);
+    box-shadow:  5px 5px 9px #0a0a0b,
+                 -5px -5px 9px #26262b; */
+    box-shadow: 3px 3px 7px #0a0a0b,
+        -1px -1px 2px #555555;
+}
+
+.inner-shadow {
+    box-shadow: inset 5px 5px 10px #0a0a0b,
+        inset -5px -5px 10px #26262b;
+}
+
+.inner-shadow-second {
+    box-shadow: inset 5px 5px 7px #0e0e10,
+    inset -5px -5px 7px #222226;
+}
+
+.highcharts-credits{
+    display: none;
+}
+
+.gradient-text{
+    background: -webkit-linear-gradient(right ,#01b0b0, #0198f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+/* 1. declare transition */
+.fade-move,
+.fade-enter-active,
+.fade-leave-active {
+    transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+/* 2. declare enter from and leave to state */
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+    transform: scale(0.4) translate(30px, 30px);
+}
+
+.swiper-slide-shadow{
+    background: none!important;
+}
+
+
+
+/* Works on Chrome, Edge, and Safari */
+.scroll::-webkit-scrollbar
+{
+    width: 2px;
+}
+.scroll::-webkit-scrollbar-track
+{
+    background: transparent;
+}
+
+.indigo-scroll::-webkit-scrollbar-thumb {
+    background-color: #6366f1;
+}
+
+.red-scroll::-webkit-scrollbar-thumb {
+    background-color: #ef4444;
+}
+
+.green-scroll::-webkit-scrollbar-thumb {
+    background-color: #22c55e;
+}
+
+.yellow-scroll::-webkit-scrollbar-thumb {
+    background-color: #eab308;
+}
+
+.orange-scroll::-webkit-scrollbar-thumb {
+    background-color: #f97316;
+}
+
+.gray-scroll::-webkit-scrollbar-thumb {
+    background-color: #9ca3af;
+}
