@@ -4,10 +4,11 @@ import Pusher from 'pusher-js'
 window.Pusher = Pusher
 
 class Singleton {
+	
 	private static instance: Singleton;
 	constructor() {
 		const echo = new Echo({
-			wsHost: '192.168.14.92',
+			wsHost: import.meta.env.VITE_URL,
 			wsPort: 6001,
 			broadcaster: 'pusher',
 			// @ts-ignore
