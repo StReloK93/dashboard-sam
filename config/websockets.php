@@ -8,6 +8,7 @@ return [
      * Set a custom dashboard configuration
      */
     'dashboard' => [
+        'host' => '0.0.0.0',
         'port' => env('LARAVEL_WEBSOCKETS_PORT', 6001),
     ],
 

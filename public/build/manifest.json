@@ -1,6 +1,6 @@
 {
-  "_Transports-msl9nrvy.js": {
-    "file": "assets/Transports-msl9nrvy.js",
+  "_Transports-iiTzi-ro.js": {
+    "file": "assets/Transports-iiTzi-ro.js",
     "imports": [
       "resources/ts/app.ts"
     ]
@@ -14,30 +14,30 @@
       "resources/ts/pages/Tables.vue",
       "resources/ts/pages/Map.vue"
     ],
-    "file": "assets/app-K7rPxipf.js",
+    "file": "assets/app-W-6BloYK.js",
     "isEntry": true,
     "src": "resources/ts/app.ts"
   },
   "resources/ts/pages/Home.vue": {
-    "file": "assets/Home-1nkJNBoH.js",
+    "file": "assets/Home-XAaU0W0s.js",
     "imports": [
       "resources/ts/app.ts",
-      "_Transports-msl9nrvy.js"
+      "_Transports-iiTzi-ro.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/ts/pages/Home.vue"
   },
   "resources/ts/pages/Map.vue": {
-    "file": "assets/Map-qMolTQsB.js",
+    "file": "assets/Map-hADSc0bE.js",
     "imports": [
       "resources/ts/app.ts",
-      "_Transports-msl9nrvy.js"
+      "_Transports-iiTzi-ro.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/ts/pages/Map.vue"
   },
   "resources/ts/pages/Tables.vue": {
-    "file": "assets/Tables-6-HBvzuo.js",
+    "file": "assets/Tables-zB6wT3K6.js",
     "imports": [
       "resources/ts/app.ts"
     ],
