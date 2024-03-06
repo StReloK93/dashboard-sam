@@ -199,10 +199,7 @@ class WialonService
         $result = $this->array_find($groups['items'], function($element) use ($groupIndex) {
             return $element['id'] === $groupIndex;
         });
-        dd($result);
-        
-        
-        $transport_ids = $groups['items'][$groupIndex]['u'];
+        $transport_ids = $result['u'];
         return array_filter($units['items'], function ($unit) use ($transport_ids) {
             return in_array($unit['id'], $transport_ids);
         });
