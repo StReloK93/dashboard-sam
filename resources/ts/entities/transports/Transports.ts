@@ -1,10 +1,12 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import { inZone , timeDiff } from '@/helpers/timeFormat'
+import { inZone , timeDiff , secondTimer } from '@/helpers/timeFormat'
 import axios from 'axios'
 import moment from 'moment'
+
 export const Transports = defineStore('Transports', () => {
    const cars = ref(null)
+   const { timer, reset } = secondTimer()
    async function getTransports() {
       const { data } = await axios.get('/api/transportstates')
 
@@ -25,12 +27,17 @@ export const Transports = defineStore('Transports', () => {
             item.timer = diffMinutes
             item.timer_type = 0
          }
+
+         console.log(item.name , item.timer, item.timer_type);
       })
       cars.value = data
    }
    
    getTransports()
-   echo.channel('cars').listen('RefreshEvent', () => getTransports())
+   echo.channel('cars').listen('RefreshEvent', () => {
+      getTransports()
+      reset()
+   })
 
 
    const isUnknown = computed(() => {
@@ -55,10 +62,11 @@ export const Transports = defineStore('Transports', () => {
             if (transport.geozone?.toLowerCase().includes('заправочный')) summOilTime += diffMinutes
 
             const ekg = transport.geozone?.toLowerCase().includes('экг')
+            const gusenitsa = transport.geozone?.toLowerCase().includes('эг')
             const ex = transport.geozone?.toLowerCase().includes('ex')
             if (ex || ekg) summExcavatorTime += diffMinutes
 
-            return ex || ekg
+            return ex || ekg || gusenitsa
          })
 
          reysCount += filtered.length
@@ -73,8 +81,7 @@ export const Transports = defineStore('Transports', () => {
       process?.forEach((item) => {
          const filtered = item.current_day.filter((transport) => {
             if (timeDiff(transport, 'seconds') < 11) return false
-
-            return inZone(transport, 'экг') || inZone(transport, 'ex')
+            return inZone(transport, 'экг') || inZone(transport, 'ex') || inZone(transport, 'эг')
          })
          item.reys = filtered.length
       })
@@ -160,11 +167,36 @@ export const Transports = defineStore('Transports', () => {
    })
 
    const inExcavator = computed(() => {
-      return cars.value?.filter((transport) => inZone(transport, 'экг') || inZone(transport, 'ex'))
+      return cars.value?.filter((transport) => inZone(transport, 'экг') || inZone(transport, 'ex') || inZone(transport, 'эг'))
    })
 
 
-   return { getTransports, inATB, inOIL,inOilAll, inSMENA, inExcavator, isUnknown, inSmenaAll, inProcess, statesSumm , cars}
+   function getFilterGroup(key) {
+      const group: any = []
+      cars.value?.forEach(car => {
+         car.current_day.forEach((truck) => {
+            if (truck.geozone == key) group.push(truck)
+         }) 
+      })
+      return group
+   }
+
+
+   return {
+      getTransports,
+      getFilterGroup,
+      timer,
+      inATB,
+      inOIL,
+      inOilAll,
+      inSMENA,
+      inExcavator,
+      isUnknown,
+      inSmenaAll,
+      inProcess,
+      statesSumm,
+      cars
+   }
 })
 
 // 8158

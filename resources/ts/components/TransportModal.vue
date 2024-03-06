@@ -9,7 +9,7 @@
             <Swiper @init="initial" @slide-change="slideChange" :initial-slide="store.mode" :effect="'cards'" class="h-full"
                 :slides-per-view="1" :modules="[EffectCards]">
                 <SwiperSlide class="slider-item neomorph border-t-2 border-t-green-600">
-                    <TransfromModalItem type="isUnknown" headerColor="bg-green-800" class="scroll green-scroll" />
+                    <TransfromModalItem type="inExcavator" headerColor="bg-green-800" class="scroll green-scroll" />
                 </SwiperSlide>
                 <SwiperSlide class="slider-item neomorph border-t-2 border-t-yellow-600">
                     <TransfromModalItem type="inExcavator" header-color="bg-yellow-600" class="scroll yellow-scroll" />

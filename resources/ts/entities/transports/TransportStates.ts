@@ -47,7 +47,8 @@ export const TransportStates = defineStore('TransportStates', () => {
         return transports.value?.filter((transport) => {
             const ekg = transport.geozone?.toLowerCase().includes('экг')
             const ex = transport.geozone?.toLowerCase().includes('ex')
-            return ex || ekg
+            const gues = transport.geozone?.toLowerCase().includes('эг')
+            return ex || ekg || gues
         })
     })
 

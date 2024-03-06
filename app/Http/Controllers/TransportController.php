@@ -53,9 +53,4 @@ class TransportController extends Controller
     public function excavators(){
         return $this->wialon->getExcavators();
     }
-
-    public function getLikeTable(){
-        return Transport::where('transport_id', 1877)
-        ->get();
-    }
 }

@@ -21,20 +21,11 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { getDifference } from '@/helpers/timeFormat';
 import { TransportStates } from '@/entities/transports'
 const props = defineProps(['type','headerColor'])
 const states = TransportStates()
 
-function getDifference(transport) {
-   const minutes = moment(transport.geozone_out).diff(transport.geozone_in, 'minutes', true)
-   const seconds = moment(transport.geozone_out).diff(transport.geozone_in, 'second', true) % 60
-   const hours = Math.floor(minutes/60)
-   const minFloored = Math.floor(minutes%60)
-   const secFloored = Math.floor(seconds)
-   const min = minFloored > 9 ? minFloored : `0${minFloored}`
-   const sec = secFloored > 9 ? secFloored : `0${secFloored}`
-   const hour = hours > 9 ? hours : `0${hours}`
-   return `${hour}:${min}:${sec}`
-}
+
 
 </script>

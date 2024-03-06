@@ -19,7 +19,7 @@ class WialonService
     public function getTransportsWithZone(){
         $geoService = new GeoZoneService();
 
-        $transports = $this->getTransportPoints(4);
+        $transports = $this->getTransportPoints(7381);
         $zones = $this->getGeozones();
         $excavators = $this->getExcavators();
 
@@ -79,7 +79,7 @@ class WialonService
     }
 
     public function getExcavators(){
-        return $this->getTransportPoints(5);
+        return $this->getTransportPoints(4076);
     }
 
     public function getTransportPoints($groupIndex)
@@ -195,8 +195,13 @@ class WialonService
     public function getGroupUnitsWithName($groupIndex){
         $units = $this->getUnits();
         $groups = $this->getGroups();
-
-
+        
+        $result = $this->array_find($groups['items'], function($element) use ($groupIndex) {
+            return $element['id'] === $groupIndex;
+        });
+        dd($result);
+        
+        
         $transport_ids = $groups['items'][$groupIndex]['u'];
         return array_filter($units['items'], function ($unit) use ($transport_ids) {
             return in_array($unit['id'], $transport_ids);
@@ -205,13 +210,23 @@ class WialonService
     }
 
 
+    public function array_find($array, $callback) {
+        foreach ($array as $item) {
+            if ($callback($item)) {
+                return $item;
+            }
+        }
+        return null;
+    }
+
 }
 
 
 
 
 
-
+// 4076 ekskavatorlar
+// 7381 Hamma avtoagdargichlar
 
 
 

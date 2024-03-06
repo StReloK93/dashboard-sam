@@ -26,11 +26,5 @@ Route::apiResource('transportstates', TransportStateController::class)->only(['i
 Route::get('transports/all', [TransportController::class, 'index']);
 Route::get('transports/excavators', [TransportController::class, 'excavators']);
 Route::get('transports/all/wialon', [TransportController::class, 'getWithWialon']);
-Route::get('transports/like/table', [TransportController::class, 'getLikeTable']);
-
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 
 // BCG Скоростная карта
