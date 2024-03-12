@@ -35,6 +35,4 @@ import { Transports } from '@/entities/transports/Transports'
 const props = defineProps(['filter', 'color'])
 const store = Transports()
 const cars = store.getFilterGroup(props.filter)
-console.log(cars)
-
 </script>

@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import { computed, ref, Ref } from 'vue'
 import axios from 'axios'
-import moment from 'moment'
+import { inZone, timeDiff } from '@/helpers/timeFormat'
+
 
 export const TransportStates = defineStore('TransportStates', () => {
     const transports: Ref = ref(null)
@@ -11,7 +12,7 @@ export const TransportStates = defineStore('TransportStates', () => {
         const { data } = await axios.get(`/api/transportstates/${transport_id}`)
         transportsAll.value = data
         const filtered = data.filter((item) => {
-            return moment(item.geozone_out).diff(item.geozone_in, 'seconds') > 10
+            return timeDiff(item, 'seconds') > 10
         })
         transports.value = filtered
     }
@@ -20,19 +21,19 @@ export const TransportStates = defineStore('TransportStates', () => {
     })
 
     const inATB = computed(() => {
-        return transports.value?.filter((transport) => transport.geozone == "УАТ")
+        return transports.value?.filter((transport) => transport.geozone == "УАТ" || inZone(transport, 'авто'))
     })
 
     const inOIL = computed(() => {
-        return transports.value?.filter((transport) => transport.geozone?.toLowerCase().includes('заправочный'))
+        return transports.value?.filter((transport) => inZone(transport, 'заправочный'))
     })
 
     const inSmenaAll = computed(() => {
-        return transports.value?.filter((transport) => transport.geozone?.toLowerCase().includes('пересменка'))
+        return transports.value?.filter((transport) => inZone(transport, 'пересменка'))
     })
     const inSMENA = computed(() => {
         if (transports.value == null) return
-        const filtered = transports.value?.filter((transport) => transport.geozone?.toLowerCase().includes('пересменка'))
+        const filtered = transports.value?.filter((transport) => inZone(transport, 'пересменка'))
 
         const group: any = {}
 
@@ -45,9 +46,9 @@ export const TransportStates = defineStore('TransportStates', () => {
 
     const inExcavator = computed(() => {
         return transports.value?.filter((transport) => {
-            const ekg = transport.geozone?.toLowerCase().includes('экг')
-            const ex = transport.geozone?.toLowerCase().includes('ex')
-            const gues = transport.geozone?.toLowerCase().includes('эг')
+            const ekg = inZone(transport, 'экг')
+            const ex = inZone(transport, 'ex')
+            const gues = inZone(transport, 'эг')
             return ex || ekg || gues
         })
     })

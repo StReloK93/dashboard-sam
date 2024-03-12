@@ -8,23 +8,31 @@ class Smena
 {
    public function getPeriod()
    {
-      $currentTime = now();
-      $hour = $currentTime->format('H');
-      $startOfDay = $currentTime->startOfDay();
 
-      if ($hour >= 9 && $hour < 21) {
+      $currentTime = now();
+      
+      $startOfDay = $currentTime->copy()->startOfDay();
+      $ninePoint = $startOfDay->copy()->addHours(9)->addMinutes(10);
+      $twentyOnePoint = $startOfDay->copy()->addHours(21)->addMinutes(10);
+      if ($ninePoint <= $currentTime && $currentTime < $twentyOnePoint) {
          $smena = 1;
          $start = $startOfDay->addHours(9);
+         $start->addMinutes(10);
+
          $startCopy = $start->copy();
          $end = $startCopy->addHours(12);
-      } elseif ($hour >= 21) {
+      } elseif ($currentTime >= $twentyOnePoint) {
          $smena = 2;
          $start = $startOfDay->addHours(21);
+         $start->addMinutes(10);
+         
          $startCopy = $start->copy();
          $end = $startCopy->addHours(12);
       } else {
          $smena = 2;
          $start = $startOfDay->subDay()->addHours(21);
+         $start->addMinutes(10);
+
          $startCopy = $start->copy();
          $end = $startCopy->addHours(12);
       }

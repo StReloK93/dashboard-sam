@@ -3,10 +3,13 @@
 namespace App\Services;
 
 use App\Wialon\AuthWialon;
+use App\Models\Truck;
+
 use DB;
 use Carbon\Carbon;
 use App\Models\TransportState;
 use App\Services\GeoZoneService;
+
 class WialonService
 {
     protected $wialon;
@@ -15,8 +18,9 @@ class WialonService
         $this->wialon = AuthWialon::getInstance();
     }
 
-    
-    public function getTransportsWithZone(){
+
+    public function getTransportsWithZone()
+    {
         $geoService = new GeoZoneService();
 
         $transports = $this->getTransportPoints(7381);
@@ -24,48 +28,46 @@ class WialonService
         $excavators = $this->getExcavators();
 
         foreach ($transports as $key => $car) {
-            $pointCar = ['x' => $car['x'],'y' => $car['y']];
+            $pointCar = ['x' => $car['x'], 'y' => $car['y']];
 
             $geozoneName = $geoService->findZone($pointCar, $zones);
 
-            if($geozoneName == null) {
+            if ($geozoneName == null) {
                 $distances = $geoService->getDistances($pointCar, $excavators);
 
-                if($distances[0]['distance'] < 36){
+                if ($distances[0]['distance'] < 36) {
                     $transports[$key]['distance_ex'] = round($distances[0]['distance']);
                     $transports[$key]['geozone'] = $distances[0]['name'];
-                }
-                else{
+                } else {
                     $transports[$key]['distance_ex'] = null;
                     $transports[$key]['geozone'] = null;
                 }
 
-            }
-            else{
+            } else {
                 $transports[$key]['distance_ex'] = null;
                 $transports[$key]['geozone'] = $geozoneName;
             }
 
         }
-        
+
         return array_values($transports);
     }
 
 
-    public function writeToDB(){
+    public function writeToDB()
+    {
         $transports = $this->getTransportsWithZone();
         $time = now();
         foreach ($transports as $key => $car) {
             $transport = TransportState::where([
                 ['transport_id', $car['transport_id']],
             ])
-            ->latest('geozone_out')->first();
+                ->latest('geozone_out')->first();
 
-            if(isset($transport) && $transport->geozone == $car['geozone']){
+            if (isset($transport) && $transport->geozone == $car['geozone']) {
                 $transport->geozone_out = $time;
                 $transport->save();
-            }
-            else{
+            } else {
                 TransportState::insert([
                     'name' => $car['name'],
                     'transport_id' => $car['transport_id'],
@@ -78,7 +80,8 @@ class WialonService
         return DB::table('transports')->insert($transports);
     }
 
-    public function getExcavators(){
+    public function getExcavators()
+    {
         return $this->getTransportPoints(4076);
     }
 
@@ -108,13 +111,14 @@ class WialonService
             $transports[$key]['x'] = $point['messages'][0]['pos']['x'];
             $transports[$key]['time_message'] = Carbon::createFromTimestamp($point['messages'][0]['t'])->toDateTimeString();
             $transports[$key]['created_at'] = $created;
-            
+
         }
 
         return $transports;
     }
 
-    public function getGeozones(){
+    public function getGeozones()
+    {
         $data = $this->wialon->get([
             'svc' => 'core/search_items',
             'params' => json_encode([
@@ -141,7 +145,7 @@ class WialonService
             ])
         ]);
 
-        return array_map(function($geozone){
+        return array_map(function ($geozone) {
             return [
                 'name' => $geozone['n'],
                 'center' => [
@@ -151,10 +155,11 @@ class WialonService
                 'points' => $geozone['p']
             ];
         }, $geozones);
-         
+
     }
 
-    public function getUnits(){
+    public function getUnits()
+    {
         return $this->wialon->get([
             'svc' => 'core/search_items',
             'params' => json_encode([
@@ -173,7 +178,8 @@ class WialonService
         ]);
     }
 
-    public function getGroups(){
+    public function getGroups()
+    {
         return $this->wialon->get([
             'svc' => 'core/search_items',
             'params' => json_encode([
@@ -192,13 +198,14 @@ class WialonService
         ]);
     }
 
-    public function getGroupUnitsWithName($groupIndex){
+    public function getGroupUnitsWithName($groupIndex)
+    {
         $units = $this->getUnits();
         $groups = $this->getGroups();
-        
-        $result = $this->array_find($groups['items'], function($element) use ($groupIndex) {
+        $result = $this->array_find($groups['items'], function ($element) use ($groupIndex) {
             return $element['id'] === $groupIndex;
         });
+
         $transport_ids = $result['u'];
         return array_filter($units['items'], function ($unit) use ($transport_ids) {
             return in_array($unit['id'], $transport_ids);
@@ -207,13 +214,35 @@ class WialonService
     }
 
 
-    public function array_find($array, $callback) {
+    public function array_find($array, $callback)
+    {
         foreach ($array as $item) {
             if ($callback($item)) {
                 return $item;
             }
         }
         return null;
+    }
+
+
+    public function setTypes()
+    {
+        $groups = $this->getGroups();
+
+        $list = [9748, 9749, 9750, 9751];
+
+        foreach ($groups['items'] as $key => $group) {
+            if (in_array($group['id'], $list)) {
+
+                foreach ($group['u'] as $key => $value) {
+                    Truck::updateOrCreate(
+                        ['transport_id' => $value],
+                        ['group_name' => $group['nm'], 'group_id' => $group['id']]
+                    );
+                }
+
+            }
+        }
     }
 
 }

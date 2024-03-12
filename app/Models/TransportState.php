@@ -20,4 +20,10 @@ class TransportState extends Model
             ->where('geozone_out', '>', $period['start'])
             ->where('geozone_out', '<', $period['end']);
     }
+
+
+    public function truck()
+    {
+        return $this->hasOne(Truck::class, 'transport_id', 'transport_id');
+    }
 }

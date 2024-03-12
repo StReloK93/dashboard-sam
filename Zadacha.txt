@@ -1,0 +1,5 @@
+2 - Aylanalarda Umumiy turgan transportlarni sonini chiqarish
+3 - Diagrammani malumotlarini olish
+4 - Smena geozonasida nimaga turganini sababani chiqarish
+5 - AUTga moykani ham qoshish
+6 - Oldidan yuklovchilarni ham ekskavatorlarga qoshish

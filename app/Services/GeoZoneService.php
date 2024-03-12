@@ -3,7 +3,6 @@ namespace App\Services;
 
 class GeoZoneService
 {
-
    public function findZone($point, $zones)
    {
       $issue = null;

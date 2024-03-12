@@ -7,7 +7,9 @@
                 v-for="(transport, index) in props.data" 
                 :name="transport.name" 
                 :color="props.color"
-                :timer="transport[props.counter] ? transport[props.counter]: 0" :key="index"
+                :type="transport.truck"
+                :timer="transport[props.counter] ? transport[props.counter]: 0"
+                :key="index"
                 :timer_type="transport.timer_type"
             />
         </TransitionGroup>

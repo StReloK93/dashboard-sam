@@ -68,5 +68,8 @@ const chartOptions:any = {
 
 onMounted(() => {
     Highcharts.chart(chartLine.value, chartOptions)
+    // axios.get('').then(({ data }) => {
+    //     console.log(data)
+    // })
 })
 </script>

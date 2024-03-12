@@ -1,12 +1,11 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import { inZone , timeDiff , secondTimer } from '@/helpers/timeFormat'
+import { inZone, timeDiff, secondTimer } from '@/helpers/timeFormat'
 import axios from 'axios'
 import moment from 'moment'
 
 export const Transports = defineStore('Transports', () => {
    const cars = ref(null)
-   const { timer, reset } = secondTimer()
    async function getTransports() {
       const { data } = await axios.get('/api/transportstates')
 
@@ -27,22 +26,19 @@ export const Transports = defineStore('Transports', () => {
             item.timer = diffMinutes
             item.timer_type = 0
          }
-
-         console.log(item.name , item.timer, item.timer_type);
       })
       cars.value = data
    }
-   
+
    getTransports()
+   const { timer, reset } = secondTimer()
    echo.channel('cars').listen('RefreshEvent', () => {
       getTransports()
       reset()
    })
 
 
-   const isUnknown = computed(() => {
-      return cars.value?.filter((transport) => timeDiff(transport, 'minutes') >= 45 && transport.geozone == null)
-   })
+   
 
    const statesSumm = computed(() => {
       var reysCount = 0
@@ -50,12 +46,12 @@ export const Transports = defineStore('Transports', () => {
       var summOilTime = 0
       var summExcavatorTime = 0
 
-      
+
       cars.value?.forEach((item) => {
 
          const filtered = item.current_day.filter((transport) => {
             if (moment(transport.geozone_out).diff(transport.geozone_in, 'seconds') < 11) return false
-            
+
             const diffMinutes = moment(transport.geozone_out).diff(transport.geozone_in, 'minutes')
 
             if (transport.geozone?.toLowerCase().includes('пересменка')) summSmenaTime += diffMinutes
@@ -64,7 +60,7 @@ export const Transports = defineStore('Transports', () => {
             const ekg = transport.geozone?.toLowerCase().includes('экг')
             const gusenitsa = transport.geozone?.toLowerCase().includes('эг')
             const ex = transport.geozone?.toLowerCase().includes('ex')
-            if (ex || ekg) summExcavatorTime += diffMinutes
+            if (ex || ekg || gusenitsa) summExcavatorTime += diffMinutes
 
             return ex || ekg || gusenitsa
          })
@@ -77,7 +73,7 @@ export const Transports = defineStore('Transports', () => {
 
    const inProcess = computed(() => {
       const process = cars.value?.filter((transport) => timeDiff(transport, 'minutes') < 45 && transport.geozone == null)
-      
+
       process?.forEach((item) => {
          const filtered = item.current_day.filter((transport) => {
             if (timeDiff(transport, 'seconds') < 11) return false
@@ -89,94 +85,89 @@ export const Transports = defineStore('Transports', () => {
    })
 
 
-
-   const inATB = computed(() => {
-      return cars.value?.filter((transport) => transport.geozone == "УАТ")
-   })
-
-   const inOilAll = computed(() => {
-      return cars.value?.filter((transport) => inZone(transport, 'заправочный'))
-   })
+   const isUnknown = computed(() => cars.value?.filter((car) => timeDiff(car, 'minutes') >= 45 && car.geozone == null))
+   const inATB = computed(() => cars.value?.filter((car) => car.geozone == "УАТ" || inZone(car, 'авто')))
+   const inOilAll = computed(() => cars.value?.filter((car) => inZone(car, 'заправочный')))
+   const inSmenaAll = computed(() => cars.value?.filter((car) => inZone(car, 'пересменка')))
+   const avto = computed(() => cars.value?.filter((car) => {
+      return inZone(car, 'авто')
+   }))
+   const inExcavator = computed(() => cars.value?.filter((car) => inZone(car, 'экг') || inZone(car, 'ex') || inZone(car, 'эг')))
+   
+   
 
    const inOIL = computed(() => {
-      const filtered = cars.value?.filter((transport) => inZone(transport, 'заправочный'))
-      
+      const oil = cars.value?.filter((car) => inZone(car, 'заправочный'))
       const group: any = {}
-      filtered?.forEach(item => {
-         if (group[item.geozone]) {
-            group[item.geozone].cars.push(item)
-         }
-         
-         else {
-            group[item.geozone] = {cars: [item], summTime: 0}
-         }
+      console.log(avto.value);
+      oil?.forEach(item => {
+         const zone = item.geozone
+
+         if (group[zone]) group[zone].cars.push(item)
+         else group[zone] = { cars: [item], summTime: 0, counter: 0 }
+
       })
 
       cars.value?.forEach(car => {
          car.current_day.forEach((truck) => {
             if (inZone(truck, 'заправочный')) {
                const diff = timeDiff(truck, 'minutes')
-
-               if (group[truck.geozone]) {
-                  group[truck.geozone].summTime += diff
+               const geozone = truck.geozone
+               if (group[geozone]) {
+                  group[geozone].summTime += diff
+                  if(diff > 0) group[geozone].counter++
                }
                else {
-                  group[truck.geozone] = {cars: [], summTime: diff}
+                  group[geozone] = { cars: [], summTime: diff, counter: diff > 0 ? 1 : 0 }
                }
+               
             }
-         }) 
+         })
       })
-      
+      // console.log(group)
+
       return group
    })
 
-   const inSmenaAll = computed(() => {
-      return cars.value?.filter((transport) => inZone(transport, 'пересменка'))
-   })
 
    const inSMENA = computed(() => {
-      const filtered = cars.value?.filter((transport) => inZone(transport, 'пересменка'))
-      
+      const smena = cars.value?.filter((car) => inZone(car, 'пересменка'))
+
       const group: any = {}
-      filtered?.forEach(item => {
-         if (group[item.geozone]) {
-            group[item.geozone].cars.push(item)
-         }
-         
-         else {
-            group[item.geozone] = {cars: [item], summTime: 0}
-         }
+      smena?.forEach(item => {
+         const zone = item.geozone
+         if (group[zone]) group[zone].cars.push(item)
+         else group[zone] = { cars: [item], summTime: 0, counter: 0 }
+
       })
 
       cars.value?.forEach(car => {
          car.current_day.forEach((truck) => {
             if (inZone(truck, 'пересменка')) {
                const diff = timeDiff(truck, 'minutes')
-
-               if (group[truck.geozone]) {
-                  group[truck.geozone].summTime += diff
+               const geozone = truck.geozone
+               if (group[geozone]) {
+                  group[geozone].summTime += diff
+                  if(diff > 0) group[geozone].counter++
                }
                else {
-                  group[truck.geozone] = {cars: [], summTime: diff}
+                  group[geozone] = { cars: [], summTime: diff, counter: diff > 0 ? 1 : 0 }
                }
             }
-         }) 
+         })
       })
 
       return group
    })
 
-   const inExcavator = computed(() => {
-      return cars.value?.filter((transport) => inZone(transport, 'экг') || inZone(transport, 'ex') || inZone(transport, 'эг'))
-   })
 
 
    function getFilterGroup(key) {
       const group: any = []
       cars.value?.forEach(car => {
          car.current_day.forEach((truck) => {
-            if (truck.geozone == key) group.push(truck)
-         }) 
+            if (truck.geozone == key && timeDiff(truck, 'minutes') > 0) group.push(truck)
+         })
       })
       return group
    }

@@ -9,7 +9,7 @@ export function minuteFormat(minutes) {
 }
 
 export function inZone(transport, zone) {
-   return transport?.geozone?.toLowerCase().includes(zone)
+   return transport?.geozone?.toLowerCase().includes(zone.toLowerCase())
 }
 
 export function timeDiff(transport, type) {
