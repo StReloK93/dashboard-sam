@@ -6,6 +6,8 @@ import moment from 'moment'
 
 export const Transports = defineStore('Transports', () => {
    const cars = ref(null)
+   const summaSmenaCars = ref(0)
+   const summaOilCars = ref(0)
    async function getTransports() {
       const { data } = await axios.get('/api/transportstates')
 
@@ -89,9 +91,6 @@ export const Transports = defineStore('Transports', () => {
    const inATB = computed(() => cars.value?.filter((car) => car.geozone == "УАТ" || inZone(car, 'авто')))
    const inOilAll = computed(() => cars.value?.filter((car) => inZone(car, 'заправочный')))
    const inSmenaAll = computed(() => cars.value?.filter((car) => inZone(car, 'пересменка')))
-   const avto = computed(() => cars.value?.filter((car) => {
-      return inZone(car, 'авто')
-   }))
    const inExcavator = computed(() => cars.value?.filter((car) => inZone(car, 'экг') || inZone(car, 'ex') || inZone(car, 'эг')))
    
    
@@ -99,7 +98,6 @@ export const Transports = defineStore('Transports', () => {
    const inOIL = computed(() => {
       const oil = cars.value?.filter((car) => inZone(car, 'заправочный'))
       const group: any = {}
-      console.log(avto.value);
       oil?.forEach(item => {
          const zone = item.geozone
 
@@ -124,7 +122,12 @@ export const Transports = defineStore('Transports', () => {
             }
          })
       })
-      // console.log(group)
+
+      var summa = 0
+      for (const iterator in group) {
+         summa += group[iterator].counter
+      }
+      summaOilCars.value = summa
 
       return group
    })
@@ -157,6 +160,11 @@ export const Transports = defineStore('Transports', () => {
          })
       })
 
+      var summa = 0
+      for (const iterator in group) {
+         summa += group[iterator].counter
+      }
+      summaSmenaCars.value = summa
       return group
    })
 
@@ -186,7 +194,9 @@ export const Transports = defineStore('Transports', () => {
       inSmenaAll,
       inProcess,
       statesSumm,
-      cars
+      cars,
+      summaSmenaCars,
+      summaOilCars
    }
 })
 

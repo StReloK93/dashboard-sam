@@ -82,7 +82,10 @@ class WialonService
 
     public function getExcavators()
     {
-        return $this->getTransportPoints(4076);
+        $frontal = $this->getTransportPoints(10013);
+        $excavator = $this->getTransportPoints(4076);
+        $collection = collect($frontal)->merge($excavator);
+        return $collection->all();
     }
 
     public function getTransportPoints($groupIndex)
