@@ -49,7 +49,8 @@ export const TransportStates = defineStore('TransportStates', () => {
             const ekg = inZone(transport, 'экг')
             const ex = inZone(transport, 'ex')
             const gues = inZone(transport, 'эг')
-            return ex || ekg || gues
+            
+            return ex || ekg || gues || inZone(transport, 'фп')
         })
     })
 

@@ -35,7 +35,7 @@ class WialonService
             if ($geozoneName == null) {
                 $distances = $geoService->getDistances($pointCar, $excavators);
 
-                if ($distances[0]['distance'] < 36) {
+                if ($distances[0]['distance'] < 41) {
                     $transports[$key]['distance_ex'] = round($distances[0]['distance']);
                     $transports[$key]['geozone'] = $distances[0]['name'];
                 } else {

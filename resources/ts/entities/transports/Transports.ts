@@ -79,7 +79,7 @@ export const Transports = defineStore('Transports', () => {
       process?.forEach((item) => {
          const filtered = item.current_day.filter((transport) => {
             if (timeDiff(transport, 'seconds') < 11) return false
-            return inZone(transport, 'экг') || inZone(transport, 'ex') || inZone(transport, 'эг')
+            return inZone(transport, 'экг') || inZone(transport, 'ex') || inZone(transport, 'эг') || inZone(transport, 'фп')
          })
          item.reys = filtered.length
       })
@@ -91,7 +91,7 @@ export const Transports = defineStore('Transports', () => {
    const inATB = computed(() => cars.value?.filter((car) => car.geozone == "УАТ" || inZone(car, 'авто')))
    const inOilAll = computed(() => cars.value?.filter((car) => inZone(car, 'заправочный')))
    const inSmenaAll = computed(() => cars.value?.filter((car) => inZone(car, 'пересменка')))
-   const inExcavator = computed(() => cars.value?.filter((car) => inZone(car, 'экг') || inZone(car, 'ex') || inZone(car, 'эг')))
+   const inExcavator = computed(() => cars.value?.filter((car) => inZone(car, 'экг') || inZone(car, 'ex') || inZone(car, 'эг') || inZone(car, 'фп')))
    
    
 
