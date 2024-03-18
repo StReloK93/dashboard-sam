@@ -48,3 +48,18 @@ export function secondTimer() {
    }
    return { timer , reset}
 }
+
+
+export function inSmenaTime(transport) {
+   const oneStart = moment().set({ hour: 9, minute: 0, second: 0 })
+   const oneEnd = moment().set({ hour: 9, minute: 40, second: 0 })
+
+   const twoStart = moment().set({ hour: 21, minute: 0, second: 0 })
+   const twoEnd = moment().set({ hour: 21, minute: 40, second: 0 })
+
+   const one = moment(transport.geozone_in).isBetween(oneStart, oneEnd)
+   const two = moment(transport.geozone_out).isBetween(oneStart, oneEnd)
+   // console.log(one && two, transport.geozone_in, transport.geozone_out);
+   
+   return one && two
+}

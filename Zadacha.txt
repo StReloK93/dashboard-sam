@@ -1,3 +1,6 @@
-3 - Diagrammani malumotlarini olish
-4 - Smena geozonasida nimaga turganini sababani chiqarish
-6 - Oldidan yuklovchilarni ham ekskavatorlarga qoshish
+1 - Diagrammani malumotlarini olish
+2 - Smena geozonasida nimaga turganini sababani chiqarish
+3 - пересменкани 9:10 dan 9:40 gacha xisoblamaydigan qilish kerak
+4 - sababsix toxtaganlarda 10minutdan oldin biror bir geozonada toxtamaganlarni chiqarish
+5 - Uatdagilarga Adminka qilib berish va bosganda sababini qoshish
+6 - Excavatordan smenaga ketsa reys hisoblamasin

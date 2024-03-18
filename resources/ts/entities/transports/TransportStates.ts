@@ -21,7 +21,7 @@ export const TransportStates = defineStore('TransportStates', () => {
     })
 
     const inATB = computed(() => {
-        return transports.value?.filter((transport) => transport.geozone == "УАТ" || inZone(transport, 'авто'))
+        return transports.value?.filter((transport) => inZone(transport, 'уат') || inZone(transport, 'авто'))
     })
 
     const inOIL = computed(() => {

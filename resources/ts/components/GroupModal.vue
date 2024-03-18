@@ -34,5 +34,5 @@ import { getDifference } from '@/helpers/timeFormat'
 import { Transports } from '@/entities/transports/Transports'
 const props = defineProps(['filter', 'color'])
 const store = Transports()
-const cars = store.getFilterGroup(props.filter)
+const cars = store.getFilterGroup(props.filter, props.color)
 </script>

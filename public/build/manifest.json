@@ -1,44 +1,30 @@
 {
-  "__plugin-vue_export-helper-x3n3nnut.js": {
-    "file": "assets/_plugin-vue_export-helper-x3n3nnut.js"
-  },
   "resources/ts/app.ts": {
     "css": [
-      "assets/app-SufkFrMJ.css"
+      "assets/app-a8xdiTbu.css"
     ],
     "dynamicImports": [
       "resources/ts/pages/Home.vue",
-      "resources/ts/pages/Tables.vue",
       "resources/ts/pages/Map.vue"
     ],
-    "file": "assets/app-xgvKmhsN.js",
+    "file": "assets/app-1g_TbiWF.js",
     "isEntry": true,
     "src": "resources/ts/app.ts"
   },
   "resources/ts/pages/Home.vue": {
-    "file": "assets/Home-lp-w5V_0.js",
+    "file": "assets/Home-l2vHm8rW.js",
     "imports": [
-      "resources/ts/app.ts",
-      "__plugin-vue_export-helper-x3n3nnut.js"
+      "resources/ts/app.ts"
     ],
     "isDynamicEntry": true,
     "src": "resources/ts/pages/Home.vue"
   },
   "resources/ts/pages/Map.vue": {
-    "file": "assets/Map-NvG_QaNx.js",
+    "file": "assets/Map-J43APinh.js",
     "imports": [
       "resources/ts/app.ts"
     ],
     "isDynamicEntry": true,
     "src": "resources/ts/pages/Map.vue"
-  },
-  "resources/ts/pages/Tables.vue": {
-    "file": "assets/Tables-7YN6SQe4.js",
-    "imports": [
-      "__plugin-vue_export-helper-x3n3nnut.js",
-      "resources/ts/app.ts"
-    ],
-    "isDynamicEntry": true,
-    "src": "resources/ts/pages/Tables.vue"
   }
 }
