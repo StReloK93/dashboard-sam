@@ -4,24 +4,24 @@
       <GeneralColumn :duo="true" scroll-color="green-scroll">
          <template v-slot:firstSlider>
             <Slide class="!w-[90px]">
-               <CircleUI bgColor="stroke-green-600" textColor="text-green-400" :summa="transportStore.inProcess?.length">
+               <CircleUI @start="transportStore.getTransports()" :timer="30" bgColor="stroke-green-600" textColor="text-green-400" :summa="transportStore.inProcess?.length">
                   <TruckIcon width="22" color="fill-green-500" colorSecond="fill-green-900" class="-scale-x-100 translate-y-1.5"/>
                </CircleUI>
             </Slide>
             <Slide class="!w-[90px]">
-               <CircleUI bgColor="stroke-green-400" textColor="text-green-400" :summa="transportStore.statesSumm.reysCount">
+               <CircleUI :timer="30" bgColor="stroke-green-400" textColor="text-green-400" :summa="transportStore.statesSumm.reysCount">
                   <i class="fa-regular fa-sigma"></i>
                </CircleUI>
             </Slide>
          </template>
          <template v-slot:secondSlider>
             <Slide class="!w-[90px]">
-               <CircleUI bgColor="stroke-yellow-600" textColor="text-yellow-400" :summa="transportStore.inExcavator?.length">
+               <CircleUI :timer="30" bgColor="stroke-yellow-600" textColor="text-yellow-400" :summa="transportStore.inExcavator?.length">
                   <TruckIcon width="22" color="fill-yellow-500" colorSecond="fill-yellow-900" class="-scale-x-100 translate-y-1.5"/>
                </CircleUI>
             </Slide>
             <Slide class="!w-[90px]">
-               <CircleUI bgColor="stroke-yellow-400" textColor="text-yellow-400" type="time" :summa="transportStore.statesSumm.summExcavatorTime">
+               <CircleUI :timer="30" bgColor="stroke-yellow-400" textColor="text-yellow-400" type="time" :summa="transportStore.statesSumm.summExcavatorTime">
                   <i class="fa-duotone fa-hourglass-clock"></i>
                </CircleUI>
             </Slide>
@@ -52,17 +52,17 @@
       <GeneralColumn scroll-color="orange-scroll">
          <template v-slot:firstSlider>
             <Slide class="!w-[90px]">
-               <CircleUI bgColor="stroke-orange-500" textColor="text-orange-400" :summa="transportStore.inOilAll?.length">
+               <CircleUI :timer="30" bgColor="stroke-orange-500" textColor="text-orange-400" :summa="transportStore.inOilAll?.length">
                   <TruckIcon width="22" color="fill-orange-600" colorSecond="fill-orange-900" class="-scale-x-100 translate-y-1.5"/>
                </CircleUI>
             </Slide>
             <Slide class="!w-[90px]">
-               <CircleUI bgColor="stroke-orange-400" textColor="text-orange-400" type="time" :summa="transportStore.statesSumm.summOilTime">
+               <CircleUI :timer="30" bgColor="stroke-orange-400" textColor="text-orange-400" type="time" :summa="transportStore.statesSumm.summOilTime">
                   <i class="fa-duotone fa-hourglass-clock"></i>
                </CircleUI>
             </Slide>
             <Slide class="!w-[90px]">
-               <CircleUI bgColor="stroke-orange-400" textColor="text-orange-400" :summa="transportStore.summaOilCars">
+               <CircleUI :timer="30" bgColor="stroke-orange-400" textColor="text-orange-400" :summa="transportStore.summaOilCars">
                   <i class="fa-solid fa-layer-group"></i>
                </CircleUI>
             </Slide>
@@ -83,19 +83,19 @@
       <GeneralColumn>
          <template v-slot:firstSlider>
             <Slide class="!w-[90px]">
-               <CircleUI bgColor="stroke-indigo-500" textColor="text-indigo-400" :summa="transportStore.inSmenaAll?.length">
+               <CircleUI :timer="30" bgColor="stroke-indigo-500" textColor="text-indigo-400" :summa="transportStore.inSmenaAll?.length">
                   <TruckIcon width="22" color="fill-indigo-400" colorSecond="fill-indigo-900" class="-scale-x-100 translate-y-1.5"/>
                </CircleUI>
 
             </Slide>
             <Slide class="!w-[90px]">
-               <CircleUI bgColor="stroke-indigo-400" textColor="text-indigo-400" type="time" :summa="transportStore.statesSumm.summSmenaTime">
+               <CircleUI :timer="30" bgColor="stroke-indigo-400" textColor="text-indigo-400" type="time" :summa="transportStore.statesSumm.summSmenaTime">
                   <i class="fa-duotone fa-hourglass-clock"></i>
                </CircleUI>
             </Slide>
 
             <Slide class="!w-[90px]">
-               <CircleUI bgColor="stroke-indigo-400" textColor="text-indigo-400" :summa="transportStore.summaSmenaCars">
+               <CircleUI :timer="30" bgColor="stroke-indigo-400" textColor="text-indigo-400" :summa="transportStore.summaSmenaCars">
                   <i class="fa-solid fa-layer-group"></i>
                </CircleUI>
             </Slide>
@@ -117,7 +117,7 @@
       <GeneralColumn scrollColor="red-scroll">
          <template v-slot:firstSlider>
             <Slide class="!w-[90px]">
-               <CircleUI bgColor="stroke-red-500" textColor="text-red-400" :summa="transportStore.isUnknown?.length">
+               <CircleUI :timer="30" bgColor="stroke-red-500" textColor="text-red-400" :summa="transportStore.isUnknown?.length">
                   <TruckIcon width="22" color="fill-red-400" colorSecond="fill-red-900" class="-scale-x-100 translate-y-1.5"/>
                </CircleUI>
             </Slide>
@@ -140,7 +140,7 @@
       <GeneralColumn scroll-color="gray-scroll">
          <template v-slot:firstSlider>
             <Slide class="!w-[90px]">
-               <CircleUI bgColor="stroke-gray-400" textColor="text-gray-400" :summa="transportStore.inATB?.length">
+               <CircleUI :timer="30" bgColor="stroke-gray-400" textColor="text-gray-400" :summa="transportStore.inATB?.length">
                   <TruckIcon width="22" color="fill-gray-400" colorSecond="fill-gray-700" class="-scale-x-100 translate-y-1.5"/>
                </CircleUI>
             </Slide>

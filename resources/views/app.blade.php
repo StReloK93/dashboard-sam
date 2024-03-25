@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/map/leaflet.css">
     <script src="http://wl.ngmk.uz/wsdk/script/wialon.js"></script>
     <script src="/map/leaflet.js"></script>
-    <title>Dashboard Самосвалов</title>
+    <title>Avtoag'dargichlar yagona oynasi</title>
     @vite('resources/ts/app.ts')
 </head>
 <body id="app"></body>

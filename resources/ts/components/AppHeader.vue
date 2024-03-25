@@ -1,17 +1,19 @@
 <template>
    <main class="bg-zinc-800 py-1 px-5 shadow text-white flex items-center justify-between">
       <div>
-         <span class="mr-10">
+         <!-- <span class="mr-10">
             {{ store.timer }}
-         </span>
+         </span> -->
          <span class="uppercase text-red-600 fa-fade">
             Test Rejimida
          </span>
          <span class="text-gray-300">
             <i class="fa-solid fa-phone"></i> Savol va takliflar uchun <b class=""> 597-40-46</b>
          </span>
- 
       </div>
+      <span class="text-xl mr-32 uppercase font-semibold tracking-widest text-stone-200">
+         Avtoag'dargichlar yagona oynasi
+      </span>
       <div class="flex items-center">
          <section class="flex items-center mx-3">
             <span class="mx-4">
