@@ -47,6 +47,15 @@
                   1
                </span>
             </aside>
+            <div v-if="auth.user == null">
+               <router-link v-if="$route.name == 'home'" to="/login" class="px-5 ml-10">Kirish</router-link>
+               <router-link v-else to="/" class="px-5 ml-10">Orqaga</router-link>
+            </div>
+            <div v-else>
+               <button @click="auth.logout" class="px-5 ml-10">
+                  Chiqish
+               </button>
+            </div>
          </section>
       </div>
    </main>
@@ -54,5 +63,7 @@
 
 <script setup lang="ts">
 import { Transports } from '@/entities/transports'
+import { useAuthStore } from '@/app/auth'
+const auth = useAuthStore()
 const store = Transports()
 </script>

@@ -58,16 +58,20 @@ class WialonService
     {
         $transports = $this->getTransportsWithZone();
         $time = now();
+
         foreach ($transports as $key => $car) {
             $transport = TransportState::where([
                 ['transport_id', $car['transport_id']],
-            ])
-                ->latest('geozone_out')->first();
+            ])->latest('geozone_out')->first();
 
             if (isset($transport) && $transport->geozone == $car['geozone']) {
+
                 $transport->geozone_out = $time;
                 $transport->save();
-            } else {
+
+            }
+            else {
+
                 TransportState::insert([
                     'name' => $car['name'],
                     'transport_id' => $car['transport_id'],
@@ -75,8 +79,10 @@ class WialonService
                     'geozone_in' => $time,
                     'geozone_out' => $time,
                 ]);
+
             }
         }
+
         return DB::table('transports')->insert($transports);
     }
 

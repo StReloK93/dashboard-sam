@@ -15,13 +15,19 @@ export const TransportStates = defineStore('TransportStates', () => {
             return timeDiff(item, 'seconds') > 10
         })
         transports.value = filtered
+
+
     }
     const isUnknown = computed(() => {
         return transports.value?.filter((transport) => transport.geozone == null)
     })
 
     const inATB = computed(() => {
-        return transports.value?.filter((transport) => inZone(transport, 'уат') || inZone(transport, 'авто'))
+        const filtered = transports.value?.filter((transport) => inZone(transport, 'уат') || inZone(transport, 'авто'))
+        filtered?.forEach((item) => {
+            item.bool = true
+        })
+        return filtered
     })
 
     const inOIL = computed(() => {

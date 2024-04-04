@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('transport_id');
             $table->string('geozone')->nullable();
             $table->dateTime('geozone_in');
+            $table->string('cause')->nullable();
             $table->dateTime('geozone_out');
         });
     }

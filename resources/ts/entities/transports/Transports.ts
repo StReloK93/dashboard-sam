@@ -8,13 +8,16 @@ export const Transports = defineStore('Transports', () => {
    const cars = ref(null)
    const summaSmenaCars = ref(0)
    const summaOilCars = ref(0)
-
-
+   const excavatorStates = ref(null)
+   async function getExcavatorsStates() {
+      const { data } = await axios.get('/api/transports/excavatorstate')
+      excavatorStates.value = data
+   }
 
    async function getTransports() {
+      getExcavatorsStates()
       const { data } = await axios.get('/api/transportstates')
       const sakasayana = data.filter((item) => item.name.includes('MAN') == false)
-      
       sakasayana.forEach(item => {
          item.name = item.name.replace('ШКБ ', '')
          const time = moment()
@@ -57,7 +60,7 @@ export const Transports = defineStore('Transports', () => {
       cars.value?.forEach((item) => {
 
          const filtered = item.current_day.filter((transport) => {
-            if (timeDiff(transport, 'seconds') < 11) return false
+            if (timeDiff(transport, 'seconds') < 120) return false
             const diffMinutes = timeDiff(transport, 'minutes')
 
             
@@ -85,11 +88,12 @@ export const Transports = defineStore('Transports', () => {
 
       process?.forEach((item) => {
          const filtered = item.current_day.filter((transport) => {
-            if (timeDiff(transport, 'seconds') < 11) return false
+            if (timeDiff(transport, 'seconds') < 120) return false
             return inZone(transport, 'экг') || inZone(transport, 'ex') || inZone(transport, 'эг') || inZone(transport, 'фп')
          })
          item.reys = filtered.length
       })
+      
       return process
    })
 
@@ -183,8 +187,6 @@ export const Transports = defineStore('Transports', () => {
 
 
    function getFilterGroup(key, type) {
-      console.log(type)
-      
       const group: any = []
       cars.value?.forEach(car => {
          car.current_day.forEach((truck) => {
@@ -198,9 +200,16 @@ export const Transports = defineStore('Transports', () => {
    }
 
 
+
+   const summaTransports = computed(() => {
+      return inProcess.value?.length + inExcavator.value?.length + inOilAll.value?.length
+   })
+
    return {
       getTransports,
       getFilterGroup,
+      summaTransports,
+      excavatorStates,
       timer,
       inATB,
       inOIL,

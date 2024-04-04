@@ -6,6 +6,7 @@ import '@/app/App.css'
 import 'swiper/css'
 import 'swiper/css/effect-cards'
 import Echo from './app/echo'
+import { useAuthStore } from './app/auth'
 //@ts-ignore
 window.echo = Echo
 
@@ -15,7 +16,14 @@ import HighchartsSolidGauge from 'highcharts/modules/solid-gauge'
 HighchartsMore(Highcharts)
 HighchartsSolidGauge(Highcharts)
 
-createApp(App)
-    .use(router)
+const app = createApp(App)
     .use(createPinia())
-    .mount('#app')
+
+const store = useAuthStore()
+async function init() {
+	await store.getUser()
+	app.use(router)
+	app.mount("#app")
+}
+init()
+
