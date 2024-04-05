@@ -25,7 +25,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('process/all', [TripsController::class, 'index']);
 Route::get('geofences/all', [GeofenceController::class, 'index']);
 
-Route::apiResource('transportstates', TransportStateController::class)->only(['index', 'show', ]);
+Route::apiResource('transportstates', TransportStateController::class)->only(['index', 'show', 'update']);
 Route::get('process/excavator', [TransportStateController::class, 'excavator']);
 
 Route::get('transports/all', [TransportController::class, 'index']);

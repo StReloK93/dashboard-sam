@@ -1,27 +1,22 @@
 <template>
-	<main class="h-64" ref="chart"></main>
+	<main class="h-56" ref="chart"></main>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import Highcharts from 'highcharts'
 import { Transports } from '@/entities/transports'
 const props = defineProps(['chartname', 'startcolor', 'endcolor','process'])
 const chart = ref()
 const chartConstructor = ref()
-
 const state = Transports()
-
-
-const process = computed(() => {
-	return state.inProcess?.length + state.inExcavator?.length + state.inOilAll?.length
-})
 
 
 const gaugeOptions: any = {
 	accessibility: { enabled: false },
 	chart: {
 		type: 'solidgauge',
+		spacing: [-20, -100, -20, -100],
 		backgroundColor: 'transparent'
 	},
 	title: null,
@@ -96,19 +91,20 @@ const gaugeOptions: any = {
 	},
 	series: [{
 		name: 'windSpeed',
-		data: [process.value],
+		data: [state[props.process]],
 		dataLabels: {
 			y: -50,
-			format: `<div class="gradient-text" style="text-align:center">
+			format: `
+			<div class="gradient-text" style="text-align:center">
 				<span style="font-size:34px">{y}%</span><br>
 				<span style="font-size:15px">${props.chartname}</span>
-            </div>`,
+         </div>`,
 		}
 	}],
 
 }
-watch(() => process.value, (current) => {
-	chartConstructor.value.series[0].setData([Math.round((current / state.cars.length) * 100)]);
+watch(() => state[props.process], (current) => {
+	chartConstructor.value.series[0].setData([current]);
 })
 
 onMounted(() => {

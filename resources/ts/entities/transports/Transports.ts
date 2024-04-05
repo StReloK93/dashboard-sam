@@ -5,7 +5,7 @@ import axios from 'axios'
 import moment from 'moment'
 
 export const Transports = defineStore('Transports', () => {
-   const cars = ref(null)
+   const cars = ref([])
    const summaSmenaCars = ref(0)
    const summaOilCars = ref(0)
    const excavatorStates = ref(null)
@@ -202,13 +202,23 @@ export const Transports = defineStore('Transports', () => {
 
 
    const summaTransports = computed(() => {
-      return inProcess.value?.length + inExcavator.value?.length + inOilAll.value?.length
+      const activeCars = inProcess.value?.length + inExcavator.value?.length + inOilAll.value?.length
+      return Math.round((activeCars / cars.value?.length) * 100)
    })
+
+   const summaExcavators = computed(() => {
+      const activeCars = excavatorStates.value?.filter((exv) => +exv.status == 1)
+      return Math.round((activeCars?.length / excavatorStates.value?.length) * 100)
+   })
+
+
+   
 
    return {
       getTransports,
       getFilterGroup,
       summaTransports,
+      summaExcavators,
       excavatorStates,
       timer,
       inATB,
