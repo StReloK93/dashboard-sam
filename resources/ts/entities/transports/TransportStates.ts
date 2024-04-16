@@ -24,9 +24,7 @@ export const TransportStates = defineStore('TransportStates', () => {
 
     const inATB = computed(() => {
         const filtered = transports.value?.filter((transport) => inZone(transport, 'уат') || inZone(transport, 'авто'))
-        filtered?.forEach((item) => {
-            item.bool = true
-        })
+        filtered?.forEach((item) => item.bool = true)
         return filtered
     })
 
@@ -35,7 +33,9 @@ export const TransportStates = defineStore('TransportStates', () => {
     })
 
     const inSmenaAll = computed(() => {
-        return transports.value?.filter((transport) => inZone(transport, 'пересменка'))
+        const filtered = transports.value?.filter((transport) => inZone(transport, 'пересменка'))
+        filtered?.forEach((item) => item.bool = true)
+        return filtered
     })
     const inSMENA = computed(() => {
         if (transports.value == null) return

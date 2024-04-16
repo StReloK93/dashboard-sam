@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('login')->unique();
             $table->string('password');
+            $table->integer('level')->default(0)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

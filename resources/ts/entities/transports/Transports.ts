@@ -8,16 +8,17 @@ export const Transports = defineStore('Transports', () => {
    const cars = ref([])
    const summaSmenaCars = ref(0)
    const summaOilCars = ref(0)
-   const excavatorStates = ref(null)
-   async function getExcavatorsStates() {
-      const { data } = await axios.get('/api/transports/excavatorstate')
-      excavatorStates.value = data
-   }
+
 
    async function getTransports() {
       getExcavatorsStates()
       const { data } = await axios.get('/api/transportstates')
+      // Filter Manlarni olib tashlaydi
       const sakasayana = data.filter((item) => item.name.includes('MAN') == false)
+      // Sortirovka
+      sakasayana.sort((a, b) => +a.name.replace('ШКБ С', '') - +b.name.replace('ШКБ С', ''))
+      
+
       sakasayana.forEach(item => {
          item.name = item.name.replace('ШКБ ', '')
          const time = moment()
@@ -36,7 +37,7 @@ export const Transports = defineStore('Transports', () => {
             item.timer_type = 0
          }
       })
-      
+
       cars.value = sakasayana
    }
 
@@ -48,7 +49,7 @@ export const Transports = defineStore('Transports', () => {
    })
 
 
-   
+
 
    const statesSumm = computed(() => {
       var reysCount = 0
@@ -63,11 +64,11 @@ export const Transports = defineStore('Transports', () => {
             if (timeDiff(transport, 'seconds') < 120) return false
             const diffMinutes = timeDiff(transport, 'minutes')
 
-            
+
             if (inZone(transport, 'пересменка') && inSmenaTime(transport) == false) summSmenaTime += diffMinutes
             if (inZone(transport, 'заправочный')) summOilTime += diffMinutes
 
-            
+
             const ekg = inZone(transport, 'экг')
             const gusenitsa = inZone(transport, 'эг')
             const ex = inZone(transport, 'ex')
@@ -93,18 +94,18 @@ export const Transports = defineStore('Transports', () => {
          })
          item.reys = filtered.length
       })
-      
+
       return process
    })
 
 
    const isUnknown = computed(() => cars.value?.filter((car) => timeDiff(car, 'minutes') >= 45 && car.geozone == null))
-   const inATB = computed(() => cars.value?.filter((car) => inZone(car, 'уат') || inZone(car, 'авто'))) 
+   const inATB = computed(() => cars.value?.filter((car) => inZone(car, 'уат') || inZone(car, 'авто')))
    const inOilAll = computed(() => cars.value?.filter((car) => inZone(car, 'заправочный')))
    const inSmenaAll = computed(() => cars.value?.filter((car) => inZone(car, 'пересменка')))
    const inExcavator = computed(() => cars.value?.filter((car) => inZone(car, 'экг') || inZone(car, 'ex') || inZone(car, 'эг') || inZone(car, 'фп')))
-   
-   
+
+
 
    const inOIL = computed(() => {
       const oil = cars.value?.filter((car) => inZone(car, 'заправочный'))
@@ -124,12 +125,12 @@ export const Transports = defineStore('Transports', () => {
                const geozone = truck.geozone
                if (group[geozone]) {
                   group[geozone].summTime += diff
-                  if(diff > 0) group[geozone].counter++
+                  if (diff > 0) group[geozone].counter++
                }
                else {
                   group[geozone] = { cars: [], summTime: diff, counter: diff > 0 ? 1 : 0 }
                }
-               
+
             }
          })
       })
@@ -165,9 +166,9 @@ export const Transports = defineStore('Transports', () => {
                const geozone = truck.geozone
 
                if (group[geozone]) {
-                  
+
                   group[geozone].summTime += diff
-                  if(diff > 0) group[geozone].counter++
+                  if (diff > 0) group[geozone].counter++
                }
                else {
                   group[geozone] = { cars: [], summTime: diff, counter: diff > 0 ? 1 : 0 }
@@ -191,9 +192,9 @@ export const Transports = defineStore('Transports', () => {
       cars.value?.forEach(car => {
          car.current_day.forEach((truck) => {
             if (truck.geozone == key && timeDiff(truck, 'minutes') > 0) {
-               if(type == 'indigo' && inSmenaTime(truck)) return
+               if (type == 'indigo' && inSmenaTime(truck)) return
                group.push(truck)
-            } 
+            }
          })
       })
       return group
@@ -206,13 +207,23 @@ export const Transports = defineStore('Transports', () => {
       return Math.round((activeCars / cars.value?.length) * 100)
    })
 
+   const excavatorStates = ref(null)
+   async function getExcavatorsStates() {
+      const { data } = await axios.get('/api/transports/excavatorstate')
+      // excavatorStates.value = data?.filter((car) => car.msg_dt != null)
+      console.log(data)
+      
+      data.sort((a, b) => +a.garage - +b.garage)
+      excavatorStates.value = data
+   }
+
    const summaExcavators = computed(() => {
       const activeCars = excavatorStates.value?.filter((exv) => +exv.status == 1)
       return Math.round((activeCars?.length / excavatorStates.value?.length) * 100)
    })
 
 
-   
+
 
    return {
       getTransports,

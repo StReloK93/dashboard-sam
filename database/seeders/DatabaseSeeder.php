@@ -22,8 +22,9 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         \App\Models\User::create([
-            'login' => 'admin',
-            'password' => Hash::make('aaaa5555*'),
+            'login' => 'peresmenka',
+            'password' => Hash::make('asdf1234*'),
+            'level' => 1
         ]);
     }
 }
