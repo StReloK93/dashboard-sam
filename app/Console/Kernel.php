@@ -19,7 +19,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $transport = new WialonService();
         $transport->writeToDB();
-        event(new RefreshEvent());
+        // event(new RefreshEvent());
     }
 
     /**

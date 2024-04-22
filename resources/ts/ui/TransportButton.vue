@@ -1,7 +1,8 @@
 <template>
 	<button
+		:class="{'opacity-0 cursor-default': props.name == null}"
 		class="inline-flex justify-between w-24 items-center px-2 py-1 neomorph rounded-2xl bg-zinc-800 active:shadow-md hover:bg-zinc-900 transition-all relative">
-		<div :class="buttonColor.text" class="mr-3 font-semibold text-sm leading-[10px] text-left">
+		<div :class="[buttonColor.text, {'opacity-0': props.name == null}]" class="mr-3 font-semibold text-sm leading-[10px] text-left">
 			<span>{{ props.name }}</span>
 			<br>
 			<span class="text-gray-500 text-[10px] leading-[0px] pl-0.5">
@@ -23,9 +24,9 @@
 import { computed } from 'vue'
 
 const props = defineProps({
-	timer: { required: true, type: Number },
+	timer: { type: Number },
 	color: { required: true, type: String },
-	name: { required: true, type: String },
+	name: { type: String },
 	timer_type: { type: Number },
 	type: { type: Object },
 })

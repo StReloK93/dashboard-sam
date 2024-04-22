@@ -6,12 +6,10 @@
 import { onMounted, ref, watch } from 'vue'
 import Highcharts from 'highcharts'
 import { Transports } from '@/entities/transports'
-const props = defineProps(['chartname', 'startcolor', 'endcolor','process'])
+const props = defineProps(['chartname', 'startcolor', 'endcolor', 'process'])
 const chart = ref()
 const chartConstructor = ref()
 const state = Transports()
-
-
 const gaugeOptions: any = {
 	accessibility: { enabled: false },
 	chart: {
@@ -91,23 +89,36 @@ const gaugeOptions: any = {
 	},
 	series: [{
 		name: 'windSpeed',
-		data: [state[props.process]],
+		data: [state[props.process].prosent],
 		dataLabels: {
 			y: -50,
 			format: `
 			<div class="gradient-text" style="text-align:center">
 				<span style="font-size:34px">{y}%</span><br>
-				<span style="font-size:15px">${props.chartname}</span>
+				<span style="font-size:15px">${props.chartname}</span><br>
+				<span style="font-size:15px">${state[props.process].current} / ${state[props.process].max} </span>
          </div>`,
 		}
 	}],
-
 }
-watch(() => state[props.process], (current) => {
+
+
+watch(() => state[props.process].prosent, (current) => {
+	chartConstructor.value.series[0].update({
+		dataLabels: {
+			format: `
+			<div class="gradient-text" style="text-align:center">
+					<span style="font-size:34px">{y}%</span><br>
+					<span style="font-size:15px" class="mb-2">${props.chartname}</span><br>
+					<span style="font-size:16px">${state[props.process].current} | ${state[props.process].max}</span>
+			</div>`
+		}
+	});
 	chartConstructor.value.series[0].setData([current]);
 })
 
 onMounted(() => {
+
 	chartConstructor.value = Highcharts.chart(chart.value, gaugeOptions)
 	const svg = chart.value.getElementsByTagName('svg');
 	if (svg.length > 0) {

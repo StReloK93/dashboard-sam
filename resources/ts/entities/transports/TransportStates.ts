@@ -52,11 +52,12 @@ export const TransportStates = defineStore('TransportStates', () => {
 
     const inExcavator = computed(() => {
         return transports.value?.filter((transport) => {
+            if (timeDiff(transport, 'seconds') < 120) return false
             const ekg = inZone(transport, 'экг')
             const ex = inZone(transport, 'ex')
             const gues = inZone(transport, 'эг')
             
-            return ex || ekg || gues || inZone(transport, 'фп')
+            return ex || ekg || gues || inZone(transport, 'фп') 
         })
     })
 

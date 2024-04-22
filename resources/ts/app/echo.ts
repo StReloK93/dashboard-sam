@@ -6,20 +6,20 @@ class Singleton {
 	
 	private static instance: Singleton;
 	constructor() {
-		const echo = new Echo({
-			// @ts-ignore
-			wsHost: import.meta.env.VITE_URL,
-			wsPort: 6001,
-			broadcaster: 'pusher',
-			// @ts-ignore
-			key: import.meta.env.VITE_PUSHER_APP_KEY,
-			// @ts-ignore
-			cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-			disableStats: true,
-			forceTLS: false,
-		});
+		// const echo = new Echo({
+		// 	// @ts-ignore
+		// 	wsHost: import.meta.env.VITE_URL,
+		// 	wsPort: 6001,
+		// 	broadcaster: 'pusher',
+		// 	// @ts-ignore
+		// 	key: import.meta.env.VITE_PUSHER_APP_KEY,
+		// 	// @ts-ignore
+		// 	cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+		// 	disableStats: true,
+		// 	forceTLS: false,
+		// });
 		
-		return echo
+		// return echo
 	}
 
 

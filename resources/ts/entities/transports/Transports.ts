@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import { inZone, timeDiff, secondTimer, inSmenaTime } from '@/helpers/timeFormat'
+import { inZone, timeDiff, secondTimer, inSmenaTime, calculatePathLength } from '@/helpers/timeFormat'
 import axios from 'axios'
 import moment from 'moment'
 
@@ -17,7 +17,7 @@ export const Transports = defineStore('Transports', () => {
       const sakasayana = data.filter((item) => item.name.includes('MAN') == false)
       // Sortirovka
       sakasayana.sort((a, b) => +a.name.replace('ШКБ С', '') - +b.name.replace('ШКБ С', ''))
-      
+
 
       sakasayana.forEach(item => {
          item.name = item.name.replace('ШКБ ', '')
@@ -41,12 +41,11 @@ export const Transports = defineStore('Transports', () => {
       cars.value = sakasayana
    }
 
-   getTransports()
-   const { timer, reset } = secondTimer()
-   echo.channel('cars').listen('RefreshEvent', () => {
-      getTransports()
-      reset()
-   })
+   // const { timer, reset } = secondTimer()
+   // echo.channel('cars').listen('RefreshEvent', () => {
+   //    getTransports()
+   //    reset()
+   // })
 
 
 
@@ -85,9 +84,13 @@ export const Transports = defineStore('Transports', () => {
    })
 
    const inProcess = computed(() => {
-      const process = cars.value?.filter((transport) => timeDiff(transport, 'minutes') < 45 && transport.geozone == null)
+      const process = cars.value?.filter((transport) => {
+         const distance = calculatePathLength(transport.tracks)
+         return (distance >= 30) && transport.geozone == null;
+      })
 
       process?.forEach((item) => {
+         item.timer_type = 0
          const filtered = item.current_day.filter((transport) => {
             if (timeDiff(transport, 'seconds') < 120) return false
             return inZone(transport, 'экг') || inZone(transport, 'ex') || inZone(transport, 'эг') || inZone(transport, 'фп')
@@ -95,11 +98,21 @@ export const Transports = defineStore('Transports', () => {
          item.reys = filtered.length
       })
 
+      console.log(process);
+      
       return process
    })
 
 
-   const isUnknown = computed(() => cars.value?.filter((car) => timeDiff(car, 'minutes') >= 45 && car.geozone == null))
+   const isUnknown = computed(() => {
+      return cars.value?.filter((car) => {
+         
+         const distance = calculatePathLength(car.tracks)
+         return distance < 30 && car.geozone == null
+         
+         // timeDiff(car, 'minutes') >= 45 && car.geozone == null
+      })
+   })
    const inATB = computed(() => cars.value?.filter((car) => inZone(car, 'уат') || inZone(car, 'авто')))
    const inOilAll = computed(() => cars.value?.filter((car) => inZone(car, 'заправочный')))
    const inSmenaAll = computed(() => cars.value?.filter((car) => inZone(car, 'пересменка')))
@@ -204,22 +217,25 @@ export const Transports = defineStore('Transports', () => {
 
    const summaTransports = computed(() => {
       const activeCars = inProcess.value?.length + inExcavator.value?.length + inOilAll.value?.length
-      return Math.round((activeCars / cars.value?.length) * 100)
+      return { prosent: Math.round((activeCars / cars.value?.length) * 100), max: cars.value?.length, current: activeCars }
    })
 
    const excavatorStates = ref(null)
    async function getExcavatorsStates() {
       const { data } = await axios.get('/api/transports/excavatorstate')
       // excavatorStates.value = data?.filter((car) => car.msg_dt != null)
-      console.log(data)
-      
+
+      data.forEach(car => {
+         car.tech_name = car.tech_name.replace('HITACHI ', '').replace('(обратная лопата)', '')
+      })
       data.sort((a, b) => +a.garage - +b.garage)
       excavatorStates.value = data
    }
 
    const summaExcavators = computed(() => {
-      const activeCars = excavatorStates.value?.filter((exv) => +exv.status == 1)
-      return Math.round((activeCars?.length / excavatorStates.value?.length) * 100)
+      if(excavatorStates.value == null) return null
+      const activeCars = excavatorStates.value?.filter((exv) => +exv.status == 1).length
+      return { prosent: Math.round((activeCars / cars.value?.length) * 100), max: excavatorStates.value?.length, current: activeCars }
    })
 
 
@@ -231,7 +247,7 @@ export const Transports = defineStore('Transports', () => {
       summaTransports,
       summaExcavators,
       excavatorStates,
-      timer,
+      // timer,
       inATB,
       inOIL,
       inOilAll,

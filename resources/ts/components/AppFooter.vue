@@ -1,6 +1,6 @@
 <template>
    <footer class="bg-zinc-900 px-5 shadow flex flex-wrap content-center gap-1 justify-between neomorph relative">
-      <div v-for="car in excavators" :class="[
+      <div v-for="car in carState.excavatorStates" :class="[
          +car.status == 1 && (moment().diff(car.msg_dt, 'minutes') < 15) ? 'border-teal-400 neomorph bg-zinc-800' : '',
          car.status == 0 || moment().diff(car.msg_dt, 'minutes') >= 15 ? '!border-transparent inner-shadow-second' : ''
       ]"
@@ -19,14 +19,6 @@
 <script setup lang="ts">
 import { Transports } from '@/entities/transports'
 import moment from 'moment'
-import { computed } from 'vue'
 const carState = Transports()
 
-
-const excavators = computed(() => {
-   return carState.excavatorStates?.map(car => {
-      car.tech_name = car.tech_name.replace('HITACHI ', '').replace('(обратная лопата)', '')
-      return car
-   })
-})
 </script>

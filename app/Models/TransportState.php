@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Helpers\Smena;
+use Carbon\Carbon;
 class TransportState extends Model
 {
     use HasFactory;
@@ -25,5 +26,10 @@ class TransportState extends Model
     public function truck()
     {
         return $this->hasOne(Truck::class, 'transport_id', 'transport_id');
+    }
+
+    public function tracks()
+    {
+        return $this->hasMany(Transport::class, 'transport_id', 'transport_id')->where('created_at', '>=', now()->subMinutes(10));
     }
 }

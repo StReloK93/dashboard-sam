@@ -63,3 +63,37 @@ export function inSmenaTime(transport) {
    
    return one && two
 }
+
+
+export function calculateDistance(lat1, lon1, lat2, lon2) {
+   const R = 6371e3; // Радиус Земли в метрах
+   const φ1 = lat1 * Math.PI / 180; // Широта первой точки в радианах
+   const φ2 = lat2 * Math.PI / 180; // Широта второй точки в радианах
+   const Δφ = (lat2 - lat1) * Math.PI / 180; // Разница широт
+   const Δλ = (lon2 - lon1) * Math.PI / 180; // Разница долгот
+
+   // Формула гаверсинусов
+   const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+             Math.cos(φ1) * Math.cos(φ2) *
+             Math.sin(Δλ/2) * Math.sin(Δλ/2);
+   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+   // Расстояние между точками в метрах
+   const distance = R * c;
+   
+   return distance;
+}
+
+export function calculatePathLength(points) {
+   let pathLength = 0;
+
+   // Проходим по всем точкам, начиная с второй
+   for (let i = 1; i < points.length; i++) {
+       const prevPoint = points[i - 1];
+       const currentPoint = points[i];
+       const distance = calculateDistance(prevPoint.y, prevPoint.x, currentPoint.y, currentPoint.x);
+       pathLength += distance;
+   }
+
+   return pathLength;
+}

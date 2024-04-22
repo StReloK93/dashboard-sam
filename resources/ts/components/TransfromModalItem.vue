@@ -6,8 +6,8 @@
             <td :class="props.headerColor" class="py-1">Geozona</td>
             <td :class="props.headerColor" class="py-1">Kirgan vaqti</td>
             <td :class="props.headerColor" class="py-1">Chiqqan vaqti</td>
-            <td :class="props.headerColor" class="py-1 rounded-tr">Umumiy</td>
-            <td :class="props.headerColor" class="py-1" v-if="props.type == 'inATB' || props.type == 'inSmenaAll'">Sababi</td>
+            <td :class="props.headerColor" class="py-1">Umumiy</td>
+            <td :class="props.headerColor" class="py-1  rounded-tr" v-if="props.type == 'inATB' || props.type == 'inSmenaAll'">Sababi</td>
          </tr>
          <tr v-for="(transport, index) in states[props.type]" class="bg-zinc-800 border-y-4 border-zinc-900">
             <td class="py-1 px-2">{{index + 1}}</td>

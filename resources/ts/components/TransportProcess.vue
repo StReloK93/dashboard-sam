@@ -12,6 +12,7 @@
                 :key="index"
                 :timer_type="transport.timer_type"
             />
+            <TransportButton v-if="props.data.length == 0" :color="props.color"/>
         </TransitionGroup>
     </section>
 </template>

@@ -29,6 +29,10 @@
 					:timer_type="transport.timer_type" 
 					:key="index"
 				/>
+				<TransportButton
+					v-if="group.cars.length == 0"
+					:color="props.color" 
+				/>
 			</TransitionGroup>
 		</main>
 	</section>

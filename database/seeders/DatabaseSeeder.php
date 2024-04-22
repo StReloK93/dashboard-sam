@@ -20,11 +20,5 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-
-        \App\Models\User::create([
-            'login' => 'peresmenka',
-            'password' => Hash::make('asdf1234*'),
-            'level' => 1
-        ]);
     }
 }
