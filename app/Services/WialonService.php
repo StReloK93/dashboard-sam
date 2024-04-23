@@ -83,10 +83,9 @@ class WialonService
 
             }
         }
-
         
         $collection = collect($this->getTransportPoints(7381))->pluck('transport_id');
-        TransportList::updateOrCreate(['id' => 1], ['transports' => $collection]);
+        TransportList::create( ['tranports' => $collection]);
 
         return DB::table('transports')->insert($transports);
     }

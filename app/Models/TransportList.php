@@ -11,4 +11,13 @@ class TransportList extends Model
 
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'tranports',
+    ];
+
+
+    protected $casts = [
+        'tranports' => 'array'
+    ];
 }
