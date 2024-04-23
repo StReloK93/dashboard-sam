@@ -22,7 +22,7 @@
                      <td class="py-1">{{ moment(transport.geozone_in).format('YYYY-MM-DD HH:mm') }}</td>
                      <td class="py-1">{{ moment(transport.geozone_out).format('YYYY-MM-DD HH:mm') }}</td>
                      <td class="py-1">{{ getDifference(transport) }}</td>
-                     <td class="py-1 w-52">{{ transport.cause}}</td>
+                     <td class="py-1 w-52" v-if="props.color == 'indigo'">{{ transport.cause}}</td>
                   </tr>
                </table>
             </section>

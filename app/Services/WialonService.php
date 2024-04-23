@@ -8,6 +8,7 @@ use App\Models\Truck;
 use DB;
 use Carbon\Carbon;
 use App\Models\TransportState;
+use App\Models\TransportList;
 use App\Services\GeoZoneService;
 
 class WialonService
@@ -82,6 +83,10 @@ class WialonService
 
             }
         }
+
+        
+        $collection = collect($this->getTransportPoints(7381))->pluck('transport_id');
+        TransportList::updateOrCreate(['id' => 1], ['transports' => $collection]);
 
         return DB::table('transports')->insert($transports);
     }
