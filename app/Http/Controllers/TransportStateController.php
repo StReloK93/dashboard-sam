@@ -13,7 +13,6 @@ class TransportStateController extends Controller
     {
         $wialon = new WialonService();
         $collection = collect($wialon->getTransportPoints(7381))->pluck('transport_id');
-        dd($collection);
         return TransportState::with(['truck','currentDay', 'tracks'])
         ->whereIn('transport_states.transport_id', $collection->all())
         ->join(DB::raw('(SELECT transport_id, MAX(geozone_out) AS max_time FROM transport_states GROUP BY transport_id) as latest_transports'), 
