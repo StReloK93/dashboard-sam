@@ -98,8 +98,6 @@ export const Transports = defineStore('Transports', () => {
          item.reys = filtered.length
       })
 
-      console.log(process);
-      
       return process
    })
 
@@ -119,6 +117,22 @@ export const Transports = defineStore('Transports', () => {
    const inExcavator = computed(() => cars.value?.filter((car) => inZone(car, 'экг') || inZone(car, 'ex') || inZone(car, 'эг') || inZone(car, 'фп')))
 
 
+   const inOilConflict = computed(() => {
+      const allCars = []
+      
+      cars.value?.forEach(car => {
+         car.current_day.forEach((truck) => {
+            
+            if ((inZone(truck, 'заправочный') || inZone(truck, 'пересменка') ) && timeDiff(truck, 'minutes') > 0) allCars.push(truck)
+         })
+      })
+
+      // @ts-ignore
+      allCars.sort((a, b) =>  new Date(a.geozone_in) - new Date(b.geozone_in))
+      console.log(allCars)
+      
+      return allCars
+   })
 
    const inOIL = computed(() => {
       const oil = cars.value?.filter((car) => inZone(car, 'заправочный'))
@@ -247,6 +261,7 @@ export const Transports = defineStore('Transports', () => {
       summaTransports,
       summaExcavators,
       excavatorStates,
+      inOilConflict,
       // timer,
       inATB,
       inOIL,

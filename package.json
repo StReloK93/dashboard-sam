@@ -15,6 +15,7 @@
     },
     "dependencies": {
         "highcharts": "^11.3.0",
+        "highcharts-gantt": "^0.1.7",
         "highcharts-solid-gauge": "^0.1.7",
         "laravel-echo": "^1.16.0",
         "laravel-vite-plugin": "^1.0.1",
