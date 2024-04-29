@@ -6,10 +6,8 @@ use Carbon\Carbon;
 
 class Smena
 {
-   public function getPeriod()
+   public function getPeriod($currentTime)
    {
-
-      $currentTime = now();
       
       $startOfDay = $currentTime->copy()->startOfDay();
       $ninePoint = $startOfDay->copy()->addHours(9)->addMinutes(10);

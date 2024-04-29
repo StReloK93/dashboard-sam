@@ -13,13 +13,9 @@ class TransportState extends Model
     public $timestamps = false;
 
 
-    public function currentDay()
+    public function inSmena()
     {
-        $smenaClass = new Smena();
-        $period = $smenaClass->getPeriod();
-        return $this->hasMany(TransportState::class, 'transport_id', 'transport_id')
-            ->where('geozone_out', '>', $period['start'])
-            ->where('geozone_out', '<', $period['end']);
+        return $this->hasMany(TransportState::class, 'transport_id', 'transport_id')->select('cause', 'geozone', 'name', 'geozone_in', 'geozone_out', 'transport_id');
     }
 
 
@@ -30,6 +26,10 @@ class TransportState extends Model
 
     public function tracks()
     {
-        return $this->hasMany(Transport::class, 'transport_id', 'transport_id')->where('created_at', '>=', now()->subMinutes(10));
+        return $this->hasMany(Transport::class, 'transport_id', 'transport_id')->select('y', 'x', 'created_at', 'transport_id');
     }
+
+    protected $casts = [
+        'transport_id' => 'integer',
+    ];
 }

@@ -14,4 +14,13 @@ class Transport extends Model
     {
         return Carbon::parse($value)->timezone('Asia/Tashkent')->format('Y-m-d H:i:s');
     }
+
+
+
+
+    protected $casts = [
+        'x' => 'float',
+        'y' => 'float',
+        'transport_id' => 'integer',
+    ];
 }

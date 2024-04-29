@@ -13,6 +13,8 @@ export const Transports = defineStore('Transports', () => {
    async function getTransports() {
       getExcavatorsStates()
       const { data } = await axios.get('/api/transportstates')
+      console.log(data)
+      
       // Filter Manlarni olib tashlaydi
       const sakasayana = data.filter((item) => item.name.includes('MAN') == false)
       // Sortirovka
@@ -59,7 +61,7 @@ export const Transports = defineStore('Transports', () => {
 
       cars.value?.forEach((item) => {
 
-         const filtered = item.current_day.filter((transport) => {
+         const filtered = item.in_smena.filter((transport) => {
             if (timeDiff(transport, 'seconds') < 120) return false
             const diffMinutes = timeDiff(transport, 'minutes')
 
@@ -91,7 +93,7 @@ export const Transports = defineStore('Transports', () => {
 
       process?.forEach((item) => {
          item.timer_type = 0
-         const filtered = item.current_day.filter((transport) => {
+         const filtered = item.in_smena.filter((transport) => {
             if (timeDiff(transport, 'seconds') < 120) return false
             return inZone(transport, 'экг') || inZone(transport, 'ex') || inZone(transport, 'эг') || inZone(transport, 'фп')
          })
@@ -121,16 +123,13 @@ export const Transports = defineStore('Transports', () => {
       const allCars = []
       
       cars.value?.forEach(car => {
-         car.current_day.forEach((truck) => {
-            
+         car.in_smena.forEach((truck) => {
             if ((inZone(truck, 'заправочный') || inZone(truck, 'пересменка') ) && timeDiff(truck, 'minutes') > 0) allCars.push(truck)
          })
       })
 
       // @ts-ignore
       allCars.sort((a, b) =>  new Date(a.geozone_in) - new Date(b.geozone_in))
-      console.log(allCars)
-      
       return allCars
    })
 
@@ -146,7 +145,7 @@ export const Transports = defineStore('Transports', () => {
       })
 
       cars.value?.forEach(car => {
-         car.current_day.forEach((truck) => {
+         car.in_smena.forEach((truck) => {
             if (inZone(truck, 'заправочный')) {
                const diff = timeDiff(truck, 'minutes')
                const geozone = truck.geozone
@@ -187,7 +186,7 @@ export const Transports = defineStore('Transports', () => {
 
 
       cars.value?.forEach(car => {
-         car.current_day.forEach((truck) => {
+         car.in_smena.forEach((truck) => {
             if (inZone(truck, 'пересменка') && inSmenaTime(truck) == false) {
                const diff = timeDiff(truck, 'minutes')
                const geozone = truck.geozone
@@ -217,7 +216,7 @@ export const Transports = defineStore('Transports', () => {
    function getFilterGroup(key, type) {
       const group: any = []
       cars.value?.forEach(car => {
-         car.current_day.forEach((truck) => {
+         car.in_smena.forEach((truck) => {
             if (truck.geozone == key && timeDiff(truck, 'minutes') > 0) {
                if (type == 'indigo' && inSmenaTime(truck)) return
                group.push(truck)

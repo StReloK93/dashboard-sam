@@ -1,11 +1,14 @@
 <?php
 
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TripsController;
 use App\Http\Controllers\GeofenceController;
 use App\Http\Controllers\TransportController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TransportStateController;
+use App\Helpers\Smena;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -33,6 +36,12 @@ Route::get('transports/excavators', [TransportController::class, 'excavators']);
 Route::get('transports/excavatorstate', [TransportController::class, 'excavatorState']);
 Route::get('transports/all/wialon', [TransportController::class, 'getWithWialon']);
 
+
+Route::post('smena-info', function (Request $req) {
+   $date = Carbon::parse($req->date);
+   $_smena = new Smena();
+   return $_smena->getPeriod($date);
+});
 Route::middleware('auth:sanctum')->group(function () {
 
    Route::get('/user', [AuthController::class, 'getUser']);

@@ -97,3 +97,8 @@ export function calculatePathLength(points) {
 
    return pathLength;
 }
+
+export function UTCTime<Number>(time: string) {
+   const date = new Date(time)
+   return Date.UTC(date.getFullYear(), date.getMonth(), date.getUTCDate(), date.getHours(), date.getUTCMinutes())
+}
