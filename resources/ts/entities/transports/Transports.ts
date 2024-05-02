@@ -13,8 +13,6 @@ export const Transports = defineStore('Transports', () => {
    async function getTransports() {
       getExcavatorsStates()
       const { data } = await axios.get('/api/transportstates')
-      console.log(data)
-      
       // Filter Manlarni olib tashlaydi
       const sakasayana = data.filter((item) => item.name.includes('MAN') == false)
       // Sortirovka
@@ -116,12 +114,11 @@ export const Transports = defineStore('Transports', () => {
    const inATB = computed(() => cars.value?.filter((car) => inZone(car, 'уат') || inZone(car, 'авто')))
    const inOilAll = computed(() => cars.value?.filter((car) => inZone(car, 'заправочный')))
    const inSmenaAll = computed(() => cars.value?.filter((car) => inZone(car, 'пересменка')))
-   const inExcavator = computed(() => cars.value?.filter((car) => inZone(car, 'экг') || inZone(car, 'ex') || inZone(car, 'эг') || inZone(car, 'фп')))
+   const inExcavator = computed(() => cars.value?.filter((car) => inZone(car, 'liebherr') || inZone(car, 'экг') || inZone(car, 'ex') || inZone(car, 'эг') || inZone(car, 'фп')))
 
 
    const inOilConflict = computed(() => {
       const allCars = []
-      
       cars.value?.forEach(car => {
          car.in_smena.forEach((truck) => {
             if ((inZone(truck, 'заправочный') || inZone(truck, 'пересменка') ) && timeDiff(truck, 'minutes') > 0) allCars.push(truck)

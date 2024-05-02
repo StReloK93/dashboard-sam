@@ -38,14 +38,13 @@ class TransportStateController extends Controller
 
 
 
-	
+
 
 		return TransportState::with([
 			'inSmena' => function ($query) use ($period) {
-				$query->where('geozone_out', '>', $period['start'])
-					->where('geozone_out', '<', $period['end']);
+				$query->whereBetween('geozone_out', [$period['start'], $period['end']]);
 			},
-			// 'truck',
+			'truck',
 			'tracks' => function ($query) use ($period) {
 				$query->where('created_at', '>=', now()->subMinutes(10));
 				// $query->where('created_at', '>', $period['start'])
@@ -61,6 +60,21 @@ class TransportStateController extends Controller
 				}
 			)
 			->select('transport_states.*')->get();
+	}
+
+	public function selectSmena(Request $request){
+
+		$smenaClass = new Smena();
+		if($request->date){
+			$period = $smenaClass->getSmena($request->date, $request->smena);
+		}
+		else{
+			$period = $smenaClass->getPeriod(now());
+		}
+
+		$state = TransportState::whereBetween('geozone_out', [$period['start'],$period['end']])->get();
+
+		return ['smena' => $period, 'states' => $state]; 
 	}
 
 

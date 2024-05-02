@@ -30,6 +30,9 @@ Route::get('geofences/all', [GeofenceController::class, 'index']);
 
 Route::apiResource('transportstates', TransportStateController::class)->only(['index', 'show', 'update']);
 Route::get('process/excavator', [TransportStateController::class, 'excavator']);
+Route::post('states/select_smena', [TransportStateController::class, 'selectSmena']);
+
+
 
 Route::get('transports/all', [TransportController::class, 'index']);
 Route::get('transports/excavators', [TransportController::class, 'excavators']);

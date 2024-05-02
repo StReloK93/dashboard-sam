@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Helpers\Smena;
-use Carbon\Carbon;
 class TransportState extends Model
 {
     use HasFactory;

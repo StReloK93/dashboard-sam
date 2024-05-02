@@ -2,7 +2,7 @@
 	<section :class="props.scrollColor" class="px-2 overflow-y-auto h-full scroll">
 		<TransitionGroup name="fade">
 			<GroupModal v-if="filter" :filter="filter" @close="filter = null" :color="color" />
-			<GroupTimeLine v-if="timeLine" @close="timeLine = null" :group="timeLine"/>
+			<GroupTimeLine :color="props.color" v-if="timeLine" @close="timeLine = null" :group="timeLine"/>
       </TransitionGroup>
 		<ModeTitle :text="props.title" class="text-center mb-2" />
 		<main v-for="(group, key) of data">

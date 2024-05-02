@@ -5,7 +5,7 @@
             <section :class="`${props.color}-scroll`" class="h-full w-full overflow-y-auto px-1 scroll ">
                <table class="w-full">
                   <tr>
-                     <td :colspan="props.color == 'indigo' ? 6 : 5" :class="`bg-${props.color}-600`" class="py-1 text-center">{{ props.filter }}</td>
+                     <td :colspan="props.color == 'indigo' ? 6 : 5" :class="`bg-${props.color}-600`" class="py-1 text-center font-semibold">{{ props.filter }}</td>
                   </tr>
                   <tr class="border-b-4 border-zinc-900">
                      <td class="py-1 px-2">№</td>

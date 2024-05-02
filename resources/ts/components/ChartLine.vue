@@ -68,5 +68,6 @@ const chartOptions:any = {
 
 onMounted(() => {
     Highcharts.chart(chartLine.value, chartOptions)
+
 })
 </script>

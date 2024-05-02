@@ -9,6 +9,7 @@ export function transportsTimeLine(data, yAxis, smena) {
         ],
         accessibility: { enabled: false },
         chart: {
+            zoomType: 'x',
             backgroundColor: "transparent",
             plotBorderWidth: 1,
             plotBorderColor: "#222",
@@ -18,11 +19,22 @@ export function transportsTimeLine(data, yAxis, smena) {
         xAxis: [
             {
                 type: "datetime",
+                labels: {
+                    style: {
+                        color: '#ccc', // Устанавливаем цвет текста по оси X
+                        padding: 0,
+                    },
+                    x: -8,
+                    align: 'left',
+                    format: '{value:%H}'
+                },
                 min: UTCTime(smena.start),
                 max: UTCTime(smena.end),
                 opposite: false,
                 grid: {
+                    cellHeight: 20,
                     borderWidth: 0,
+                    borderColor: "#222",
                 },
                 gridLineColor: "#222",
                 gridLineWidth: 1,
@@ -41,16 +53,26 @@ export function transportsTimeLine(data, yAxis, smena) {
         ],
         tooltip: { enabled: true },
         yAxis: {
+            labels: {
+                style: {
+                    color: '#ccc', // Устанавливаем цвет текста по оси X
+                    padding: 0,
+                }
+            },
+            // visible: false,
             categories: yAxis,
             grid: {
-                borderWidth: 0,
+                borderWidth: 1,
                 enabled: true,
                 cellHeight: 10,
+                borderColor: "#222",
             },
-            gridLineWidth: 0,
+            gridLineWidth: 1,
+            gridLineColor: "#222",
             staticScale: 25,
         },
         rangeSelector: {
+            selected: 1,
             allButtonsEnabled: true,
         },
         plotOptions: {
