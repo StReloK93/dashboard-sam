@@ -1,19 +1,18 @@
 {
   "resources/ts/app.ts": {
     "css": [
-      "assets/app-2a_q17N2.css"
+      "assets/app-EXPPxr4i.css"
     ],
     "dynamicImports": [
       "resources/ts/pages/Home.vue",
-      "resources/ts/pages/Map.vue",
       "resources/ts/pages/Login.vue"
     ],
-    "file": "assets/app-lV5Mz2Gv.js",
+    "file": "assets/app-ZWiZVFqR.js",
     "isEntry": true,
     "src": "resources/ts/app.ts"
   },
   "resources/ts/pages/Home.vue": {
-    "file": "assets/Home-vBlOYDbc.js",
+    "file": "assets/Home-W_dFboYx.js",
     "imports": [
       "resources/ts/app.ts"
     ],
@@ -21,19 +20,11 @@
     "src": "resources/ts/pages/Home.vue"
   },
   "resources/ts/pages/Login.vue": {
-    "file": "assets/Login-FuVHnbS8.js",
+    "file": "assets/Login-heRnxfg6.js",
     "imports": [
       "resources/ts/app.ts"
     ],
     "isDynamicEntry": true,
     "src": "resources/ts/pages/Login.vue"
-  },
-  "resources/ts/pages/Map.vue": {
-    "file": "assets/Map-EtajCabz.js",
-    "imports": [
-      "resources/ts/app.ts"
-    ],
-    "isDynamicEntry": true,
-    "src": "resources/ts/pages/Map.vue"
   }
 }

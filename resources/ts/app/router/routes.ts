@@ -5,10 +5,6 @@ export default [
       name: 'home'
    },
    {
-      path: '/mapping',
-      component: () => import('@/pages/Map.vue')
-   },
-   {
       path: '/login',
       component: () => import('@/pages/Login.vue'),
       meta: {

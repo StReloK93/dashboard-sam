@@ -1,62 +1,58 @@
 <template>
 	<section :class="props.scrollColor" class="px-2 overflow-y-auto h-full scroll">
 		<TransitionGroup name="fade">
-			<GroupModal v-if="filter" :filter="filter" @close="filter = null" :color="color" />
-			<GroupTimeLine :color="props.color" v-if="timeLine" @close="timeLine = null" :group="timeLine"/>
-      </TransitionGroup>
-		<ModeTitle :text="props.title" class="text-center mb-2" />
+			<GroupTimeLine :color="props.color" v-if="timeLine" @close="timeLine = null" :group="timeLine" />
+		</TransitionGroup>
+		<h3 class="text-zinc-500 uppercase text-center mb-2">
+			{{ props.title }}
+		</h3>
 		<main v-for="(group, key) of data">
-			<div class="text-gray-500 text-xs flex justify-between items-center" :key="key">
-				<button @click="timeLine = key" class="capitalize">
-					<span :class="`bg-${color}-400 bg-${color}-500`" class="w-6 h-6 mr-0.5 text-base justify-center inline-flex items-center text-zinc-950 rounded-sm">
-						<i class="fa-solid fa-watch-smart"></i>
-					</span>
-					<span :class="`text-${color}-500 active:bg-${color}-500`">
-						{{ replace(key) }}
-					</span>
-				</button>
-				<div class="flex items-center">
-					<button @click="filter = key" :class="`text-${color}-500 active:bg-${color}-500`" class="overflow-hidden w-16 h-6 flex justify-end items-center">
-						{{ minuteFormat(group.summTime) }}
-						<span :class="`bg-${color}-400 bg-${color}-500`" class="ml-1.5 font-bold h-full w-6 justify-center inline-flex items-center text-zinc-950 rounded-sm">
+			<button @click="timeLine = key" class="text-gray-500 text-xs flex justify-between items-center capitalize w-full hover:opacity-70 active:opacity-90"
+				:key="key">
+				<span :class="`text-${color}-500 active:bg-${color}-500`">
+					{{ replace(key) }}
+				</span>
+				<div :class="`text-${color}-500`" class="flex items-center">
+					{{ minuteFormat(group.summTime) }}
+					<span :class="`bg-${color}-400 bg-${color}-500`"
+						class="w-11 h-6 ml-1 text-base justify-between px-1.5 inline-flex items-center text-zinc-950 rounded-sm">
+						<span class="text-sm font-semibold">
 							{{ group.counter }}
 						</span>
-					</button>
+						<i class="fa-solid fa-watch-smart"></i>
+					</span>
 				</div>
-			</div>
+			</button>
 			<TransitionGroup tag="main" name="fade" :class="props.gridCols" class="grid gap-1.5 py-3">
-				<TransportButton 
-					@click="$emit('openModal', transport)" 
-					v-for="(transport, index) in group.cars"
-					:name="transport.name" 
-					:color="props.color" 
-					:type="transport.truck"
-					:timer="transport.timer ? transport.timer: 0" 
-					:timer_type="transport.timer_type" 
-					:key="index"
-				/>
-				<TransportButton
-					v-if="group.cars.length == 0"
-					:color="props.color" 
-				/>
+				<TransportButton @click="$emit('openModal', transport)" v-for="(transport, index) in group.cars"
+					:name="transport.name" :color="props.color" :type="transport.truck"
+					:timer="transport.timer ? transport.timer : 0" :timer_type="transport.timer_type" :key="index" />
+				<TransportButton v-if="group.cars.length == 0" :color="props.color" />
 			</TransitionGroup>
 		</main>
 	</section>
 </template>
 
 <script setup lang="ts">
-import ModeTitle from '@/ui/ModeTitle.vue'
 import TransportButton from '@/ui/TransportButton.vue'
 import { minuteFormat } from '@/helpers/timeFormat'
-import GroupModal from './GroupModal.vue'
 import GroupTimeLine from './GroupTimeLine.vue'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 const props = defineProps(['color', 'title', 'count', 'data', 'gridCols', 'scrollColor'])
 
-const filter = ref(null)
 const timeLine = ref(null)
 
 function replace(str) {
 	return str.replace('Пересменка', '').replace('Заправочный', '').replace('РВ', '')
 }
+
+
+watch(() => props.data, () => {
+	for (const key in props.data) {
+		if (props.color == 'orange' && props.data[key].cars.length > 1) {
+			let mySound = new Audio('/sound/signal.mp3')
+			mySound.play()
+		}
+	}
+})
 </script>

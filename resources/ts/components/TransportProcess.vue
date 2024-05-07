@@ -1,6 +1,8 @@
 <template>
     <section :class="scrollColor" class="px-2">
-        <ModeTitle :text="props.title"/>
+        <h3 class="text-zinc-500 uppercase text-center mb-2">
+			{{ props.title }}
+		</h3>
         <TransitionGroup tag="main" name="fade" :class="props.gridCols" class="grid gap-1.5 py-3">
             <TransportButton 
                 @click="$emit('openModal', transport)" 
@@ -18,7 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import ModeTitle from '@/ui/ModeTitle.vue'
 import TransportButton from '@/ui/TransportButton.vue'
 const props = defineProps(['color', 'title', 'count', 'data', 'gridCols', 'counter', 'scrollColor'])
 </script>

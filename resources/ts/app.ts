@@ -4,14 +4,14 @@ import router from "./app/router"
 import App from "@/app/App.vue"
 import "swiper/css"
 import "swiper/css/effect-cards"
-import Echo from "./app/echo"
+
+
 import { useAuthStore } from "./app/auth";
 import axios from "axios"
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import "@/app/App.css"
-//@ts-ignore
-window.echo = Echo;
+
 window.axios = axios
 import Highcharts from "highcharts"
 import HighchartsMore from "highcharts/highcharts-more"
@@ -29,4 +29,4 @@ async function init() {
     app.use(router)
     app.mount("#app")
 }
-init();
+init()

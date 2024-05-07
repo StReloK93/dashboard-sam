@@ -9,13 +9,22 @@ class Transport extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'transport_id',
+        'x',
+        'y',
+        'time_message',
+        'geozone',
+        'distance_ex',
+        'created_at',
+        'updated_at',
+    ];
 
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->timezone('Asia/Tashkent')->format('Y-m-d H:i:s');
     }
-
-
 
 
     protected $casts = [

@@ -2,40 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
-.slider-item{
-    @apply w-full h-full bg-zinc-900 !flex flex-col rounded-md shadow text-gray-300 py-1
+.slider-item {
+    @apply w-full h-full bg-zinc-900 !flex flex-col rounded-md shadow text-gray-300 py-1;
 }
 
 .neomorph {
-    /* background: linear-gradient(145deg, #1a1a1d, #161618);
-    box-shadow:  5px 5px 9px #0a0a0b,
-                 -5px -5px 9px #26262b; */
-    box-shadow: 3px 3px 7px #0a0a0b,
-        -1px -1px 2px #555555;
+    box-shadow: 3px 3px 7px #0a0a0b, -1px -1px 2px #555555;
 }
 
 .inner-shadow {
-    box-shadow: inset 5px 5px 10px #0a0a0b,
-        inset -5px -5px 10px #26262b;
+    box-shadow: inset 5px 5px 10px #0a0a0b, inset -5px -5px 10px #26262b;
 }
 
 .inner-shadow-second {
-    box-shadow: inset 5px 5px 7px #0e0e10,
-    inset -5px -5px 7px #222226;
+    box-shadow: inset 5px 5px 7px #0e0e10, inset -5px -5px 7px #222226;
 }
 
-.highcharts-credits{
+.highcharts-credits {
     display: none;
 }
 
-.gradient-text{
-    background: -webkit-linear-gradient(right ,#01b0b0, #0198f7);
+.gradient-text {
+    background: -webkit-linear-gradient(right, #01b0b0, #0198f7);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-
 
 /* 1. declare transition */
 .fade-move,
@@ -51,19 +42,15 @@
     transform: scale(0.4) translate(30px, 30px);
 }
 
-.swiper-slide-shadow{
-    background: none!important;
+.swiper-slide-shadow {
+    background: none !important;
 }
-
-
 
 /* Works on Chrome, Edge, and Safari */
-.scroll::-webkit-scrollbar
-{
+.scroll::-webkit-scrollbar {
     width: 2px;
 }
-.scroll::-webkit-scrollbar-track
-{
+.scroll::-webkit-scrollbar-track {
     background: transparent;
 }
 
@@ -91,11 +78,10 @@
     background-color: #9ca3af;
 }
 
-
 :root {
     /*General*/
-    --dp-font-family: -apple-system, blinkmacsystemfont, "Segoe UI", roboto, oxygen, ubuntu, cantarell, "Open Sans",
-    "Helvetica Neue", sans-serif;
+    --dp-font-family: -apple-system, blinkmacsystemfont, "Segoe UI", roboto,
+        oxygen, ubuntu, cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     --dp-border-radius: 4px; /*Configurable border-radius*/
     --dp-cell-border-radius: 4px; /*Specific border radius for the calendar cell*/
     --dp-common-transition: all 0.1s ease-in; /*Generic transition applied on buttons and calendar cells*/
@@ -112,22 +98,25 @@
     --dp-input-padding: 5px 20px 5px 5px; /*Padding in the input*/
     --dp-menu-min-width: 260px; /*Adjust the min width of the menu*/
     --dp-action-buttons-padding: 2px 5px; /*Adjust padding for the action buttons in action row*/
-    --dp-row-margin:  5px 0; /*Adjust the spacing between rows in the calendar*/
-    --dp-calendar-header-cell-padding:  0.5rem; /*Adjust padding in calendar header cells*/
-    --dp-two-calendars-spacing:  10px; /*Space between multiple calendars*/
-    --dp-overlay-col-padding:  3px; /*Padding in the overlay column*/
-    --dp-time-inc-dec-button-size:  32px; /*Sizing for arrow buttons in the time picker*/
+    --dp-row-margin: 5px 0; /*Adjust the spacing between rows in the calendar*/
+    --dp-calendar-header-cell-padding: 0.5rem; /*Adjust padding in calendar header cells*/
+    --dp-two-calendars-spacing: 10px; /*Space between multiple calendars*/
+    --dp-overlay-col-padding: 3px; /*Padding in the overlay column*/
+    --dp-time-inc-dec-button-size: 32px; /*Sizing for arrow buttons in the time picker*/
     --dp-menu-padding: 6px 8px; /*Menu padding*/
-    
+
     /*Font sizes*/
     --dp-font-size: 1rem; /*Default font-size*/
     --dp-preview-font-size: 0.8rem; /*Font size of the date preview in the action row*/
     --dp-time-font-size: 0.8rem; /*Font size in the time picker*/
-    
+
     /*Transitions*/
     --dp-animation-duration: 0.1s; /*Transition duration*/
-    --dp-menu-appear-transition-timing: cubic-bezier(.4, 0, 1, 1); /*Timing on menu appear animation*/
+    --dp-menu-appear-transition-timing: cubic-bezier(
+        0.4,
+        0,
+        1,
+        1
+    ); /*Timing on menu appear animation*/
     --dp-transition-timing: ease-out; /*Timing on slide animations*/
 }
-
-

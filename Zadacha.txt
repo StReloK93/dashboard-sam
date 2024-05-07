@@ -1,10 +1,112 @@
 1 - Diagrammani malumotlarini olish
-2 - Smena geozonasida nimaga turganini sababani chiqarish
-3 - sababsix toxtaganlarda 10minutdan oldin biror bir geozonada toxtamaganlarni chiqarish
-4 - Excavatordan smenaga ketsa reys hisoblamasin
-5 - suv olish maydoni
+2 - Excavatordan smenaga ketsa reys hisoblamasin
+3 - suv olish maydoni
 
 gidromashina - gm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+EDT   
+Qazx1234*
+
+4575
+
+"tech_type": "ex","garage": "4","status": "1","   status_time": "2024-04-16 05:55:09", "status_passed_time": "05:34",      "msg_dt": "2024-04-16 11:29:09"
+"tech_type": "ex","garage": "5","status": "0","   status_time": "2024-04-15 10:14:34", "status_passed_time": "1:01:14",    "msg_dt": "2024-04-15 23:59:00"
+"tech_type": "ex","garage": "11","status": "0","  status_time": "2024-04-16 10:27:21", "status_passed_time": "01:02",      "msg_dt": "2024-04-16 11:28:47"
+"tech_type": "ex","garage": "15","status": "1","  status_time": "2024-04-11 04:10:19", "status_passed_time": "5:07:19",    "msg_dt": "2024-04-15 23:59:00"
+"tech_type": "ex","garage": "16","status": "1","  status_time": "2024-04-15 10:08:56", "status_passed_time": "1:01:20",    "msg_dt": "2024-04-15 23:59:00"
+"tech_type": "ex","garage": "17","status": null," status_time": null,                  "status_passed_time": null,         "msg_dt": null
+"tech_type": "ex","garage": "18","status": "0","  status_time": "2024-04-15 09:00:15", "status_passed_time": "1:02:29",    "msg_dt": "2024-04-15 23:59:00"
+"tech_type": "ex","garage": "19","status": null," status_time": null,                  "status_passed_time": null,         "msg_dt": null
+"tech_type": "ex","garage": "20","status": "1","  status_time": "2024-04-16 11:11:38", "status_passed_time": "00:17",      "msg_dt": "2024-04-16 11:29:08"
+"tech_type": "ex","garage": "23","status": "1","  status_time": "2024-04-16 09:26:57", "status_passed_time": "02:02",",    "msg_dt": "2024-04-16 11:28:57"
+"tech_type": "ex","garage": "24","status": "1","  status_time": "2024-04-15 10:02:15", "status_passed_time": "1:01:27",    "msg_dt": "2024-04-15 23:59:00"
+"tech_type": "ex","garage": "26","status": "1","  status_time": "2024-04-16 09:29:22", "status_passed_time": "02:00",",    "msg_dt": "2024-04-16 11:28:51"
+"tech_type": "ex","garage": "33","status": "1","  status_time": "2024-03-20 11:51:30", "status_passed_time": "26:23:37",", "msg_dt": "2024-04-15 23:59:00"
+"tech_type": "ex","garage": "40","status": "1","  status_time": "2024-04-16 09:33:19", "status_passed_time": "01:56",",    "msg_dt": "2024-04-16 11:28:49"
+"tech_type": "ex","garage": "42","status": null," status_time": null,                  "status_passed_time": null,         "msg_dt": null
+"tech_type": "ex","garage": "44","status": "0","  status_time": "2024-04-10 20:21:34", "status_passed_time": "5:15:07",    "msg_dt": "2024-04-15 23:59:00"
+"tech_type": "ex","garage": "45","status": "1","  status_time": "2024-04-08 21:20:22", "status_passed_time": "7:14:09",    "msg_dt": "2024-04-15 23:59:00"
+"tech_type": "ex","garage": "46","status": "1","  status_time": "2024-04-15 20:10:17", "status_passed_time": "15:19",",    "msg_dt": "2024-04-16 11:26:36"
+"tech_type": "ex","garage": "48","status": "1","  status_time": "2024-04-16 10:02:25", "status_passed_time": "01:27",",    "msg_dt": "2024-04-16 11:29:04"
+"tech_type": "ex","garage": "54","status": null," status_time": null,                  "status_passed_time": null,         "msg_dt": null
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -56,31 +158,3 @@ EDT =
       (SID = ORCL)
     )
   )
-  
-
-  
-EDT   
-Qazx1234*
-
-4575
-
-"tech_type": "ex","garage": "4","status": "1","   status_time": "2024-04-16 05:55:09", "status_passed_time": "05:34",      "msg_dt": "2024-04-16 11:29:09"
-"tech_type": "ex","garage": "5","status": "0","   status_time": "2024-04-15 10:14:34", "status_passed_time": "1:01:14",    "msg_dt": "2024-04-15 23:59:00"
-"tech_type": "ex","garage": "11","status": "0","  status_time": "2024-04-16 10:27:21", "status_passed_time": "01:02",      "msg_dt": "2024-04-16 11:28:47"
-"tech_type": "ex","garage": "15","status": "1","  status_time": "2024-04-11 04:10:19", "status_passed_time": "5:07:19",    "msg_dt": "2024-04-15 23:59:00"
-"tech_type": "ex","garage": "16","status": "1","  status_time": "2024-04-15 10:08:56", "status_passed_time": "1:01:20",    "msg_dt": "2024-04-15 23:59:00"
-"tech_type": "ex","garage": "17","status": null," status_time": null,                  "status_passed_time": null,         "msg_dt": null
-"tech_type": "ex","garage": "18","status": "0","  status_time": "2024-04-15 09:00:15", "status_passed_time": "1:02:29",    "msg_dt": "2024-04-15 23:59:00"
-"tech_type": "ex","garage": "19","status": null," status_time": null,                  "status_passed_time": null,         "msg_dt": null
-"tech_type": "ex","garage": "20","status": "1","  status_time": "2024-04-16 11:11:38", "status_passed_time": "00:17",      "msg_dt": "2024-04-16 11:29:08"
-"tech_type": "ex","garage": "23","status": "1","  status_time": "2024-04-16 09:26:57", "status_passed_time": "02:02",",    "msg_dt": "2024-04-16 11:28:57"
-"tech_type": "ex","garage": "24","status": "1","  status_time": "2024-04-15 10:02:15", "status_passed_time": "1:01:27",    "msg_dt": "2024-04-15 23:59:00"
-"tech_type": "ex","garage": "26","status": "1","  status_time": "2024-04-16 09:29:22", "status_passed_time": "02:00",",    "msg_dt": "2024-04-16 11:28:51"
-"tech_type": "ex","garage": "33","status": "1","  status_time": "2024-03-20 11:51:30", "status_passed_time": "26:23:37",", "msg_dt": "2024-04-15 23:59:00"
-"tech_type": "ex","garage": "40","status": "1","  status_time": "2024-04-16 09:33:19", "status_passed_time": "01:56",",    "msg_dt": "2024-04-16 11:28:49"
-"tech_type": "ex","garage": "42","status": null," status_time": null,                  "status_passed_time": null,         "msg_dt": null
-"tech_type": "ex","garage": "44","status": "0","  status_time": "2024-04-10 20:21:34", "status_passed_time": "5:15:07",    "msg_dt": "2024-04-15 23:59:00"
-"tech_type": "ex","garage": "45","status": "1","  status_time": "2024-04-08 21:20:22", "status_passed_time": "7:14:09",    "msg_dt": "2024-04-15 23:59:00"
-"tech_type": "ex","garage": "46","status": "1","  status_time": "2024-04-15 20:10:17", "status_passed_time": "15:19",",    "msg_dt": "2024-04-16 11:26:36"
-"tech_type": "ex","garage": "48","status": "1","  status_time": "2024-04-16 10:02:25", "status_passed_time": "01:27",",    "msg_dt": "2024-04-16 11:29:04"
-"tech_type": "ex","garage": "54","status": null," status_time": null,                  "status_passed_time": null,         "msg_dt": null

@@ -1,6 +1,6 @@
 <template>
     <section @mouseup="store.close" class="fixed inset-0 bg-zinc-950/70 flex justify-center items-center">
-        <aside @mouseup.stop class="w-[850px] h-[540px] relative">
+        <aside @mouseup.stop class="w-[992px] h-[540px] relative">
             <main :class="{'!-top-28 !opacity-100': mounted }" class="absolute top-20 opacity-0 left-1/2 -translate-x-1/2 transition-all duration-200">
                 <CircleUI :bgColor="carColor.stroke" :textColor="carColor.text" :summa="store.transport.name">
                     <i class="fa-duotone fa-truck-front"></i>
