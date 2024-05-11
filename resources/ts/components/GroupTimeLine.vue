@@ -166,4 +166,3 @@ function getDiagramDate() {
 
 onMounted(() => getDiagramDate())
 </script>
-

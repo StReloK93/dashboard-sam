@@ -227,7 +227,8 @@ export const Transports = defineStore('Transports', () => {
 
    const summaTransports = computed(() => {
       const activeCars = inProcess.value?.length + inExcavator.value?.length + inOilAll.value?.length
-      return { prosent: Math.round((activeCars / cars.value?.length) * 100), max: cars.value?.length, current: activeCars }
+      // return { prosent: Math.round((activeCars / cars.value?.length) * 100), max: cars.value?.length, current: activeCars }
+      return { prosent: Math.round((activeCars / 67) * 100), max: cars.value?.length, current: activeCars }
    })
 
    const excavatorStates = ref(null)

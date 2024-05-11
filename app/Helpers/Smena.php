@@ -22,7 +22,7 @@ class Smena
          $smena = 2;
          $start = $startOfDay->addHours(21);
          $start->addMinutes(10);
-         
+
          $startCopy = $start->copy();
          $end = $startCopy->addHours(12);
       } else {
@@ -39,21 +39,39 @@ class Smena
 
 
 
-   public function getSmena($date, $smena){
+   public function getSmena($date, $smena)
+   {
       $point = Carbon::parse($date)->setTimezone('Asia/Tashkent');
       $startOfDay = $point->copy()->startOfDay();
       $startOfDay->addMinutes(10);
 
 
-      if($smena == 1){
+      if ($smena == 1) {
          $start = $startOfDay->addHours(9);
          $end = $start->copy()->addHour(12);
-      }
-      else{
+      } else {
          $start = $startOfDay->addHours(21);
          $end = $start->copy()->addHour(12);
       }
 
       return ['smena' => $smena, 'start' => $start, 'end' => $end];
+   }
+
+
+   public function timeBetween($currentTime, $start, $end)
+   {
+      if (strtotime($currentTime) > strtotime($start) && strtotime($currentTime) < strtotime($end)) {
+         return true;
+      } else {
+         return false;
+      }
+   }
+
+   public function secondDiff($first, $second)
+   {
+      $date1 = strtotime($first);
+      $date2 = strtotime($second);
+
+      return abs($date2 - $date1);
    }
 }

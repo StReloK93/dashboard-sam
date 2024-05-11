@@ -3,7 +3,6 @@ namespace App\Http\Controllers;
 
 use App\Services\WialonService;
 use DB;
-
 class TransportController extends Controller
 {
     protected $wialon;
@@ -50,8 +49,6 @@ class TransportController extends Controller
             LEFT JOIN edt.t_edt_laststatus s
             ON a.tech_id = s.tech_id AND a.tech_type = s.tech_type
             WHERE a.place_id IN (113) AND a.tech_type = 'ex'");
-
-
 
     }
 }

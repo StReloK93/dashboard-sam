@@ -6,49 +6,29 @@ use Illuminate\Http\Request;
 use App\Models\TransportState;
 use App\Models\TransportList;
 use App\Helpers\Smena;
+use Carbon\Carbon;
 use DB;
 
 
 class TransportStateController extends Controller
 {
+	private $time;
+	public function __construct(){
+		$this->time = new Smena();
+	}
+
 	public function index()
 	{
 		$list = TransportList::latest('id')->first();
-		$smenaClass = new Smena();
-		$period = $smenaClass->getPeriod(now());
-
-
-
-	// 	$states = TransportState::with([
-	// 		'inSmena' => function ($query) use ($period) {
-	// 			 $query->where('geozone_out', '>', $period['start'])
-	// 					 ->where('geozone_out', '<', $period['end']);
-	// 		},
-	// 		'truck',
-	// 		'tracks'
-	//   ])
-	//   ->select('transport_id', 'name') // Here, specify the table name prefix for 'transport_id'
-	//   ->whereIn('transport_id', $list->tranports) // Use the table name prefix for 'transport_id' here as well
-	//   ->groupBy('transport_id', 'name') // Use the table name prefix for 'transport_id' here as well
-	//   ->get();
-
-	// 	return $states;
-	// 	dd($states);
-
-
-
-
-
+		$period = $this->time->getPeriod(now());
 
 		return TransportState::with([
 			'inSmena' => function ($query) use ($period) {
 				$query->whereBetween('geozone_out', [$period['start'], $period['end']]);
 			},
 			'truck',
-			'tracks' => function ($query) use ($period) {
+			'tracks' => function ($query){
 				$query->where('created_at', '>=', now()->subMinutes(10));
-				// $query->where('created_at', '>', $period['start'])
-				// 	->where('created_at', '<', $period['end']);
 			},
 		])
 			->whereIn('transport_states.transport_id', $list->tranports)
@@ -62,26 +42,24 @@ class TransportStateController extends Controller
 			->select('transport_states.*')->get();
 	}
 
-	public function selectSmena(Request $request){
+	public function selectSmena(Request $request)
+	{
 
-		$smenaClass = new Smena();
-		if($request->date){
-			$period = $smenaClass->getSmena($request->date, $request->smena);
+		if ($request->date) {
+			$period = $this->time->getSmena($request->date, $request->smena);
+		} else {
+			$period = $this->time->getPeriod(now());
 		}
-		else{
-			$period = $smenaClass->getPeriod(now());
-		}
 
-		$state = TransportState::whereBetween('geozone_out', [$period['start'],$period['end']])->get();
+		$state = TransportState::whereBetween('geozone_out', [$period['start'], $period['end']])->get();
 
-		return ['smena' => $period, 'states' => $state]; 
+		return ['smena' => $period, 'states' => $state];
 	}
 
 
 	public function show($transportId)
 	{
-		$smenaClass = new Smena();
-		$period = $smenaClass->getPeriod(now());
+		$period = $this->time->getPeriod(now());
 		return TransportState::where('transport_id', $transportId)
 			->where('geozone_out', '>', $period['start'])
 			->where('geozone_out', '<', $period['end'])
@@ -102,5 +80,57 @@ class TransportStateController extends Controller
 		$state->save();
 	}
 
+
+	public function peresmenaGraphic(Request $request)
+	{
+		$startDate = Carbon::parse($request->startDate)
+		->timezone('Asia/Tashkent')
+		->startOfDay()
+		->addHours(9)
+		->addMinutes(10);
+
+		$endDate = Carbon::parse($request->endDate)
+		->timezone('Asia/Tashkent')
+		->startOfDay()
+		->addHours(9)
+		->addMinutes(10);
+
+		$key = 'Заправочный';
+
+		$allStates = DB::select("SELECT A.* ,B.smenaDate,B.smena,B.teamNum FROM transport_states A
+  		left join WIALON.dbo.ReportSmenaTeam B ON 
+   	(case when cast(geozone_in as time) between '09:10' AND '21:10' then 1 else 2 end) = B.smena
+  			AND (case when cast(geozone_in as time) between '09:10' AND '21:10' then cast(geozone_in as date)
+			else case when cast(geozone_in as time) between '21:10:01' AND '23:59:59' then cast(geozone_in as date)
+			else dateadd(day, -1, cast(geozone_in as date))  end end) = B.smenaDate 
+			WHERE A.geozone_in between ? AND ? AND a.geozone LIKE N'%' + ? + '%' AND smena = 1
+			AND DATEDIFF(SECOND, A.geozone_in, A.geozone_out) > 59
+		", [$startDate, $endDate, $key]);
+
+		$arr = [];
+		foreach ($allStates as $key => $state) {
+
+			$filter = array_filter($allStates, fn ($oneState) => $this->time->timeBetween($oneState->geozone_in, $state->geozone_in, $state->geozone_out));
+
+			if (count($filter) > 0){
+				
+				foreach ($filter as $key => $car) {
+					$also = $this->time->timeBetween($car->geozone_in, $state->geozone_in, $state->geozone_out);
+
+					$difference = $also ? $this->time->secondDiff($car->geozone_in, $car->geozone_out) : $this->time->secondDiff($car->geozone_in, $state->geozone_out);
+
+					$arr[] = [ 'difference' => $difference, 'smena' => $state->teamNum];
+				}
+
+			}
+
+		}
+
+
+		return $arr;
+
+	}
+
+	
 
 }

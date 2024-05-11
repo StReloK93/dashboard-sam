@@ -66,6 +66,14 @@
                   <i class="fa-solid fa-layer-group"></i>
                </CircleUI>
             </Slide>
+            <Slide class="!w-[90px]">
+               <CircleUI @click="pricingModal = true" :timer="30" bgColor="stroke-orange-400" class="hover:bg-zinc-800 cursor-pointer active:bg-zinc-900" textColor="text-orange-400">
+                  <i class="fa-duotone fa-chart-simple"></i>
+                  <span class="text-xs">
+                     Baholash
+                  </span>
+               </CircleUI>
+            </Slide>
          </template>
          
          <template v-slot:firstProcess>
@@ -160,22 +168,28 @@
       </GeneralColumn>
    
       <ChartColumn />
-      <transition name="fade">
+      
+      <TransitionGroup name="fade">
          <SingleTransport class="z-50" v-if="store.transport" />
-      </transition>
+         <PricingMasters @close="pricingModal = false" color="orange" v-if="pricingModal" />
+      </TransitionGroup>
    </section>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import SingleTransport from '@/components/TransportModal.vue'
 import TransportProcessGroup from '@/components/TransportProcessGroup.vue'
 import TransportProcess from '@/components/TransportProcess.vue'
 import GeneralColumn from '@/columns/GeneralColumn.vue'
 import ChartColumn from '@/columns/ChartColumn.vue'
 import CircleUI from '@/ui/CircleUI.vue'
+import PricingMasters from '@/components/PricingMasters.vue'
 import { Transports , TransportModal } from '@/entities/transports'
 import { SwiperSlide as Slide } from 'swiper/vue'
 import TruckIcon from '@/ui/TruckIcon.vue'
 const store = TransportModal()
 const transportStore = Transports()
+
+const pricingModal = ref(false)
 </script>

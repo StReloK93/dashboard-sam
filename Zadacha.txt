@@ -21,6 +21,24 @@ gidromashina - gm
 
 
 
+SELECT  A.[id]
+      ,[name]
+      ,[transport_id]
+      ,[geozone]
+      ,[geozone_in]
+      ,[geozone_out]
+      ,[cause]  
+	  ,B.smenaDate
+	  ,B.smena
+	  ,B.teamNum
+	
+  FROM [DashboardAC].[dbo].[transport_states] A
+  left join [WIALON].[dbo].[ReportSmenaTeam] B on 
+   (case when cast(geozone_in as time) between '09:10' and '21:10' then 1 else 2 end) = B.smena
+  and (case when cast(geozone_in as time) between '09:10' and '21:10' then cast(geozone_in as date) else case when cast(geozone_in as time) between '21:10:01' and '23:59:59' then cast(geozone_in as date) else dateadd(day, -1, cast(geozone_in as date))  end end) = B.smenaDate 
+
+
+
 
 
 

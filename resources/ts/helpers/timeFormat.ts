@@ -55,17 +55,17 @@ export function secondTimer() {
 }
 
 export function inSmenaTime(transport) {
-    const oneStart = moment().set({ hour: 9, minute: 0, second: 0 })
-    const oneEnd = moment().set({ hour: 9, minute: 40, second: 0 })
-    const oneFirst = moment(transport.geozone_in).isBetween(oneStart, oneEnd)
-    const twoFirst = moment(transport.geozone_out).isBetween(oneStart, oneEnd)
+    const oneStart = moment().set({ hour: 9, minute: 0, second: 0 });
+    const oneEnd = moment().set({ hour: 9, minute: 40, second: 0 });
+    const oneFirst = moment(transport.geozone_in).isBetween(oneStart, oneEnd);
+    const twoFirst = moment(transport.geozone_out).isBetween(oneStart, oneEnd);
 
-    const twoStart = moment().set({ hour: 21, minute: 0, second: 0 })
-    const twoEnd = moment().set({ hour: 21, minute: 40, second: 0 })
-    const oneSecond = moment(transport.geozone_in).isBetween(twoStart, twoEnd)
-    const twoSecond = moment(transport.geozone_out).isBetween(twoStart, twoEnd)
+    const twoStart = moment().set({ hour: 21, minute: 0, second: 0 });
+    const twoEnd = moment().set({ hour: 21, minute: 40, second: 0 });
+    const oneSecond = moment(transport.geozone_in).isBetween(twoStart, twoEnd);
+    const twoSecond = moment(transport.geozone_out).isBetween(twoStart, twoEnd);
 
-    return oneFirst && twoFirst || oneSecond && twoSecond
+    return (oneFirst && twoFirst) || (oneSecond && twoSecond);
 }
 
 export function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -117,15 +117,33 @@ export function UTCTime<Number>(time: string) {
     );
 }
 
-export function formatDate(date) {
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
+export function formatDate(date:any) {
+    if (date.constructor === Array) {
+        const dayStart = date[0].getDate();
+        const monthStart = date[0].getMonth() + 1;
+        const yearStart = date[0].getFullYear();
 
-    const dayNull = day > 9 ? day : `0${day}`;
-    const monthNull = month > 9 ? month : `0${month}`;
+        const day_start = dayStart > 9 ? dayStart : `0${dayStart}`;
+        const month_start = monthStart > 9 ? monthStart : `0${monthStart}`;
+        
+        const dayEnd = date[1].getDate();
+        const monthEnd = date[1].getMonth() + 1;
+        const yearEnd = date[1].getFullYear();
 
-    return ` ${dayNull}-${monthNull}-${year}`;
+        const day_end = dayEnd > 9 ? dayEnd : `0${dayEnd}`;
+        const month_end = monthEnd > 9 ? monthEnd : `0${monthEnd}`;
+
+        return `${day_start}-${month_start}-${yearStart} - ${day_end}-${month_end}-${yearEnd}`
+    } else {
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+
+        const dayNull = day > 9 ? day : `0${day}`;
+        const monthNull = month > 9 ? month : `0${month}`;
+
+        return ` ${dayNull}-${monthNull}-${year}`;
+    }
 }
 
 export function getDateAndSmena(time = undefined) {

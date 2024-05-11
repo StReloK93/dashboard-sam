@@ -31,6 +31,7 @@ Route::get('geofences/all', [GeofenceController::class, 'index']);
 Route::apiResource('transportstates', TransportStateController::class)->only(['index', 'show', 'update']);
 Route::get('process/excavator', [TransportStateController::class, 'excavator']);
 Route::post('states/select_smena', [TransportStateController::class, 'selectSmena']);
+Route::post('states/peresmena-graphic', [TransportStateController::class, 'peresmenaGraphic']);
 
 
 
