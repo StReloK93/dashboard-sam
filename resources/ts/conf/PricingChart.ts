@@ -18,11 +18,15 @@ export default function (chartData) {
         },
         xAxis: {
             type: "category",
+            gridLineWidth: 1,
+            gridLineColor: "#222",
         },
         yAxis: {
             title: {
                 text: null,
             },
+            gridLineWidth: 1,
+            gridLineColor: "#222",
         },
         legend: {
             enabled: false,

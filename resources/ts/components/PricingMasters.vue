@@ -58,12 +58,18 @@ function getChartData() {
          else accum[item.smena] = item.difference
          return accum
       }, {})
-   
+
+      
+      
+      
       const chartData = []
       for (const key in byGroup) {
          chartData.push({ name: key, y: byGroup[key] })
       }
-   
+      
+      chartData.sort((a, b) => {
+         return a.name.charCodeAt() - b.name.charCodeAt()
+      })
       // @ts-ignore
       Highcharts.chart(chart.value, PricingChart(chartData));
    })
