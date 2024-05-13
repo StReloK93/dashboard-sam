@@ -37,10 +37,10 @@
 import moment from 'moment'
 import { getDifference } from '@/helpers/timeFormat'
 import { TransportStates } from '@/entities/transports'
-import { useAuthStore } from '@/app/auth'
+import { AuthStore } from '@/app/auth'
 import axios from 'axios'
 const props = defineProps(['type', 'headerColor'])
-const auth = useAuthStore()
+const auth = AuthStore()
 
 const states = TransportStates()
 

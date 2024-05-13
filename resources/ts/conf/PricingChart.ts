@@ -1,3 +1,5 @@
+import { secondsToFormatTime } from "@/helpers/timeFormat"
+
 export default function (chartData) {
     return {
         chart: {
@@ -38,10 +40,10 @@ export default function (chartData) {
         },
 
         tooltip: {
-            headerFormat:
-                '<span style="font-size:11px">{series.name}</span><br>',
-            pointFormat:
-                '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>',
+            headerFormat: null,
+            formatter: function () {
+                return `<span>Umumiy ketgan vaqt: <b>${secondsToFormatTime(this.y)}</b></span>`
+            }
         },
 
         series: [

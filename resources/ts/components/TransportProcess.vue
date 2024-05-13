@@ -22,4 +22,5 @@
 <script setup lang="ts">
 import TransportButton from '@/ui/TransportButton.vue'
 const props = defineProps(['color', 'title', 'count', 'data', 'gridCols', 'counter', 'scrollColor'])
+console.log(props.color)
 </script>

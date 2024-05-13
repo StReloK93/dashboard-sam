@@ -2,7 +2,7 @@
     <aside :class="textColor"
         class=" w-[90px] h-[90px] bg-zinc-900 neomorph rounded-full border-2 border-transparent relative flex justify-center items-center flex-col">
         <slot></slot>
-        <span v-if="type != 'time'" class="text-xl font-semibold">
+        <span v-if="type != 'time'" class="font-semibold">
             {{ summa }}
         </span>
         <span v-else>

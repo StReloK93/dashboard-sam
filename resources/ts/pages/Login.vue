@@ -1,6 +1,6 @@
 <template>
    <section class="flex justify-center items-center">
-      <div class="w-[525px] mx-auto text-center  rounded-lg relative overflow-hidden p-10">
+      <div class="w-[525px] mx-auto text-center rounded-lg relative overflow-hidden p-10">
          <form @submit.prevent="auth.login(formData)">
             <div class="mb-6">
                <input type="text" v-model="formData.login" placeholder="Login" class="w-full rounded border p-3 bg-[#FCFDFE] text-base text-body-color placeholder-[#ACB6BE] outline-none" />
@@ -17,12 +17,12 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '@/app/auth'
+import { AuthStore } from '@/app/auth'
 import { reactive } from 'vue'
 const formData = reactive({
    login: null,
    password: null,
 })
 
-const auth = useAuthStore()
+const auth = AuthStore()
 </script>

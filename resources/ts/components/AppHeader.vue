@@ -1,9 +1,6 @@
 <template>
    <main class="bg-zinc-800 py-1 px-5 shadow text-white flex items-center justify-between">
       <div>
-         <!-- <span class="mr-10">
-            {{ store.timer }}
-         </span> -->
          <span class="uppercase text-red-600 fa-fade">
             Test Rejimida
          </span>
@@ -62,8 +59,6 @@
 </template>
 
 <script setup lang="ts">
-import { Transports } from '@/entities/transports'
-import { useAuthStore } from '@/app/auth'
-const auth = useAuthStore()
-const store = Transports()
+import { AuthStore } from '@/app/auth'
+const auth = AuthStore()
 </script>

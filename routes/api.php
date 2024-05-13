@@ -39,6 +39,7 @@ Route::get('transports/all', [TransportController::class, 'index']);
 Route::get('transports/excavators', [TransportController::class, 'excavators']);
 Route::get('transports/excavatorstate', [TransportController::class, 'excavatorState']);
 Route::get('transports/all/wialon', [TransportController::class, 'getWithWialon']);
+Route::post('transports/car_reports', [TransportController::class, 'carReports']);
 
 
 Route::post('smena-info', function (Request $req) {

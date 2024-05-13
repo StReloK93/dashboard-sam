@@ -67,9 +67,10 @@ function getChartData() {
          chartData.push({ name: key, y: byGroup[key] })
       }
       
-      chartData.sort((a, b) => {
-         return a.name.charCodeAt() - b.name.charCodeAt()
-      })
+      chartData.sort((a, b) => a.name.charCodeAt() - b.name.charCodeAt())
+
+      console.log(chartData)
+      
       // @ts-ignore
       Highcharts.chart(chart.value, PricingChart(chartData));
    })

@@ -2,11 +2,12 @@ import { createPinia } from "pinia"
 import { createApp } from "vue"
 import router from "./app/router"
 import App from "@/app/App.vue"
+import TruckIcon from '@/ui/TruckIcon.vue'
 import "swiper/css"
 import "swiper/css/effect-cards"
 
 
-import { useAuthStore } from "./app/auth";
+import { AuthStore } from "./app/auth"
 import axios from "axios"
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
@@ -23,7 +24,8 @@ HighchartsSolidGauge(Highcharts)
 
 const app = createApp(App).use(createPinia())
 app.component('VueDatePicker', VueDatePicker)
-const store = useAuthStore()
+app.component('TruckIcon', TruckIcon)
+const store = AuthStore()
 async function init() {
     await store.getUser()
     app.use(router)

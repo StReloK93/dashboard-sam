@@ -1,7 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Services\WialonService;
+use Carbon\Carbon;
 use DB;
 class TransportController extends Controller
 {
@@ -50,5 +52,19 @@ class TransportController extends Controller
             ON a.tech_id = s.tech_id AND a.tech_type = s.tech_type
             WHERE a.place_id IN (113) AND a.tech_type = 'ex'");
 
+    }
+
+
+    public function carReports(Request $request){
+
+        $startDate = Carbon::parse($request->date)
+		->timezone('Asia/Tashkent')
+		->startOfDay()
+		->addHours(9)
+		->addMinutes(10);
+
+
+        return DB::select("SELECT * FROM [dbo].[FMTBF_MTTR] (?, 1) order by [name]", [$startDate]);
+        
     }
 }

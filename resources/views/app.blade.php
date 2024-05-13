@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="/awesome/css/all.min.css">
-    <link rel="stylesheet" href="/map/leaflet.css">
-    <script src="http://wl.ngmk.uz/wsdk/script/wialon.js"></script>
-    <script src="/map/leaflet.js"></script>
     <title>Avtoag'dargichlar yagona oynasi</title>
     @vite('resources/ts/app.ts')
 </head>
