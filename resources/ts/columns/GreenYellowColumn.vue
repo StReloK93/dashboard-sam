@@ -1,7 +1,7 @@
 <template>
    <main class="border-r border-zinc-800 flex flex-col">
       <div class="h-28 px-2 flex items-center justify-around">
-         <!-- <ColumnTopSlider :slides="slides" /> -->
+         <!-- <ColumnTopSlider v-model:process="transportStore.inProcess.length" :slides="slides" /> -->
          <aside>
             <Swiper :loop="true" effect="cards" class="w-[90px] h-[92px]" :slides-per-view="1" :slides-per-group="1"
                :modules="[EffectCards]">
@@ -62,18 +62,16 @@ const store = TransportModal()
 const transportStore = Transports()
 
 
-
-// const slides = ref([
-//    {
-//       start: () => { },
-//       click: () => { },
-//       timer: 30,
-//       bgColor: 'stroke-green-600',
-//       textColor: 'text-green-400',
-//       summa: transportStore.inProcess?.length,
-//       class: null,
-//       component: 'TruckIcon',
-//       componentParams: { width: "22", color: "fill-green-500", colorSecond: "fill-green-900", class: "-scale-x-100 translate-y-1.5" },
-//    }
-// ])
+const slides = ref([
+   {
+      start: () => { },
+      click: () => { },
+      timer: 30,
+      bgColor: 'stroke-green-600',
+      textColor: 'text-green-400',
+      class: null,
+      component: 'TruckIcon',
+      componentParams: { width: "22", color: "fill-green-500", colorSecond: "fill-green-900", class: "-scale-x-100 translate-y-1.5" },
+   }
+])
 </script>

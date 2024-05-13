@@ -8,7 +8,7 @@
             :timer="slide.timer"
             :bgColor="slide.bgColor"
             :textColor="slide.textColor"
-            :summa="slide.summa"
+            :summa="process"
             :class="slide.class"
          >
             <i v-if="slide.icon" :class="slide.icon"></i>
@@ -19,6 +19,7 @@
 </template>
 
 <script setup lang="ts">
+const process = defineModel('process')
 import { EffectCards, Autoplay } from 'swiper/modules'
 import { SwiperSlide, Swiper } from 'swiper/vue'
 import CircleUI from '@/ui/CircleUI.vue'

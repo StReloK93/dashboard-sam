@@ -19,21 +19,21 @@
                   <tr class="border-b-4 border-zinc-900 bg-stone-950 sticky top-0">
                      <td class="py-1 pl-2">Transport</td>
                      <td class="py-1">Umumiy soat</td>
-                     <td class="py-1">Ishladi</td>
-                     <td class="py-1">Umumiy tamirlashda</td>
+                     <td class="py-1">Ishladi <span class="text-xs text-gray-400">(Soat)</span> </td>
+                     <td class="py-1">Umumiy tamirlashda <span class="text-xs text-gray-400">(Soat)</span></td>
 
-                     <td class="py-1">Mayda tamirlashda</td>
-                     <td class="py-1">ATBda</td>
+                     <td class="py-1">Mayda tamirlashda <span class="text-xs text-gray-400">(Soat)</span></td>
+                     <td class="py-1">ATBda <span class="text-xs text-gray-400">(Soat)</span></td>
                      <td class="py-1">MTBF</td>
                      <td class="py-1">MTBR</td>
                   </tr>
                   <tr v-for="item in tableData" class="bg-zinc-800 border-y-4 border-zinc-900">
                      <td class="py-1 pl-2">{{ item.name }}</td>
-                     <td class="py-1">{{ item.kv }} Soat</td>
-                     <td class="py-1">{{ item.kg }} Soat</td>
-                     <td class="py-1">{{ item.vr }} Soat</td>
-                     <td class="py-1"> {{ item.sum_vr_p }} Soat <span class="text-xs text-gray-400">({{ item.kol_p }} marta)</span></td>
-                     <td class="py-1">{{ item.sum_vr_uat }} Soat <span class="text-xs text-gray-400">({{ item.kol_uat }} marta)</span></td>
+                     <td class="py-1">{{ item.kv }}</td>
+                     <td class="py-1">{{ item.kg }}</td>
+                     <td class="py-1">{{ item.vr }}</td>
+                     <td class="py-1"> {{ item.sum_vr_p }} <span class="text-xs text-gray-400">({{ item.kol_p }} marta)</span></td>
+                     <td class="py-1">{{ item.sum_vr_uat }} <span class="text-xs text-gray-400">({{ item.kol_uat }} marta)</span></td>
                      <td class="py-1">{{ item.mtbf }}</td>
                      <td class="py-1">{{ item.mtbr }}</td>
 
