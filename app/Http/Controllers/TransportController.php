@@ -64,7 +64,8 @@ class TransportController extends Controller
 		->addMinutes(10);
 
 
-        return DB::select("SELECT * FROM [dbo].[FMTBF_MTTR] (?, 1) order by [name]", [$startDate]);
+        return DB::select("SELECT * FROM [dbo].[FMTBF_MTTR] (?, 1, 7)
+        order by hafta, [name]", [$startDate]);
         
     }
 }

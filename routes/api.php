@@ -1,5 +1,10 @@
 <?php
 
+
+use App\Exports\ReportExport;
+use Maatwebsite\Excel\Facades\Excel;
+
+
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +46,10 @@ Route::get('transports/excavatorstate', [TransportController::class, 'excavatorS
 Route::get('transports/all/wialon', [TransportController::class, 'getWithWialon']);
 Route::post('transports/car_reports', [TransportController::class, 'carReports']);
 
+
+Route::get('export/report/{date}', function ($date) {
+   return Excel::download(new ReportExport($date), 'users.xlsx');
+});
 
 Route::post('smena-info', function (Request $req) {
    $date = Carbon::parse($req->date);
