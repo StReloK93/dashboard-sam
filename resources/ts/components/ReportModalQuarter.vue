@@ -6,7 +6,7 @@
                <VueDatePicker @update:model-value="handleDate" v-model="dates" :format="formatDate" auto-apply
                   placeholder="Kunni tanlang" />
             </span>
-            <a :href="`http://127.0.0.1:8000/api/export/report/${moment(dates).format('YYYY-MM-DD')}/12`"
+            <a :href="`/api/export/report/${moment(dates).format('YYYY-MM-DD')}/12`"
                class="px-4 h-9 content-center font-semibold rounded shadow bg-indigo-600 active:bg-indigo-400">
                Yuklash <i class="fa-duotone fa-file-excel ml-2"></i>
             </a>
