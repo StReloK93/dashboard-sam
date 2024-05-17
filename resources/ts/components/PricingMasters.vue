@@ -9,14 +9,8 @@
                </div>
                <div class="flex">
                   <span class="w-72 mb-1.5">
-                     <VueDatePicker
-                        @update:model-value="handleDate" 
-                        v-model="dates"
-                        range 
-                        :format="formatDate"
-                        auto-apply
-                        placeholder="Kunni tanlang"
-                     />
+                     <VueDatePicker @update:model-value="handleDate" v-model="dates" range :format="formatDate" auto-apply
+                        placeholder="Kunni tanlang" />
                   </span>
                </div>
             </div>
@@ -53,24 +47,32 @@ function getChartData() {
       startDate: dates.value[0],
       endDate: dates.value[1],
    }).then(({ data }) => {
-      const byGroup = data.reduce((accum, item) => {
-         if (accum[item.smena]) accum[item.smena] += item.difference
-         else accum[item.smena] = item.difference
+
+
+      const mileena = data.reduce((accum, item) => {
+         const selected = accum.find((accumChild) => accumChild.name == item.smena && accumChild.smenaDate == item.smenaDate)
+
+         if (selected) selected.difference += item.difference
+         else accum.push({ name: item.smena, smenaDate: item.smenaDate, difference: item.difference })
          return accum
-      }, {})
+      }, [])
 
-      
-      
-      
-      const chartData = []
-      for (const key in byGroup) {
-         chartData.push({ name: key, y: byGroup[key] })
-      }
-      
-      chartData.sort((a, b) => a.name.charCodeAt() - b.name.charCodeAt())
+      const groupedData = {};
 
-      console.log(chartData)
-      
+      mileena.forEach(item => {
+         if (!groupedData[item.name]) groupedData[item.name] = { totalDifference: 0, count: 0 }
+         groupedData[item.name].totalDifference += item.difference;
+         groupedData[item.name].count += 1;
+      });
+
+      // Создаем массив с результатами и вычисляем среднее значение
+      const chartData = Object.keys(groupedData).map(name => {
+         const { totalDifference, count } = groupedData[name];
+         return { name: name, y: totalDifference / count }
+      });
+
+
+      chartData.sort((a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0))
       // @ts-ignore
       Highcharts.chart(chart.value, PricingChart(chartData));
    })

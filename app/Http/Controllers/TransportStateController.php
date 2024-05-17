@@ -83,6 +83,7 @@ class TransportStateController extends Controller
 
 	public function peresmenaGraphic(Request $request)
 	{
+
 		$startDate = Carbon::parse($request->startDate)
 		->timezone('Asia/Tashkent')
 		->startOfDay()
@@ -107,19 +108,31 @@ class TransportStateController extends Controller
 			AND DATEDIFF(SECOND, A.geozone_in, A.geozone_out) > 59
 		", [$startDate, $endDate, $key]);
 
+		// dd($allStates);
 		$arr = [];
-		foreach ($allStates as $key => $state) {
+		foreach ($allStates as $state) {
 
-			$filter = array_filter($allStates, fn ($oneState) => $this->time->timeBetween($oneState->geozone_in, $state->geozone_in, $state->geozone_out));
-
+			$STARTDATES = $state->geozone_in;
+			$ENDDATES = $state->geozone_out;
+			$GEOZONE = $state->geozone;
+			$filter = array_filter($allStates, function ($oneState) use($STARTDATES, $ENDDATES, $GEOZONE) {
+				if($GEOZONE == $oneState->geozone && $this->time->timeBetween($oneState->geozone_in, $STARTDATES, $ENDDATES)){
+					return true;
+				} else
+					return false;
+			});
 			if (count($filter) > 0){
-				
-				foreach ($filter as $key => $car) {
-					$also = $this->time->timeBetween($car->geozone_in, $state->geozone_in, $state->geozone_out);
+				foreach ($filter as $car) {
+					$also = $this->time->timeBetween($car->geozone_out, $STARTDATES, $ENDDATES);
 
-					$difference = $also ? $this->time->secondDiff($car->geozone_in, $car->geozone_out) : $this->time->secondDiff($car->geozone_in, $state->geozone_out);
-
-					$arr[] = [ 'difference' => $difference, 'smena' => $state->teamNum];
+					$difference = $also ? $this->time->secondDiff($car->geozone_in, $car->geozone_out) : $this->time->secondDiff($car->geozone_in, $ENDDATES);
+					$arr[] = [
+						'difference' => $difference,
+						'smena' => $state->teamNum,
+						'smenaDate' => $state->smenaDate,
+						'carName' =>  $car->name,
+						'stateName' => $state->name,
+					];
 				}
 
 			}

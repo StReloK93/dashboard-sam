@@ -5,7 +5,7 @@ import App from "@/app/App.vue"
 import TruckIcon from '@/ui/TruckIcon.vue'
 import "swiper/css"
 import "swiper/css/effect-cards"
-
+import PreLoader from '@/components/PreLoader.vue'
 
 import { AuthStore } from "./app/auth"
 import axios from "axios"
@@ -25,6 +25,7 @@ HighchartsSolidGauge(Highcharts)
 const app = createApp(App).use(createPinia())
 app.component('VueDatePicker', VueDatePicker)
 app.component('TruckIcon', TruckIcon)
+app.component('PreLoader', PreLoader)
 const store = AuthStore()
 async function init() {
     await store.getUser()

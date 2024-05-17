@@ -30,8 +30,8 @@ Route::post('/register', [AuthController::class, 'register']);
 
 
 
-Route::get('process/all', [TripsController::class, 'index']);
-Route::get('geofences/all', [GeofenceController::class, 'index']);
+// Route::get('process/all', [TripsController::class, 'index']);
+// Route::get('geofences/all', [GeofenceController::class, 'index']);
 
 Route::apiResource('transportstates', TransportStateController::class)->only(['index', 'show', 'update']);
 Route::get('process/excavator', [TransportStateController::class, 'excavator']);
@@ -42,14 +42,19 @@ Route::post('states/peresmena-graphic', [TransportStateController::class, 'peres
 
 Route::get('transports/all', [TransportController::class, 'index']);
 Route::get('transports/excavators', [TransportController::class, 'excavators']);
-Route::get('transports/excavatorstate', [TransportController::class, 'excavatorState']);
 Route::get('transports/all/wialon', [TransportController::class, 'getWithWialon']);
-Route::post('transports/car_reports', [TransportController::class, 'carReports']);
+
+Route::get('transports/excavatorstate', [TripsController::class, 'excavatorState']);
+Route::post('transports/car_reports', [TripsController::class, 'carReports']);
 
 
-Route::get('export/report/{date}', function ($date) {
-   return Excel::download(new ReportExport($date), 'users.xlsx');
+Route::get('export/report/{date}/{weekCount}', function ($date, $weekCount) {
+   return Excel::download(new ReportExport($date, $weekCount), "$date-$weekCount.xlsx");
 });
+
+// Route::get('export/quarter_report/{date}', function ($date) {
+//    return Excel::download(new ReportExport($date), "$date.xlsx");
+// });
 
 Route::post('smena-info', function (Request $req) {
    $date = Carbon::parse($req->date);
