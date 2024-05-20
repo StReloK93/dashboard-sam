@@ -90,6 +90,8 @@ class TransportStateController extends Controller
 		->addHours(9)
 		->addMinutes(10);
 
+		
+
 		$endDate = Carbon::parse($request->endDate)
 		->timezone('Asia/Tashkent')
 		->startOfDay()
@@ -115,23 +117,32 @@ class TransportStateController extends Controller
 			$STARTDATES = $state->geozone_in;
 			$ENDDATES = $state->geozone_out;
 			$GEOZONE = $state->geozone;
+
 			$filter = array_filter($allStates, function ($oneState) use($STARTDATES, $ENDDATES, $GEOZONE) {
 				if($GEOZONE == $oneState->geozone && $this->time->timeBetween($oneState->geozone_in, $STARTDATES, $ENDDATES)){
 					return true;
 				} else
 					return false;
 			});
+
+
+
+
 			if (count($filter) > 0){
 				foreach ($filter as $car) {
 					$also = $this->time->timeBetween($car->geozone_out, $STARTDATES, $ENDDATES);
 
-					$difference = $also ? $this->time->secondDiff($car->geozone_in, $car->geozone_out) : $this->time->secondDiff($car->geozone_in, $ENDDATES);
+					$difference = $also ? $this->time->secondDiffWithoutSmena($car->geozone_in, $car->geozone_out) : $this->time->secondDiffWithoutSmena($car->geozone_in, $ENDDATES);
+					$difference2 = $also ? $this->time->secondDiff($car->geozone_in, $car->geozone_out) : $this->time->secondDiff($car->geozone_in, $ENDDATES);
+
+
 					$arr[] = [
 						'difference' => $difference,
+						'difference2' => $difference2,
 						'smena' => $state->teamNum,
 						'smenaDate' => $state->smenaDate,
-						'carName' =>  $car->name,
-						'stateName' => $state->name,
+						'in' =>  $car->geozone_in,
+						'out' => $car->geozone_out,
 					];
 				}
 
@@ -139,11 +150,8 @@ class TransportStateController extends Controller
 
 		}
 
-
 		return $arr;
 
 	}
-
-	
 
 }

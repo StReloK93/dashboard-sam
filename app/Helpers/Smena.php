@@ -67,11 +67,49 @@ class Smena
       }
    }
 
-   public function secondDiff($first, $second)
+   public function secondDiff($firstDate, $secondDate)
    {
-      $date1 = strtotime($first);
-      $date2 = strtotime($second);
+      $date1 = strtotime($firstDate);
+      $date2 = strtotime($secondDate);
 
       return abs($date2 - $date1);
    }
+
+
+   public function secondDiffWithoutSmena($firstDate, $secondDate)
+   {
+      $date1 = strtotime($firstDate);
+      $date2 = strtotime($secondDate);
+
+      $daySmenaStart = date('Y-m-d 09:10:00', $date1);
+      $daySmenaEnd = date('Y-m-d 09:40:00', $date1);
+
+      $nightSmenaStart = date('Y-m-d 21:10:00', $date1);
+      $nightSmenaEnd = date('Y-m-d 21:40:00', $date1);
+
+
+      if(strtotime($daySmenaStart) < $date2 && $date2 < strtotime($daySmenaEnd) ){
+         return 0;
+      }
+
+      if(strtotime($nightSmenaStart) < $date2 && $date2 < strtotime($nightSmenaEnd) ){
+         return 0;
+      }
+
+      $time = 0;
+      if($this->timeBetween($daySmenaEnd, $firstDate, $secondDate)){
+         $time = $this->secondDiff($daySmenaEnd, $firstDate);
+      }
+      
+      if($this->timeBetween($nightSmenaEnd, $firstDate, $secondDate)){
+         $time = $this->secondDiff($nightSmenaEnd, $firstDate);
+      }
+
+
+
+
+      return abs($date2 - $date1) - $time;
+   }
+
+   
 }
