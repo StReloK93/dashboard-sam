@@ -1,7 +1,7 @@
 <template>
 	<main ref="chartColumn" class="inner-shadow-second flex-grow relative min-w-80">
 		<div class="absolute inset-0 overflow-y-auto scroll indigo-scroll overflow-hidden pt-8">
-			<!-- <ChartLine /> -->
+			<ChartLine />
 			<ChartCircle v-if="state.cars.length != 0" chartname="Faol avtoag'dargichlar" :startcolor="'#01b0b0'" :endcolor="'#0198f7'"
 				:process="'summaTransports'" />
 			<!-- <ChartCircle v-if="state.cars.length != 0" chartname="Faol ekskavatorlar" :startcolor="'#01b0b0'" :endcolor="'#2dd4bf'"

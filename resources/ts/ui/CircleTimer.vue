@@ -25,7 +25,7 @@ const animation = ref()
 function restart(timeout = null) {
 	emit('start')
 	const svg = animation.value
-	
+	if (!svg) return
 	const face = svg.getAttribute('r') * Math.PI * 2
 	var i = 1
 	svg.style.strokeDashoffset = face

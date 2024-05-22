@@ -42,8 +42,8 @@ const colorLine = computed(() => props.timer_type == 2 ? 'bg-gray-400' : 'bg-yel
 const colors = {
 	green: {
 		bg: 'bg-green-500',
-		text: 'text-green-500',
-		border: 'border-green-500',
+		text: 'text-green-400',
+		border: 'border-green-400',
 	},
 	red: {
 		bg: 'bg-red-500',
@@ -71,8 +71,5 @@ const colors = {
 		border: 'border-indigo-500',
 	},
 }
-const buttonColor = computed(() => {
-	return colors[props.color]
-})
-
+const buttonColor = computed(() => colors[props.color])
 </script>

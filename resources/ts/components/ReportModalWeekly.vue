@@ -70,7 +70,7 @@ const dates = ref(new Date())
 const tableData = ref(null)
 function getChartData() {
    axios.post('api/transports/car_reports', { date: dates.value, weekCount: 1 }).then(({ data }) => {
-      tableData.value = data.filter((item) => item.name.includes('MAN') == false)
+      tableData.value = data
       loader.value = false
    }).catch(() => loader.value = false)
 }

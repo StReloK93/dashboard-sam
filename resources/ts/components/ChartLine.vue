@@ -4,12 +4,37 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-//@ts-ignore
 import Highcharts from 'highcharts'
+import moment from 'moment'
+import { UTCTime } from "@/helpers/timeFormat"
+
+
+
+const startToday = moment().set({
+    hour: 9,
+    minute: 10,
+    second: 0,
+    millisecond: 0,
+});
+const endToday = moment().set({
+    hour: 21,
+    minute: 10,
+    second: 0,
+    millisecond: 0,
+});
+
+function getChartData() {
+    axios.post('api/speeds-by-hour', { startDate: startToday, endDate: endToday }).then(({ data }) => {
+        chartConstructor.value.series[0].setData(data.map((byHour) => {
+            return {y: byHour.average_speed, x: UTCTime(byHour.hour)}
+        }));
+    })
+}    
+
 
 const chartLine = ref()
-
-const chartOptions:any = {
+const chartConstructor = ref()
+const chartOptions: any = {
     accessibility: {
         enabled: false
     },
@@ -24,20 +49,30 @@ const chartOptions:any = {
     title: null,
     subtitle: null,
     xAxis: {
+        // visible: false,
         gridLineColor: 'transparent',
+        gridLineWidth: 0,
+
+        lineWidth: 0,
+        minorGridLineWidth: 10,
+
+        // min: UTCTime(startToday.format('YYYY-MM-DD HH:mm')),
+        // max: UTCTime(endToday.format('YYYY-MM-DD HH:mm')),
         type: 'datetime',
         labels: {
             overflow: 'justify'
-        }
+        },
     },
     yAxis: {
+        min: 15,
+        max: 25,
         title: null,
         minorGridLineWidth: 0,
         gridLineWidth: 0,
         alternateGridColor: null,
     },
     tooltip: {
-        valueSuffix: ' m/s'
+        valueSuffix: ' Km/s'
     },
     plotOptions: {
         spline: {
@@ -55,8 +90,8 @@ const chartOptions:any = {
         }
     },
     series: [{
-        name: 'Hestavollane',
-        data: [5.4, 5.2, 5.7, 6.3, 5.2, 5.6, 6.1, 5.6, 5.9, 7.1, 8.6, 7.8, 8.6, 8.0, 9.7, 11.2, 12.5, 13.1, 10.6, 10.9, 8.9, 9.5, 7.5, 3.5, 4.2]
+        name: "Tezlik smena bo'yicha",
+        data: []
 
     }],
     navigation: {
@@ -67,7 +102,11 @@ const chartOptions:any = {
 }
 
 onMounted(() => {
-    Highcharts.chart(chartLine.value, chartOptions)
+    getChartData()
+    chartConstructor.value = Highcharts.chart(chartLine.value, chartOptions)
 
+    setInterval(() => {
+        getChartData()
+    }, 60*1000*30)
 })
 </script>

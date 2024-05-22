@@ -13,13 +13,11 @@ export const Transports = defineStore('Transports', () => {
    async function getTransports() {
       getExcavatorsStates()
       const { data } = await axios.get('/api/transportstates')
-      // Filter Manlarni olib tashlaydi
-      const sakasayana = data.filter((item) => item.name.includes('MAN') == false)
       // Sortirovka
-      sakasayana.sort((a, b) => +a.name.replace('ШКБ С', '') - +b.name.replace('ШКБ С', ''))
+      data.sort((a, b) => +a.name.replace('ШКБ С', '') - +b.name.replace('ШКБ С', ''))
 
 
-      sakasayana.forEach(item => {
+      data.forEach(item => {
          item.name = item.name.replace('ШКБ ', '')
          const time = moment()
          const diffMinutes = time.diff(item.geozone_in, 'minutes')
@@ -38,16 +36,8 @@ export const Transports = defineStore('Transports', () => {
          }
       })
 
-      cars.value = sakasayana
+      cars.value = data
    }
-
-   // const { timer, reset } = secondTimer()
-   // echo.channel('cars').listen('RefreshEvent', () => {
-   //    getTransports()
-   //    reset()
-   // })
-
-
 
 
    const statesSumm = computed(() => {
@@ -104,13 +94,12 @@ export const Transports = defineStore('Transports', () => {
 
    const isUnknown = computed(() => {
       return cars.value?.filter((car) => {
-         
          const distance = calculatePathLength(car.tracks)
          return distance < 30 && car.geozone == null
-         
-         // timeDiff(car, 'minutes') >= 45 && car.geozone == null
       })
    })
+
+   
    const inATB = computed(() => cars.value?.filter((car) => inZone(car, 'уат') || inZone(car, 'авто')))
    const inOilAll = computed(() => cars.value?.filter((car) => inZone(car, 'заправочный')))
    const inSmenaAll = computed(() => cars.value?.filter((car) => inZone(car, 'пересменка')))

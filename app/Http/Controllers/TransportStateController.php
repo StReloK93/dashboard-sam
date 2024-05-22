@@ -31,6 +31,7 @@ class TransportStateController extends Controller
 				$query->where('created_at', '>=', now()->subMinutes(10));
 			},
 		])
+			->whereNot('name', 'like', '%MAN%')
 			->whereIn('transport_states.transport_id', $list->tranports)
 			->join(
 				DB::raw('(SELECT transport_id, MAX(geozone_out) AS max_time FROM transport_states GROUP BY transport_id) as latest_transports'),
@@ -81,7 +82,7 @@ class TransportStateController extends Controller
 	}
 
 
-	public function peresmenaGraphic(Request $request)
+	public function waitingInOilGraphic(Request $request)
 	{
 
 		$startDate = Carbon::parse($request->startDate)
@@ -109,9 +110,9 @@ class TransportStateController extends Controller
 			WHERE A.geozone_in between ? AND ? AND a.geozone LIKE N'%' + ? + '%' AND smena = 1
 			AND DATEDIFF(SECOND, A.geozone_in, A.geozone_out) > 59
 		", [$startDate, $endDate, $key]);
-
-		// dd($allStates);
 		$arr = [];
+
+
 		foreach ($allStates as $state) {
 
 			$STARTDATES = $state->geozone_in;
@@ -133,16 +134,14 @@ class TransportStateController extends Controller
 					$also = $this->time->timeBetween($car->geozone_out, $STARTDATES, $ENDDATES);
 
 					$difference = $also ? $this->time->secondDiffWithoutSmena($car->geozone_in, $car->geozone_out) : $this->time->secondDiffWithoutSmena($car->geozone_in, $ENDDATES);
-					$difference2 = $also ? $this->time->secondDiff($car->geozone_in, $car->geozone_out) : $this->time->secondDiff($car->geozone_in, $ENDDATES);
+					// $difference2 = $also ? $this->time->secondDiff($car->geozone_in, $car->geozone_out) : $this->time->secondDiff($car->geozone_in, $ENDDATES);
 
 
 					$arr[] = [
 						'difference' => $difference,
-						'difference2' => $difference2,
+						// 'difference2' => $difference2,
 						'smena' => $state->teamNum,
 						'smenaDate' => $state->smenaDate,
-						'in' =>  $car->geozone_in,
-						'out' => $car->geozone_out,
 					];
 				}
 
@@ -151,7 +150,6 @@ class TransportStateController extends Controller
 		}
 
 		return $arr;
-
 	}
 
 }
