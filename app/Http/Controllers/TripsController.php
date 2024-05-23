@@ -2,17 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Smena;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Point;
 use DB;
 class TripsController extends Controller
 {
+    protected $time;
+    public function __construct(){
+        $this->time = new Smena();
+    }
 
     public function getSpeedsByHour(Request $request){
 
-        $startDate = Carbon::parse($request->startDate)->timezone('Asia/Tashkent');
-        $endDate = Carbon::parse($request->endDate)->timezone('Asia/Tashkent');
+        if($request->startDate == null){
+            // $time = $this->time->getPeriod(now());
+            $startDate = now()->copy()->addHour(-24);
+            $endDate = now();
+        }
+        else{
+            $startDate = Carbon::parse($request->startDate)->timezone('Asia/Tashkent');
+            $endDate = Carbon::parse($request->endDate)->timezone('Asia/Tashkent');
+        }
+
         return Point::select(
             DB::raw('DATEADD(HOUR, DATEDIFF(HOUR, 0, T), 0) AS hour'),
             DB::raw('ROUND(AVG(CASE WHEN Speed <> 0 THEN CAST(Speed AS DECIMAL(10, 2)) ELSE NULL END), 2) AS average_speed'),

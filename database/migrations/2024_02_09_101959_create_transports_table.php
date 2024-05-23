@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('transport_id');
             $table->double('y', 10, 7);
             $table->double('x', 10, 7);
+            $table->integer('speed');
             $table->dateTime('time_message');
             $table->string('geozone')->nullable();
             $table->integer('distance_ex')->nullable();

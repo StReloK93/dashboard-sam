@@ -24,7 +24,7 @@ class WialonService
 	{
 		$geoService = new GeoZoneService();
 
-		$transports = $this->getTransportPoints(7381);
+		$transports = $this->getTransportPoints((int)env('BASE_GROUP_ALL_DUMPTRUCKS'));
 		$zones = $this->getGeozones();
 		$excavators = $this->getExcavators();
 
@@ -83,7 +83,7 @@ class WialonService
 			}
 		}
 
-		$collection = collect($this->getTransportPoints(7381))->pluck('transport_id');
+		$collection = collect($this->getTransportPoints((int)env('BASE_GROUP_ALL_DUMPTRUCKS')))->pluck('transport_id');
 		TransportList::create(['tranports' => $collection]);
 
 		return DB::table('transports')->insert($transports);
@@ -91,8 +91,8 @@ class WialonService
 
 	public function getExcavators()
 	{
-		$frontal = $this->getTransportPoints(10013);
-		$excavator = $this->getTransportPoints(4076);
+		$frontal = $this->getTransportPoints((int)env('BASE_GROUP_FRONTAL'));
+		$excavator = $this->getTransportPoints((int)env('BASE_GROUP_EXCAVATOR'));
 		$collection = collect($frontal)->merge($excavator);
 		return $collection->all();
 	}
@@ -116,9 +116,9 @@ class WialonService
 					'loadCount' => 1,
 				]),
 			]);
-
 			$transports[$key]['name'] = $value['nm'];
 			$transports[$key]['transport_id'] = $value['id'];
+			$transports[$key]['speed'] = $point['messages'][0]['pos']['s'];
 			$transports[$key]['y'] = $point['messages'][0]['pos']['y'];
 			$transports[$key]['x'] = $point['messages'][0]['pos']['x'];
 			$transports[$key]['time_message'] = Carbon::createFromTimestamp($point['messages'][0]['t'])->toDateTimeString();
