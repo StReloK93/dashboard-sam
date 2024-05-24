@@ -14,8 +14,16 @@ use App\Services\GeoZoneService;
 class WialonService
 {
 	protected $wialon;
+	protected $frontal_id;
+	protected $excavator_id;
+	protected $dumptrucks_id;
+	protected $account_index;
 	function __construct()
 	{
+		$this->frontal_id = (int) env('BASE_GROUP_FRONTAL');
+		$this->excavator_id = (int) env('BASE_GROUP_EXCAVATOR');
+		$this->dumptrucks_id = (int) env('BASE_GROUP_ALL_DUMPTRUCKS');
+		$this->account_index = (int) env('BASE_ACCOUNT_INDEX');
 		$this->wialon = AuthWialon::getInstance();
 	}
 
@@ -24,7 +32,7 @@ class WialonService
 	{
 		$geoService = new GeoZoneService();
 
-		$transports = $this->getTransportPoints((int)env('BASE_GROUP_ALL_DUMPTRUCKS'));
+		$transports = $this->getTransportPoints($this->dumptrucks_id);
 		$zones = $this->getGeozones();
 		$excavators = $this->getExcavators();
 
@@ -83,7 +91,7 @@ class WialonService
 			}
 		}
 
-		$collection = collect($this->getTransportPoints((int)env('BASE_GROUP_ALL_DUMPTRUCKS')))->pluck('transport_id');
+		$collection = collect($this->getTransportPoints($this->dumptrucks_id))->pluck('transport_id');
 		TransportList::create(['tranports' => $collection]);
 
 		return DB::table('transports')->insert($transports);
@@ -91,8 +99,10 @@ class WialonService
 
 	public function getExcavators()
 	{
-		$frontal = $this->getTransportPoints((int)env('BASE_GROUP_FRONTAL'));
-		$excavator = $this->getTransportPoints((int)env('BASE_GROUP_EXCAVATOR'));
+
+		$frontal = $this->frontal_id ? $this->getTransportPoints($this->frontal_id) : null;
+		
+		$excavator = $this->getTransportPoints($this->excavator_id);
 		$collection = collect($frontal)->merge($excavator);
 		return $collection->all();
 	}
@@ -146,8 +156,9 @@ class WialonService
 				'to' => 0,
 			]),
 		]);
-		$qaynarovId = $data['items'][1]['id'];
-		$qaynarovZonesGroup = $data['items'][1]['zg'][1]['zns'];
+
+		$qaynarovId = $data['items'][$this->account_index]['id'];
+		$qaynarovZonesGroup = $data['items'][$this->account_index]['zg'][1]['zns'];
 		$geozones = $this->wialon->get([
 			'svc' => 'resource/get_zone_data',
 			'params' => json_encode([
