@@ -21,6 +21,17 @@ export function getDifference(car) {
     return secondsToFormatTime(seconds);
 }
 
+
+export function inExcavatorHelper(transport) {
+    return (
+       inZone(transport, "экг") ||
+       inZone(transport, "ex") ||
+       inZone(transport, "эг") ||
+       inZone(transport, "фп") ||
+       inZone(transport, "фрп")
+    )
+ }
+
 export function secondsToFormatTime(seconds) {
     var houre, minute, second;
     houre = Math.floor(seconds / 3600);

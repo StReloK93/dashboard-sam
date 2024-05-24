@@ -32,6 +32,11 @@ Route::get('export/report/{date}/{weekCount}', function ($date, $weekCount) {
    return Excel::download(new ReportExport($date, $weekCount), "$date-$weekCount.xlsx");
 });
 
+
+Route::get('information', function () {
+   return ['oil' => env('BASE_OIL'), 'smena' => env('BASE_SMENA')];
+});
+
 Route::middleware('auth:sanctum')->group(function () {
 
    Route::get('/user', [AuthController::class, 'getUser']);

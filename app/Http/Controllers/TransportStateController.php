@@ -34,10 +34,10 @@ class TransportStateController extends Controller
 			->whereNot('name', 'like', '%MAN%')
 			->whereIn('transport_states.transport_id', $list->tranports)
 			->join(
-				DB::raw('(SELECT transport_id, MAX(geozone_out) AS max_time FROM transport_states GROUP BY transport_id) as latest_transports'),
+				DB::raw('(SELECT transport_id, MAX(id) AS max_id FROM transport_states GROUP BY transport_id) as latest_transports'),
 				function ($join) {
 					$join->on('transport_states.transport_id', '=', 'latest_transports.transport_id')
-						->on('transport_states.geozone_out', '=', 'latest_transports.max_time');
+						->on('transport_states.id', '=', 'latest_transports.max_id');
 				}
 			)
 			->select('transport_states.*')->get();

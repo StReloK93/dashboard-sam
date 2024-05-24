@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, ref, Ref } from 'vue'
+import { AuthStore } from "@/app/auth"
 import axios from 'axios'
 import { inZone, timeDiff } from '@/helpers/timeFormat'
 
@@ -7,6 +8,8 @@ import { inZone, timeDiff } from '@/helpers/timeFormat'
 export const TransportStates = defineStore('TransportStates', () => {
     const transports: Ref = ref(null)
     const transportsAll: Ref = ref(null)
+    const auth = AuthStore()
+
 
     async function getTransportState(transport_id) {
         const { data } = await axios.get(`/api/transportstates/${transport_id}`)
@@ -29,17 +32,17 @@ export const TransportStates = defineStore('TransportStates', () => {
     })
 
     const inOIL = computed(() => {
-        return transports.value?.filter((transport) => inZone(transport, 'заправочный'))
+        return transports.value?.filter((transport) => inZone(transport, auth.information?.oil))
     })
 
     const inSmenaAll = computed(() => {
-        const filtered = transports.value?.filter((transport) => inZone(transport, 'пересменка'))
+        const filtered = transports.value?.filter((transport) => inZone(transport, auth.information?.smena))
         filtered?.forEach((item) => item.bool = true)
         return filtered
     })
     const inSMENA = computed(() => {
         if (transports.value == null) return
-        const filtered = transports.value?.filter((transport) => inZone(transport, 'пересменка'))
+        const filtered = transports.value?.filter((transport) => inZone(transport, auth.information?.smena))
 
         const group: any = {}
 
