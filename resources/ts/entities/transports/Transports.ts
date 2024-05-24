@@ -14,11 +14,10 @@ export const Transports = defineStore('Transports', () => {
       getExcavatorsStates()
       const { data } = await axios.get('/api/transportstates')
       // Sortirovka
-      data.sort((a, b) => +a.name.replace('ШКБ С', '') - +b.name.replace('ШКБ С', ''))
+      data.sort((a, b) => +a.name.replace(/\D/g, "") - +b.name.replace(/\D/g, ""))
 
 
       data.forEach(item => {
-         item.name = item.name.replace('ШКБ ', '')
          const time = moment()
          const diffMinutes = time.diff(item.geozone_in, 'minutes')
 
