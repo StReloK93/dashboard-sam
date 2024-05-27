@@ -7,7 +7,7 @@
          <TransportProcess counter="timer" grid-cols="grid-cols-2"
             @openModal="(transport) => store.openModal(4, transport)" title="Sababsiz to'xtaganlar" color="red"
             :data="transportStore.isUnknown" />
-
+         <hr class="my-4 border-zinc-800">
          <TransportProcessGroup grid-cols="grid-cols-2" title="Suv olish maydonida" color="sky" scroll-color="sky-scroll" :data="waterTrucks.inGUSAK" />
       </aside>
    </main>

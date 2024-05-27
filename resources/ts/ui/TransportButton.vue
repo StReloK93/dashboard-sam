@@ -25,7 +25,7 @@ import { computed } from 'vue'
 
 const colors = {
 	sky: {
-		bg: 'bg-sky-500',
+		bg: 'bg-sky-400',
 		text: 'text-sky-400',
 		border: 'border-sky-400',
 	},
