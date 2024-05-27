@@ -13,17 +13,20 @@ use App\Services\GeoZoneService;
 
 class WialonService
 {
-	protected $wialon;
-	protected $frontal_id;
-	protected $excavator_id;
-	protected $dumptrucks_id;
-	protected $account_index;
+	protected $wialon, $frontal_id, $excavator_id, $dumptrucks_id, $account_index, $account, $geozones_group_id, $gusaks_group_id, $watertrucks_id;
+
 	function __construct()
 	{
 		$this->frontal_id = (int) env('BASE_GROUP_FRONTAL');
 		$this->excavator_id = (int) env('BASE_GROUP_EXCAVATOR');
 		$this->dumptrucks_id = (int) env('BASE_GROUP_ALL_DUMPTRUCKS');
 		$this->account_index = (int) env('BASE_ACCOUNT_INDEX');
+		$this->geozones_group_id = (int) env('BASE_GEOZONES_GROUP_ID');
+		$this->account = env('BASE_ACCOUNT');
+
+		$this->watertrucks_id = (int) env('BASE_GROUP_ALL_WATERTRUCKS');
+		$this->gusaks_group_id = (int) env('BASE_GUSAKS_GROUP_ID');
+
 		$this->wialon = AuthWialon::getInstance();
 	}
 
@@ -31,12 +34,25 @@ class WialonService
 	public function getTransportsWithZone()
 	{
 		$geoService = new GeoZoneService();
-
-		$transports = $this->getTransportPoints($this->dumptrucks_id);
-		$zones = $this->getGeozones();
+		
+		$dumpTrucks = $this->getTransportPoints($this->dumptrucks_id);
+		$zones = $this->getMainGeozones();
 		$excavators = $this->getExcavators();
+		
 
-		foreach ($transports as $key => $car) {
+		$waterTrucks = $this->getTransportPoints($this->watertrucks_id);
+		$gusakZones = $this->getGusakGeozones();
+
+
+		foreach ($waterTrucks as $key => $car) {
+			$pointCar = ['x' => $car['x'], 'y' => $car['y']];
+
+			$geozoneName = $geoService->findZone($pointCar, $gusakZones);
+			$waterTrucks[$key]['distance_ex'] = null;
+			$waterTrucks[$key]['geozone'] = $geozoneName == null ? null : $geozoneName;
+		}
+
+		foreach ($dumpTrucks as $key => $car) {
 			$pointCar = ['x' => $car['x'], 'y' => $car['y']];
 
 			$geozoneName = $geoService->findZone($pointCar, $zones);
@@ -45,63 +61,30 @@ class WialonService
 				$distances = $geoService->getDistances($pointCar, $excavators);
 
 				if ($distances[0]['distance'] < 41) {
-					$transports[$key]['distance_ex'] = round($distances[0]['distance']);
-					$transports[$key]['geozone'] = $distances[0]['name'];
+					$dumpTrucks[$key]['distance_ex'] = round($distances[0]['distance']);
+					$dumpTrucks[$key]['geozone'] = $distances[0]['name'];
 				} else {
-					$transports[$key]['distance_ex'] = null;
-					$transports[$key]['geozone'] = null;
+					$dumpTrucks[$key]['distance_ex'] = null;
+					$dumpTrucks[$key]['geozone'] = null;
 				}
 
 			} else {
-				$transports[$key]['distance_ex'] = null;
-				$transports[$key]['geozone'] = $geozoneName;
+				$dumpTrucks[$key]['distance_ex'] = null;
+				$dumpTrucks[$key]['geozone'] = $geozoneName;
 			}
 
 		}
-
-		return array_values($transports);
+		return collect($dumpTrucks)->merge($waterTrucks)->toArray();
 	}
 
 
-	public function writeToDB()
-	{
-		$transports = $this->getTransportsWithZone();
-		$time = now();
 
-		foreach ($transports as $key => $car) {
-			$transport = TransportState::where([
-				['transport_id', $car['transport_id']],
-			])->latest('geozone_out')->first();
-
-			if (isset($transport) && $transport->geozone == $car['geozone']) {
-
-				$transport->geozone_out = $time;
-				$transport->save();
-
-			} else {
-
-				TransportState::insert([
-					'name' => $car['name'],
-					'transport_id' => $car['transport_id'],
-					'geozone' => $car['geozone'],
-					'geozone_in' => $time,
-					'geozone_out' => $time,
-				]);
-
-			}
-		}
-
-		$collection = collect($this->getTransportPoints($this->dumptrucks_id))->pluck('transport_id');
-		TransportList::create(['tranports' => $collection]);
-
-		return DB::table('transports')->insert($transports);
-	}
 
 	public function getExcavators()
 	{
 
 		$frontal = $this->frontal_id ? $this->getTransportPoints($this->frontal_id) : null;
-		
+
 		$excavator = $this->getTransportPoints($this->excavator_id);
 		$collection = collect($frontal)->merge($excavator);
 		return $collection->all();
@@ -109,8 +92,8 @@ class WialonService
 
 	public function getTransportPoints($groupIndex)
 	{
+		if ($groupIndex == null || $groupIndex == 0) return [];
 		$created = now()->format('Y-m-d H:i:s');
-
 		$groupUnits = $this->getGroupUnitsWithName($groupIndex);
 		$transports = [];
 
@@ -139,9 +122,11 @@ class WialonService
 		return $transports;
 	}
 
-	public function getGeozones()
+
+
+	public function getAccount()
 	{
-		$data = $this->wialon->get([
+		$accountsInformation = $this->wialon->get([
 			'svc' => 'core/search_items',
 			'params' => json_encode([
 				'spec' => [
@@ -157,13 +142,34 @@ class WialonService
 			]),
 		]);
 
-		$qaynarovId = $data['items'][$this->account_index]['id'];
-		$qaynarovZonesGroup = $data['items'][$this->account_index]['zg'][1]['zns'];
+		$accounts = $accountsInformation['items'];
+		return $this->array_find($accounts, fn($account) => $account['nm'] == $this->account);
+	}
+
+
+	public function getMainGeozones()
+	{
+		$account = $this->getAccount();
+		$zones_ids = $account['zg'][$this->geozones_group_id]['zns'];
+
+		return $this->getGeozones($account['id'],$zones_ids);
+	}
+
+	public function getGusakGeozones()
+	{
+		$account = $this->getAccount();
+		$zones_ids = $account['zg'][$this->gusaks_group_id]['zns'];
+
+		return $this->getGeozones($account['id'],$zones_ids);
+	}
+
+
+	public function getGeozones($account_id, $zones_ids){
 		$geozones = $this->wialon->get([
 			'svc' => 'resource/get_zone_data',
 			'params' => json_encode([
-				'itemId' => $qaynarovId,
-				'col' => $qaynarovZonesGroup,
+				'itemId' => $account_id,
+				'col' => $zones_ids,
 				'flags' => 0,
 			])
 		]);
@@ -178,7 +184,6 @@ class WialonService
 				'points' => $geozone['p']
 			];
 		}, $geozones);
-
 	}
 
 	public function getUnits()
@@ -225,6 +230,7 @@ class WialonService
 	{
 		$units = $this->getUnits();
 		$groups = $this->getGroups();
+
 		$result = $this->array_find($groups['items'], function ($element) use ($groupIndex) {
 			return $element['id'] === $groupIndex;
 		});
@@ -268,33 +274,38 @@ class WialonService
 		}
 	}
 
+	public function writeToDB()
+	{
+		$transports = $this->getTransportsWithZone();
+		$time = now();
+
+		foreach ($transports as $car) {
+			$transport = TransportState::where([
+				['transport_id', $car['transport_id']],
+			])->latest('geozone_out')->first();
+
+			if (isset($transport) && $transport->geozone == $car['geozone']) {
+
+				$transport->geozone_out = $time;
+				$transport->save();
+
+			} else {
+
+				TransportState::insert([
+					'name' => $car['name'],
+					'transport_id' => $car['transport_id'],
+					'geozone' => $car['geozone'],
+					'geozone_in' => $time,
+					'geozone_out' => $time,
+				]);
+
+			}
+		}
+
+		$collection = collect($this->getTransportPoints($this->dumptrucks_id))->pluck('transport_id');
+		TransportList::create(['tranports' => $collection]);
+
+		return DB::table('transports')->insert($transports);
+	}
+
 }
-
-
-
-
-
-// 4076 ekskavatorlar
-// 7381 Hamma avtoagdargichlar
-
-
-
-
-
-
-
-// Функция сравнения для usort()
-
-
-// Применение сортировки
-// usort($array, function($a, $b) {
-//     // Сначала сравниваем значения "geozone"
-//     $compareGeozone = strcmp($a["geozone"], $b["geozone"]);
-
-//     // Если "geozone" равны, сравниваем значения "transport"
-//     if ($compareGeozone === 0) {
-//         return strcmp($a["transport"], $b["transport"]);
-//     }
-
-//     return $compareGeozone;
-// });

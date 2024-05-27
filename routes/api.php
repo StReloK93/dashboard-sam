@@ -22,7 +22,8 @@ Route::post('states/peresmena-graphic', [TransportStateController::class, 'waiti
 
 Route::get('transports/all', [TransportController::class, 'index']);
 Route::get('transports/excavators', [TransportController::class, 'excavators']);
-Route::get('transports/all/wialon', [TransportController::class, 'getWithWialon']);
+Route::get('transports/wialon', [TransportController::class, 'getWithWialon']);
+Route::get('transports/geozones', [TransportController::class, 'geozones']);
 
 Route::get('transports/excavatorstate', [TripsController::class, 'excavatorState']);
 Route::post('transports/car_reports', [TripsController::class, 'carReports']);
@@ -34,7 +35,7 @@ Route::get('export/report/{date}/{weekCount}', function ($date, $weekCount) {
 
 
 Route::get('information', function () {
-   return ['oil' => env('BASE_OIL'), 'smena' => env('BASE_SMENA')];
+   return ['oil' => env('BASE_OIL'), 'smena' => env('BASE_SMENA'), 'uat' => env('BASE_UAT')];
 });
 
 Route::middleware('auth:sanctum')->group(function () {

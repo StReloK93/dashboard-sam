@@ -133,27 +133,18 @@ export function formatDate(date:any) {
         const dayStart = date[0].getDate();
         const monthStart = date[0].getMonth() + 1;
         const yearStart = date[0].getFullYear();
-
-        const day_start = dayStart > 9 ? dayStart : `0${dayStart}`;
-        const month_start = monthStart > 9 ? monthStart : `0${monthStart}`;
         
         const dayEnd = date[1].getDate();
         const monthEnd = date[1].getMonth() + 1;
         const yearEnd = date[1].getFullYear();
 
-        const day_end = dayEnd > 9 ? dayEnd : `0${dayEnd}`;
-        const month_end = monthEnd > 9 ? monthEnd : `0${monthEnd}`;
-
-        return `${day_start}-${month_start}-${yearStart} - ${day_end}-${month_end}-${yearEnd}`
+        return `${withZero(dayStart)}-${withZero(monthStart)}-${yearStart} - ${withZero(dayEnd)}-${withZero(monthEnd)}-${yearEnd}`
     } else {
         const day = date.getDate();
         const month = date.getMonth() + 1;
         const year = date.getFullYear();
 
-        const dayNull = day > 9 ? day : `0${day}`;
-        const monthNull = month > 9 ? month : `0${month}`;
-
-        return ` ${dayNull}-${monthNull}-${year}`;
+        return ` ${withZero(day)}-${withZero(month)}-${year}`;
     }
 }
 
@@ -182,4 +173,7 @@ export function getDateAndSmena(time = undefined) {
     }
 }
 
-getDateAndSmena();
+
+export function withZero(number) {
+    return number > 9 ? number : `0${number}`;
+}

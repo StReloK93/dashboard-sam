@@ -24,6 +24,10 @@ class TransportController extends Controller
     }
 
 
+    public function geozones()
+    {
+        return $this->wialon->getGusakGeozones();
+    }
 
 
 }
