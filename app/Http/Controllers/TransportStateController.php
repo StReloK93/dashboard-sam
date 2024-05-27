@@ -22,7 +22,9 @@ class TransportStateController extends Controller
 		$list = TransportList::latest('id')->first();
 		$period = $this->time->getPeriod(now());
 
-		return TransportState::with([
+
+
+		$transport =  TransportState::with([
 			'inSmena' => function ($query) use ($period) {
 				$query->whereBetween('geozone_out', [$period['start'], $period['end']]);
 			},
@@ -41,6 +43,9 @@ class TransportStateController extends Controller
 				}
 			)
 			->select('transport_states.*')->get();
+
+			dd($transport);
+
 	}
 
 	public function selectSmena(Request $request)

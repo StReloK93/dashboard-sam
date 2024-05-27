@@ -301,8 +301,8 @@ class WialonService
 
 			}
 		}
-
-		$collection = collect($this->getTransportPoints($this->dumptrucks_id))->pluck('transport_id');
+		
+		$collection = collect($transports)->pluck('transport_id')->toArray();
 		TransportList::create(['tranports' => $collection]);
 
 		return DB::table('transports')->insert($transports);
