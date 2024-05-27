@@ -157,6 +157,7 @@ class WialonService
 
 	public function getGusakGeozones()
 	{
+		if ($this->gusaks_group_id == null || $this->gusaks_group_id == 0) return [];
 		$account = $this->getAccount();
 		$zones_ids = $account['zg'][$this->gusaks_group_id]['zns'];
 
@@ -301,7 +302,7 @@ class WialonService
 
 			}
 		}
-		
+
 		$collection = collect($transports)->pluck('transport_id')->toArray();
 		TransportList::create(['tranports' => $collection]);
 
