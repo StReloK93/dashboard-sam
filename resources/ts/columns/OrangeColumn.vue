@@ -6,7 +6,7 @@
       <div class="h-28 px-2 flex items-center justify-around">
          <ColumnTopSlider :slides="orangeSlides" />
       </div>
-      <aside class="green-scroll overflow-y-auto flex-grow scroll overflow-x-hidden">
+      <aside class="orange-scroll overflow-y-auto flex-grow scroll overflow-x-hidden">
          <TransportProcessGroup grid-cols="grid-cols-3" @openModal="(transport) => store.openModal(2, transport)"
             title="Yoqilg'i olish maydonida" color="orange" scroll-color="orange-scroll" :data="transportStore.inOIL" />
       </aside>

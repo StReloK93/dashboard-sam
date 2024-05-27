@@ -6,7 +6,7 @@
       <div class="h-28 px-2 flex items-center justify-around relative">
          <ColumnTopSlider :slides="greySlides" />
       </div>
-      <aside class="green-scroll overflow-y-auto flex-grow scroll overflow-x-hidden">
+      <aside class="gray-scroll overflow-y-auto flex-grow scroll overflow-x-hidden">
          <TransportProcess counter="timer" grid-cols="grid-cols-3"
             @openModal="(transport) => store.openModal(5, transport)" title="ATB maydonida" color="gray"
             :data="transportStore.inATB" />

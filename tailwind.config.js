@@ -8,5 +8,8 @@ export default {
   theme: {
     extend: {},
   },
+  safelist: [
+    'bg-sky-600',
+  ],
   plugins: [],
 }

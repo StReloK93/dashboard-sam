@@ -15,6 +15,7 @@ class WialonService
 {
 	protected $wialon, $frontal_id, $excavator_id, $dumptrucks_id, $account_index, $account, $geozones_group_id, $gusaks_group_id, $watertrucks_id;
 
+	protected $geoService;
 	function __construct()
 	{
 		$this->frontal_id = (int) env('BASE_GROUP_FRONTAL');
@@ -28,37 +29,24 @@ class WialonService
 		$this->gusaks_group_id = (int) env('BASE_GUSAKS_GROUP_ID');
 
 		$this->wialon = AuthWialon::getInstance();
+
+		$this->geoService = new GeoZoneService();
 	}
 
 
-	public function getTransportsWithZone()
-	{
-		$geoService = new GeoZoneService();
-		
+
+	public function getDumpTrucks(){
 		$dumpTrucks = $this->getTransportPoints($this->dumptrucks_id);
 		$zones = $this->getMainGeozones();
 		$excavators = $this->getExcavators();
-		
-
-		$waterTrucks = $this->getTransportPoints($this->watertrucks_id);
-		$gusakZones = $this->getGusakGeozones();
-
-
-		foreach ($waterTrucks as $key => $car) {
-			$pointCar = ['x' => $car['x'], 'y' => $car['y']];
-
-			$geozoneName = $geoService->findZone($pointCar, $gusakZones);
-			$waterTrucks[$key]['distance_ex'] = null;
-			$waterTrucks[$key]['geozone'] = $geozoneName == null ? null : $geozoneName;
-		}
 
 		foreach ($dumpTrucks as $key => $car) {
 			$pointCar = ['x' => $car['x'], 'y' => $car['y']];
 
-			$geozoneName = $geoService->findZone($pointCar, $zones);
+			$geozoneName = $this->geoService->findZone($pointCar, $zones);
 
 			if ($geozoneName == null) {
-				$distances = $geoService->getDistances($pointCar, $excavators);
+				$distances = $this->geoService->getDistances($pointCar, $excavators);
 
 				if ($distances[0]['distance'] < 41) {
 					$dumpTrucks[$key]['distance_ex'] = round($distances[0]['distance']);
@@ -72,8 +60,37 @@ class WialonService
 				$dumpTrucks[$key]['distance_ex'] = null;
 				$dumpTrucks[$key]['geozone'] = $geozoneName;
 			}
-
 		}
+
+		return $dumpTrucks;
+	}
+
+
+	public function getWaterTrucks(){
+
+		$waterTrucks = $this->getTransportPoints($this->watertrucks_id);
+		$gusakZones = $this->getGusakGeozones();
+
+
+		foreach ($waterTrucks as $key => $car) {
+			$pointCar = ['x' => $car['x'], 'y' => $car['y']];
+
+			$geozoneName = $this->geoService->findZone($pointCar, $gusakZones);
+			$waterTrucks[$key]['distance_ex'] = null;
+			$waterTrucks[$key]['geozone'] = $geozoneName == null ? null : $geozoneName;
+		}
+
+		return $waterTrucks;
+	}
+
+	public function getTransportsWithZone()
+	{
+		$waterTrucksDisabled = $this->watertrucks_id == 0 || $this->gusaks_group_id == 0;
+		$waterTrucks = $waterTrucksDisabled ? null : $this->getWaterTrucks();
+
+		
+		$dumpTrucks = $this->getDumpTrucks();
+
 		return collect($dumpTrucks)->merge($waterTrucks)->toArray();
 	}
 
@@ -157,7 +174,6 @@ class WialonService
 
 	public function getGusakGeozones()
 	{
-		if ($this->gusaks_group_id == null || $this->gusaks_group_id == 0) return [];
 		$account = $this->getAccount();
 		$zones_ids = $account['zg'][$this->gusaks_group_id]['zns'];
 

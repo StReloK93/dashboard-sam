@@ -3,7 +3,7 @@
       <div class="h-28 px-2 flex items-center justify-around">
          <ColumnTopSlider :slides="indigoSlides" />
       </div>
-      <aside class="green-scroll overflow-y-auto flex-grow scroll overflow-x-hidden">
+      <aside class="indigo-scroll overflow-y-auto flex-grow scroll overflow-x-hidden">
          <TransportProcessGroup grid-cols="grid-cols-3" @openModal="(transport) => store.openModal(3, transport)"
             title="Smena almashish maydonida" color="indigo" scroll-color="indigo-scroll" :data="transportStore.inSMENA" />
       </aside>

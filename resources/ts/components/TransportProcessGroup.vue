@@ -1,5 +1,5 @@
 <template>
-	<section :class="props.scrollColor" class="px-2 overflow-y-auto h-full scroll">
+	<section :class="props.scrollColor" class="px-2 overflow-y-auto scroll">
 		<TransitionGroup name="fade">
 			<GroupTimeLine :color="props.color" v-if="timeLine" @close="timeLine = null" :group="timeLine" />
 		</TransitionGroup>

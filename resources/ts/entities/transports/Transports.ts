@@ -16,18 +16,21 @@ export const Transports = defineStore("Transports", () => {
    const summaSmenaCars = ref(0);
    const summaOilCars = ref(0);
    const auth = AuthStore()
-   
+   const waterTrucks = ref()
    
 
    async function getTransports() {
       // getExcavatorsStates();
       const { data } = await axios.get("/api/transportstates");
-      // Sortirovka
-      data.sort(
+
+      const withoutGM = data.filter((car) => car.name.includes('ГМ') == false)
+      waterTrucks.value = data.filter((car) => car.name.includes('ГМ'))
+      
+      withoutGM.sort(
          (a, b) => +a.name.replace(/\D/g, "") - +b.name.replace(/\D/g, "")
       );
 
-      data.forEach((item) => {
+      withoutGM.forEach((item) => {
          const time = moment();
          const diffMinutes = time.diff(item.geozone_in, "minutes");
 
@@ -43,7 +46,7 @@ export const Transports = defineStore("Transports", () => {
          }
       });
 
-      cars.value = data;
+      cars.value = withoutGM;
    }
 
    const statesSumm = computed(() => {
@@ -99,10 +102,7 @@ export const Transports = defineStore("Transports", () => {
       });
    });
 
-   const inATB = computed(() =>{
-      console.log(auth.information)
-      return cars.value?.filter((car) => inZone(car, "уат") || inZone(car, "авто"))
-      });
+   const inATB = computed(() => cars.value?.filter((car) => inZone(car, "уат") || inZone(car, "авто")));
    const inOilAll = computed(() =>
       cars.value?.filter((car) => inZone(car, auth.information?.oil))
    );
@@ -267,6 +267,7 @@ export const Transports = defineStore("Transports", () => {
       // summaExcavators,
       // excavatorStates,
       inOilConflict,
+      waterTrucks,
       // timer,
       inATB,
       inOIL,

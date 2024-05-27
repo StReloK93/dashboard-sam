@@ -23,23 +23,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-const props = defineProps({
-	timer: { type: Number },
-	color: {
-		required: true, type: String,
-		validator(value: string, props) {
-			return ['red', 'green', 'yellow', 'orange', 'gray', 'indigo'].includes(value)
-		}
-	},
-	name: { type: String },
-	timer_type: { type: Number },
-	type: { type: Object },
-})
-
-
-const colorLine = computed(() => props.timer_type == 2 ? 'bg-gray-400' : 'bg-yellow-400')
-
 const colors = {
+	sky: {
+		bg: 'bg-sky-500',
+		text: 'text-sky-400',
+		border: 'border-sky-400',
+	},
 	green: {
 		bg: 'bg-green-500',
 		text: 'text-green-400',
@@ -71,5 +60,20 @@ const colors = {
 		border: 'border-indigo-500',
 	},
 }
+
+const props = defineProps({
+	timer: { type: Number },
+	color: {
+		required: true, type: String,
+	},
+	name: { type: String },
+	timer_type: { type: Number },
+	type: { type: Object },
+})
+
+
+const colorLine = computed(() => props.timer_type == 2 ? 'bg-gray-400' : 'bg-yellow-400')
+
+
 const buttonColor = computed(() => colors[props.color])
 </script>
