@@ -23,14 +23,7 @@ export const Transports = defineStore("Transports", () => {
       // getExcavatorsStates();
       const { data } = await axios.get("/api/transportstates");
 
-      const withoutGM = data.filter((car) => car.name.includes('ГМ') == false)
-      waterTrucks.value = data.filter((car) => car.name.includes('ГМ'))
-      
-      withoutGM.sort(
-         (a, b) => +a.name.replace(/\D/g, "") - +b.name.replace(/\D/g, "")
-      );
-
-      withoutGM.forEach((item) => {
+      data.forEach((item) => {
          const time = moment();
          const diffMinutes = time.diff(item.geozone_in, "minutes");
 
@@ -45,6 +38,13 @@ export const Transports = defineStore("Transports", () => {
             item.timer_type = 0;
          }
       });
+
+      const withoutGM = data.filter((car) => car.name.includes('ГМ') == false)
+      waterTrucks.value = data.filter((car) => car.name.includes('ГМ'))
+      
+      withoutGM.sort(
+         (a, b) => +a.name.replace(/\D/g, "") - +b.name.replace(/\D/g, "")
+      );
 
       cars.value = withoutGM;
    }

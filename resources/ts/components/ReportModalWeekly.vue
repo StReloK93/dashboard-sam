@@ -21,7 +21,7 @@
                   <td class="py-1">Mayda tamirlashda <span class="text-xs text-gray-400">(Soat)</span></td>
                   <td class="py-1">ATBda <span class="text-xs text-gray-400">(Soat)</span></td>
                   <td class="py-1">MTBF</td>
-                  <td class="py-1">MTBR</td>
+                  <td class="py-1">MTTR</td>
                </tr>
                <tr v-for="item in tableData" class="bg-zinc-800 border-y-4 border-zinc-900">
                   <td class="py-1 pl-2">{{ item.name }}</td>
