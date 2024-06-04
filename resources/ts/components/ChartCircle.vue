@@ -110,7 +110,7 @@ watch(() => state[props.process].prosent, (current) => {
 			<div class="gradient-text" style="text-align:center">
 					<span style="font-size:34px">{y}%</span><br>
 					<span style="font-size:15px" class="mb-2">${props.chartname}</span><br>
-					<span style="font-size:16px">${state[props.process].current} | ${67}</span>
+					<span style="font-size:16px">${state[props.process].current} / ${state[props.process].max} </span>
 			</div>`
 		}
 	});
