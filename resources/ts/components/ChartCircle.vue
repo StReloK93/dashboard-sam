@@ -96,7 +96,7 @@ const gaugeOptions: any = {
 			<div class="gradient-text" style="text-align:center">
 				<span style="font-size:34px">{y}%</span><br>
 				<span style="font-size:15px">${props.chartname}</span><br>
-				<span style="font-size:15px">${state[props.process].current} / ${67} </span>
+				<span style="font-size:15px">${state[props.process].current} / ${state[props.process].max} </span>
          </div>`,
 		}
 	}],

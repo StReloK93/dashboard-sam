@@ -1,7 +1,7 @@
 <template>
    <section class="flex-grow !overflow-y-auto scroll indigo-scroll !overflow-hidden">
       <aside v-if="loader == false">
-         <div class="flex justify-between items-stretch px-1 sticky top-0 bg-zinc-900">
+         <div class="flex justify-between items-stretch px-1 sticky top-0 z-50 bg-zinc-900">
             <span class="w-72 mb-1.5">
                <VueDatePicker @update:model-value="handleDate" v-model="dates" :format="formatDate" auto-apply
                   placeholder="Kunni tanlang" />

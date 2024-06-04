@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import Highcharts from 'highcharts'
-import PricingChart from '@/conf/PricingChart'
+import PricingChart from '@/config/PricingChart'
 import { formatDate } from '@/helpers/timeFormat'
 const handleDate = (modelData) => {
    if (modelData) {

@@ -1,17 +1,17 @@
 <template>
    <section  class="flex-grow !overflow-y-auto scroll indigo-scroll relative">
       <aside v-if="loader == false">
-         <div class="flex justify-between items-stretch px-1 sticky top-0 bg-zinc-900">
+         <div class="flex justify-between items-stretch px-1 sticky top-0 bg-zinc-900 z-50">
             <span class="w-72 mb-1.5">
                <VueDatePicker @update:model-value="handleDate" v-model="dates" :format="formatDate" auto-apply
-                  placeholder="Kunni tanlang" />
+                  placeholder="Kunni tanlang" class="z-50" />
             </span>
             <a :href="`/api/export/report/${moment(dates).format('YYYY-MM-DD')}/1`"
                class="px-4 h-9 content-center font-semibold rounded shadow bg-indigo-600 active:bg-indigo-400">
                Yuklash <i class="fa-duotone fa-file-excel ml-2"></i>
             </a>
          </div>
-         <div class=" px-1">
+         <div class="px-1">
             <table ref="table" class="w-full">
                <tr class="border-b-4 border-zinc-900 bg-zinc-900 sticky top-10">
                   <td class="py-1 pl-2">Transport</td>

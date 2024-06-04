@@ -1,13 +1,7 @@
 import { defineStore } from "pinia";
 import { AuthStore } from "@/app/auth"
 import { computed, ref } from "vue";
-import {
-   inZone,
-   timeDiff,
-   inExcavatorHelper,
-   inSmenaTime,
-   calculatePathLength,
-} from "@/helpers/timeFormat";
+import { inZone, timeDiff, inExcavatorHelper, inSmenaTime, calculatePathLength } from "@/helpers/timeFormat";
 import axios from "axios";
 import moment from "moment";
 
@@ -20,7 +14,6 @@ export const Transports = defineStore("Transports", () => {
    
 
    async function getTransports() {
-      // getExcavatorsStates();
       const { data } = await axios.get("/api/transportstates");
 
       data.forEach((item) => {
@@ -103,6 +96,7 @@ export const Transports = defineStore("Transports", () => {
    });
 
    const inATB = computed(() => cars.value?.filter((car) => inZone(car, "уат") || inZone(car, "авто")));
+
    const inOilAll = computed(() =>
       cars.value?.filter((car) => inZone(car, auth.information?.oil))
    );
@@ -226,49 +220,17 @@ export const Transports = defineStore("Transports", () => {
          inProcess.value?.length +
          inExcavator.value?.length +
          inOilAll.value?.length;
-      // return { prosent: Math.round((activeCars / cars.value?.length) * 100), max: cars.value?.length, current: activeCars }
-      return {
-         prosent: Math.round((activeCars / 67) * 100),
-         max: cars.value?.length,
-         current: activeCars,
-      };
+      return { prosent: Math.round((activeCars / cars.value?.length) * 100), max: cars.value?.length, current: activeCars }
    });
 
-   // const excavatorStates = ref(null);
-   // async function getExcavatorsStates() {
-   //    const { data } = await axios.get("/api/transports/excavatorstate");
-   //    // excavatorStates.value = data?.filter((car) => car.msg_dt != null)
 
-   //    data.forEach((car) => {
-   //       car.tech_name = car.tech_name
-   //          .replace("HITACHI ", "")
-   //          .replace("(обратная лопата)", "");
-   //    });
-   //    data.sort((a, b) => +a.garage - +b.garage);
-   //    excavatorStates.value = data;
-   // }
-
-   // const summaExcavators = computed(() => {
-   //    if (excavatorStates.value == null) return null;
-   //    const activeCars = excavatorStates.value?.filter(
-   //       (exv) => +exv.status == 1
-   //    ).length;
-   //    return {
-   //       prosent: Math.round((activeCars / cars.value?.length) * 100),
-   //       max: excavatorStates.value?.length,
-   //       current: activeCars,
-   //    };
-   // });
 
    return {
       getTransports,
       getFilterGroup,
       summaTransports,
-      // summaExcavators,
-      // excavatorStates,
       inOilConflict,
       waterTrucks,
-      // timer,
       inATB,
       inOIL,
       inOilAll,

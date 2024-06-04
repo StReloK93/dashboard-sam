@@ -1,6 +1,7 @@
 <template>
    <section @mousedown="$emit('close')" class="fixed inset-0 bg-zinc-950/70 flex justify-center items-center z-50">
-      <aside @mousedown.stop class="w-[1100px] h-[540px]">
+      <aside @mousedown.stop class="w-[1100px] h-[540px] relative">
+         <PreLoader v-if="loader" />
          <div class="slider-item">
             <div class="mb-1.5">
                <div :class="`bg-${props.color}-600`"
@@ -27,8 +28,10 @@
                      <button @click="tab = 1" :class="setColor(tab == 1)" class="w-20 h-full font-semibold rounded shadow">
                         <i class="fa-solid fa-chart-gantt"></i> Grafik
                      </button>
-                     <button @click="tab = 2" v-if="props.color == 'orange'" :class="setColor(tab == 2)" class="px-2 h-full font-semibold rounded shadow ml-3 flex-grow">
-                        <i class="fa-solid fa-table-list"></i> Yoqilg'i olishda kutib qolish  {{ secondsToFormatTime(fullWaitTime) }}
+                     <button @click="tab = 2" v-if="props.color == 'orange'" :class="setColor(tab == 2)"
+                        class="px-2 h-full font-semibold rounded shadow ml-3 flex-grow">
+                        <i class="fa-solid fa-table-list"></i> Yoqilg'i olishda kutib qolish {{
+                           secondsToFormatTime(fullWaitTime) }}
                      </button>
                   </div>
                </h3>
@@ -70,7 +73,23 @@
                      <td class="py-1">{{ moment(transport.geozone_in).format('YYYY-MM-DD HH:mm') }}</td>
                      <td class="py-1">{{ moment(transport.geozone_out).format('YYYY-MM-DD HH:mm') }}</td>
                      <td class="py-1">{{ getDifference(transport) }}</td>
-                     <td class="py-1 w-52" v-if="props.color == 'indigo'">{{ transport.cause }}</td>
+                     <td class="py-1 w-52" v-if="props.color == 'indigo'">
+                        <form @submit.prevent="saveCause(transport)" class="w-full flex items-center pr-2">
+                           <input :disabled="transport.bool" type="text" v-model="transport.cause"
+                              class="outline-none relative bg-gray-700 shadow-inner px-1.5 py-0.5 disabled:bg-transparent rounded-l-sm">
+                           <template
+                              v-if="(auth.user?.level == 1)">
+                              <button v-if="transport.bool" @click="transport.bool = false" type="button"
+                                 class="w-10 py-0.5 bg-gray-300 rounded-r-sm shadow active:bg-gray-500 hover:bg-gray-400">
+                                 <i class="fa-duotone fa-pen-nib text-gray-900"></i>
+                              </button>
+                              <button v-else type="submit"
+                                 class="w-10 py-0.5 bg-gray-300 rounded-sm shadow active:bg-gray-500 hover:bg-gray-400">
+                                 <i class="fa-duotone fa-floppy-disk text-gray-900"></i>
+                              </button>
+                           </template>
+                        </form>
+                     </td>
                   </tr>
                </table>
             </section>
@@ -80,13 +99,16 @@
 </template>
 
 <script setup lang="ts">
+import { AuthStore } from '@/app/auth'
 const props = defineProps(['group', 'color'])
 import { ref, onMounted, reactive, computed } from 'vue'
 import Highcharts from 'highcharts'
 import moment from 'moment'
 import { UTCTime, timeDiff, formatDate, getDateAndSmena, secondsToFormatTime, getDifference, inSmenaTime } from '@/helpers/timeFormat'
-import { transportsTimeLine } from '@/conf/charts'
+import { transportsTimeLine } from '@/config/charts'
 
+
+const auth = AuthStore()
 const tab = ref(3)
 
 function setColor(boolean) {
@@ -95,6 +117,14 @@ function setColor(boolean) {
 }
 
 const tableData = ref(null)
+const loader = ref(false)
+
+function saveCause(transport) {
+   axios.patch(`api/transportstates/${transport.id}`, transport).then(({data}) => {
+      console.log(data)
+   })
+   transport.bool = true
+}
 
 
 const fullWaitTime = computed(() => {
@@ -115,12 +145,15 @@ function changeSmena(smena) {
 const chartTimeLine = ref()
 const selectedCars = ref()
 function getDiagramDate() {
+   loader.value = true
    axios.post('api/states/select_smena', { date: pickers.date, smena: pickers.smena })
       .then(({ data }) => {
          tableData.value = []
          selectedCars.value = data.states.filter((car) => car.geozone == props.group && timeDiff(car, 'seconds') > 59 && inSmenaTime(car) == false)
 
          selectedCars.value.forEach((selected, index, same) => {
+            selected.bool = true
+
             const startDate = moment(selected.geozone_in)
             const endDate = moment(selected.geozone_out)
 
@@ -160,6 +193,8 @@ function getDiagramDate() {
 
          const option: any = transportsTimeLine(chartData, carNames, data.smena)
          Highcharts.ganttChart(chartTimeLine.value, option)
+
+         loader.value = false
       })
 
 }

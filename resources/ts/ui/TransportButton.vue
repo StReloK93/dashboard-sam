@@ -3,7 +3,8 @@
 		class="inline-flex justify-between w-24 items-center px-2 py-1 neomorph rounded-2xl bg-zinc-800 active:shadow-md hover:bg-zinc-900 transition-all relative">
 		<div :class="[buttonColor.text, { 'opacity-0': props.name == null }]"
 			class="mr-3 font-semibold text-sm leading-[10px] text-left">
-			<span>C{{ props.name?.replace(/\D/g, "") }}</span>
+			<span v-if="props.color == 'sky'">ГМ{{ props.name?.replace(/\D/g, "") }}</span>
+			<span v-else>C{{ props.name?.replace(/\D/g, "") }}</span>
 			<br>
 			<span class="text-gray-500 text-[10px] leading-[0px] pl-0.5">
 				{{ props.type?.group_name.replace(/\D/g, "") }}
