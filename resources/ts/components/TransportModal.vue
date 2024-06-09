@@ -1,7 +1,8 @@
 <template>
     <section @mouseup="store.close" class="fixed inset-0 bg-zinc-950/70 flex justify-center items-center">
         <aside @mouseup.stop class="w-[992px] h-[540px] relative">
-            <main :class="{'!-top-28 !opacity-100': mounted }" class="absolute top-20 opacity-0 left-1/2 -translate-x-1/2 transition-all duration-200">
+            <main :class="{ '!-top-28 !opacity-100': mounted }"
+                class="absolute top-20 opacity-0 left-1/2 -translate-x-1/2 transition-all duration-200">
                 <CircleUI :bgColor="carColor.stroke" :textColor="carColor.text" :summa="store.transport.name">
                     <i class="fa-duotone fa-truck-front"></i>
                 </CircleUI>
@@ -20,8 +21,8 @@
                 <SwiperSlide class="slider-item neomorph border-t-2 border-t-indigo-600">
                     <TransfromModalItem type="inSmenaAll" header-color="bg-indigo-600" class="scroll indigo-scroll" />
                 </SwiperSlide>
-                <SwiperSlide class="slider-item neomorph border-t-2 border-t-red-600">
-                    <TransfromModalItem type="transportsAll" header-color="bg-red-600" class="scroll red-scroll" />
+                <SwiperSlide v-slot="{ isActive }" class="slider-item neomorph border-t-2 border-t-red-600">
+                    <RedSlider v-if="isActive" header-color="bg-red-600" :transport_id="store.transport.transport_id" class="scroll red-scroll" />
                 </SwiperSlide>
                 <SwiperSlide class="slider-item neomorph border-t-2 border-t-gray-600">
                     <TransfromModalItem type="inATB" header-color="bg-gray-600" class="scroll gray-scroll" />
@@ -33,6 +34,7 @@
 
 <script setup lang="ts">
 import TransfromModalItem from './TransfromModalItem.vue'
+import RedSlider from './RedSlider.vue'
 import { TransportStates, TransportModal } from '@/entities/transports'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { EffectCards } from 'swiper/modules'
@@ -63,6 +65,6 @@ const transport = TransportStates()
 transport.getTransportState(store.transport.transport_id)
 
 onMounted(() => {
-    setTimeout(() => mounted.value = true , 200);
+    setTimeout(() => mounted.value = true, 200);
 })
 </script>

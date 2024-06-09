@@ -16,6 +16,7 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::apiResource('transportstates', TransportStateController::class)->only(['index', 'show', 'update']);
 Route::get('process/excavator', [TransportStateController::class, 'excavator']);
+Route::get('process/redcolumn/{transport_id}', [TransportStateController::class, 'redColumn']);
 Route::post('states/select_smena', [TransportStateController::class, 'selectSmena']);
 Route::post('states/peresmena-graphic', [TransportStateController::class, 'waitingInOilGraphic']);
 
@@ -24,6 +25,8 @@ Route::get('transports/all', [TransportController::class, 'index']);
 Route::get('transports/excavators', [TransportController::class, 'excavators']);
 Route::get('transports/wialon', [TransportController::class, 'getWithWialon']);
 Route::get('transports/geozones', [TransportController::class, 'geozones']);
+Route::get('transports/account', [TransportController::class, 'account']);
+Route::get('transports/getGroups', [TransportController::class, 'getGroups']);
 
 Route::get('transports/excavatorstate', [TripsController::class, 'excavatorState']);
 Route::post('transports/car_reports', [TripsController::class, 'carReports']);

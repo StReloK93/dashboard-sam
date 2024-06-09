@@ -30,6 +30,7 @@ class Transport extends Model
     protected $casts = [
         'x' => 'float',
         'y' => 'float',
+        'speed' => 'integer',
         'transport_id' => 'integer',
     ];
 }

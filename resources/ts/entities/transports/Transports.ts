@@ -95,7 +95,7 @@ export const Transports = defineStore("Transports", () => {
       });
    });
 
-   const inATB = computed(() => cars.value?.filter((car) => inZone(car, "уат") || inZone(car, "авто")));
+   const inATB = computed(() => cars.value?.filter((car) => inZone(car, auth.information?.uat) || inZone(car, "авто")));
 
    const inOilAll = computed(() =>
       cars.value?.filter((car) => inZone(car, auth.information?.oil))

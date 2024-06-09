@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TransportState;
+use App\Models\Transport;
 use App\Models\TransportList;
 use App\Helpers\Smena;
 use Carbon\Carbon;
@@ -42,6 +43,17 @@ class TransportStateController extends Controller
 			)
 			->select('transport_states.*')->get();
 
+	}
+
+	public function redColumn($transport_id){
+
+		$period = $this->time->getPeriod(now());
+		return Transport::select('x', 'y' , 'created_at' ,'speed')->where([
+				['transport_id', $transport_id],
+				['geozone', null],
+			])
+			->whereBetween('created_at', [$period['start'], $period['end']])
+			->get();
 	}
 
 	public function selectSmena(Request $request)

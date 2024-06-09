@@ -29,5 +29,14 @@ class TransportController extends Controller
         return $this->wialon->getGusakGeozones();
     }
 
+    public function account()
+    {
+        return $this->wialon->getAccount();
+    }
+
+    public function getGroups()
+    {
+        return $this->wialon->getGroups();
+    }
 
 }
