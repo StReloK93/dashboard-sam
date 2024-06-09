@@ -26,8 +26,14 @@ export const TransportStates = defineStore('TransportStates', () => {
     })
 
     const inATB = computed(() => {
-        const filtered = transports.value?.filter((transport) => inZone(transport, 'уат') || inZone(transport, 'авто'))
-        filtered?.forEach((item) => item.bool = true)
+        const filtered = transports.value?.filter((transport) => inZone(transport, auth.information?.uat) || inZone(transport, 'авто'))
+        console.log(auth.information?.uat);
+        
+        filtered?.forEach((item) => {
+            console.log(item, auth.information?.uat);
+            
+            item.bool = true
+        })
         return filtered
     })
 
