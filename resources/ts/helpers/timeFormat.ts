@@ -64,14 +64,29 @@ export function secondTimer() {
    return { timer, reset };
 }
 
+export function getDateAndSmena(time = undefined) {
+   const current = moment(time);
+   const startToday = moment(moment().format(`YYYY-MM-DD 09:10`))
+   const endToday = moment(moment().format(`YYYY-MM-DD 21:10`))
+
+   if (startToday < current && endToday > current) {
+      return { date: current.toDate(), smena: 1 };
+   } else if (endToday < current) {
+      return { date: current.toDate(), smena: 2 };
+   } else {
+      const currentClone = current.clone();
+      return { date: currentClone.subtract(1, "day").toDate(), smena: 2 };
+   }
+}
+
 export function inSmenaTime(transport) {
-   const oneStart = moment().set({ hour: 9, minute: 0, second: 0 });
-   const oneEnd = moment().set({ hour: 9, minute: 40, second: 0 });
+   const oneStart = moment(moment().format(`YYYY-MM-DD 09:10`));
+   const oneEnd = moment(moment().format(`YYYY-MM-DD 09:40`));
    const oneFirst = moment(transport.geozone_in).isBetween(oneStart, oneEnd);
    const twoFirst = moment(transport.geozone_out).isBetween(oneStart, oneEnd);
 
-   const twoStart = moment().set({ hour: 21, minute: 0, second: 0 });
-   const twoEnd = moment().set({ hour: 21, minute: 40, second: 0 });
+   const twoStart = moment(moment().format(`YYYY-MM-DD 21:10`));
+   const twoEnd = moment(moment().format(`YYYY-MM-DD 21:40`));
    const oneSecond = moment(transport.geozone_in).isBetween(twoStart, twoEnd);
    const twoSecond = moment(transport.geozone_out).isBetween(twoStart, twoEnd);
 
@@ -146,31 +161,6 @@ export function formatDate(date: any) {
       const year = date.getFullYear();
 
       return ` ${withZero(day)}-${withZero(month)}-${year}`;
-   }
-}
-
-export function getDateAndSmena(time = undefined) {
-   const current = moment(time);
-   const startToday = moment().set({
-      hour: 9,
-      minute: 10,
-      second: 0,
-      millisecond: 0,
-   });
-   const endToday = moment().set({
-      hour: 21,
-      minute: 10,
-      second: 0,
-      millisecond: 0,
-   });
-
-   if (startToday < current && endToday > current) {
-      return { date: current.toDate(), smena: 1 };
-   } else if (endToday < current) {
-      return { date: current.toDate(), smena: 2 };
-   } else {
-      const currentClone = current.clone();
-      return { date: currentClone.subtract(1, "day").toDate(), smena: 2 };
    }
 }
 

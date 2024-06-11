@@ -114,10 +114,13 @@ class TransportStateController extends Controller
 
 		$key = 'Заправочный';
 
+		$dayStart = env('BASE_SMENA_DAY');
+		$nightStart = env('BASE_SMENA_NIGHT');
+
 		$allStates = DB::select("SELECT A.* ,B.smenaDate,B.smena,B.teamNum FROM transport_states A
   		left join WIALON.dbo.ReportSmenaTeam B ON 
-   	(case when cast(geozone_in as time) between '09:10' AND '21:10' then 1 else 2 end) = B.smena
-  			AND (case when cast(geozone_in as time) between '09:10' AND '21:10' then cast(geozone_in as date)
+   	(case when cast(geozone_in as time) between '$dayStart' AND '$nightStart' then 1 else 2 end) = B.smena
+  			AND (case when cast(geozone_in as time) between '$dayStart' AND '$nightStart' then cast(geozone_in as date)
 			else case when cast(geozone_in as time) between '21:10:01' AND '23:59:59' then cast(geozone_in as date)
 			else dateadd(day, -1, cast(geozone_in as date))  end end) = B.smenaDate 
 			WHERE A.geozone_in between ? AND ? AND a.geozone LIKE N'%' + ? + '%' AND smena = 1
@@ -147,12 +150,9 @@ class TransportStateController extends Controller
 					$also = $this->time->timeBetween($car->geozone_out, $STARTDATES, $ENDDATES);
 
 					$difference = $also ? $this->time->secondDiffWithoutSmena($car->geozone_in, $car->geozone_out) : $this->time->secondDiffWithoutSmena($car->geozone_in, $ENDDATES);
-					// $difference2 = $also ? $this->time->secondDiff($car->geozone_in, $car->geozone_out) : $this->time->secondDiff($car->geozone_in, $ENDDATES);
-
 
 					$arr[] = [
 						'difference' => $difference,
-						// 'difference2' => $difference2,
 						'smena' => $state->teamNum,
 						'smenaDate' => $state->smenaDate,
 					];

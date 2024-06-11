@@ -8,28 +8,31 @@ class Smena
 {
    public function getPeriod($currentTime)
    {
-      $startOfDay = $currentTime->copy()->startOfDay();
-      $ninePoint = $startOfDay->copy()->addHours(9)->addMinutes(10);
-      $twentyOnePoint = $startOfDay->copy()->addHours(21)->addMinutes(10);
-      if ($ninePoint <= $currentTime && $currentTime < $twentyOnePoint) {
+
+      $DaySmena = env('BASE_SMENA_DAY');
+      $NightSmena = env('BASE_SMENA_NIGHT');
+
+      $current = $currentTime->copy()->startOfDay()->format('Y-m-d');
+      $daySmenaStart = Carbon::parse("$current $DaySmena");
+      $nightSmenastart = Carbon::parse("$current $NightSmena");
+
+      if ($daySmenaStart <= $currentTime && $currentTime < $nightSmenastart) {
          $smena = 1;
-         $start = $startOfDay->addHours(9);
-         $start->addMinutes(10);
+         $start = $daySmenaStart;
 
          $startCopy = $start->copy();
          $end = $startCopy->addHours(12);
-      } elseif ($currentTime >= $twentyOnePoint) {
+      } elseif ($currentTime >= $nightSmenastart) {
          $smena = 2;
-         $start = $startOfDay->addHours(21);
-         $start->addMinutes(10);
+         $start = $nightSmenastart;
 
          $startCopy = $start->copy();
          $end = $startCopy->addHours(12);
       } else {
          $smena = 2;
-         $start = $startOfDay->subDay()->addHours(21);
-         $start->addMinutes(10);
-
+         $subDay = $currentTime->copy()->subDay()->format('Y-m-d');
+         
+         $start = Carbon::parse("$subDay $NightSmena");
          $startCopy = $start->copy();
          $end = $startCopy->addHours(12);
       }
@@ -78,14 +81,22 @@ class Smena
 
    public function secondDiffWithoutSmena($firstDate, $secondDate)
    {
+
+      $DaySmena = env('BASE_SMENA_DAY');
+      $DaySmenaJob = env('BASE_SMENA_DAY_JOB');
+
+      $NightSmena = env('BASE_SMENA_NIGHT');
+      $NightSmenaJob = env('BASE_SMENA_NIGHT_JOB');
+
+
       $date1 = strtotime($firstDate);
       $date2 = strtotime($secondDate);
 
-      $daySmenaStart = date('Y-m-d 09:10:00', $date1);
-      $daySmenaEnd = date('Y-m-d 09:40:00', $date1);
+      $daySmenaStart = date("Y-m-d $DaySmena", $date1);
+      $daySmenaEnd = date("Y-m-d $DaySmenaJob", $date1);
 
-      $nightSmenaStart = date('Y-m-d 21:10:00', $date1);
-      $nightSmenaEnd = date('Y-m-d 21:40:00', $date1);
+      $nightSmenaStart = date("Y-m-d $NightSmena", $date1);
+      $nightSmenaEnd = date("Y-m-d $NightSmenaJob", $date1);
 
 
       if(strtotime($daySmenaStart) < $date2 && $date2 < strtotime($daySmenaEnd) ){

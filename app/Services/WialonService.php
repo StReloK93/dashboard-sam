@@ -271,25 +271,7 @@ class WialonService
 	}
 
 
-	public function setTypes()
-	{
-		$groups = $this->getGroups();
 
-		$list = [9748, 9749, 9750, 9751];
-
-		foreach ($groups['items'] as $key => $group) {
-			if (in_array($group['id'], $list)) {
-
-				foreach ($group['u'] as $key => $value) {
-					Truck::updateOrCreate(
-						['transport_id' => $value],
-						['group_name' => $group['nm'], 'group_id' => $group['id']]
-					);
-				}
-
-			}
-		}
-	}
 
 	public function writeToDB()
 	{
@@ -325,4 +307,25 @@ class WialonService
 		return DB::table('transports')->insert($transports);
 	}
 
+
+
+		// public function setTypes()
+	// {
+	// 	$groups = $this->getGroups();
+
+	// 	$list = [9748, 9749, 9750, 9751];
+
+	// 	foreach ($groups['items'] as $key => $group) {
+	// 		if (in_array($group['id'], $list)) {
+
+	// 			foreach ($group['u'] as $key => $value) {
+	// 				Truck::updateOrCreate(
+	// 					['transport_id' => $value],
+	// 					['group_name' => $group['nm'], 'group_id' => $group['id']]
+	// 				);
+	// 			}
+
+	// 		}
+	// 	}
+	// }
 }

@@ -38,7 +38,15 @@ Route::get('export/report/{date}/{weekCount}', function ($date, $weekCount) {
 
 
 Route::get('information', function () {
-   return ['oil' => env('BASE_OIL'), 'smena' => env('BASE_SMENA'), 'uat' => env('BASE_UAT')];
+   return [
+      'oil' => env('BASE_OIL'),
+      'smena' => env('BASE_SMENA'),
+      'uat' => env('BASE_UAT'),
+      'day_smena' => env('BASE_SMENA_DAY'),
+      'day_smena_job' => env('BASE_SMENA_DAY_JOB'),
+      'night_smena' => env('BASE_SMENA_NIGHT'),
+      'night_smena_job' => env('BASE_SMENA_NIGHT_JOB'),
+   ];
 });
 
 Route::middleware('auth:sanctum')->group(function () {
