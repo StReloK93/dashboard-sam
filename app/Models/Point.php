@@ -8,9 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Point extends Model
 {
     use HasFactory;
-    protected $connection = 'sqlsrv_speed';
-
-    protected $table = "ttracks";
+    protected $table = "transports";
 
     public $timestamps = false;
     protected $fillable = [

@@ -27,11 +27,11 @@ class TripsController extends Controller
         }
 
         return Point::select(
-            DB::raw('DATEADD(HOUR, DATEDIFF(HOUR, 0, T), 0) AS hour'),
+            DB::raw('DATEADD(HOUR, DATEDIFF(HOUR, 0, time_message), 0) AS hour'),
             DB::raw('ROUND(AVG(CASE WHEN Speed <> 0 THEN CAST(Speed AS DECIMAL(10, 2)) ELSE NULL END), 2) AS average_speed'),
         )
-        ->whereBetween('T', [$startDate, $endDate])
-        ->groupBy(DB::raw('DATEADD(HOUR, DATEDIFF(HOUR, 0, T), 0)'))
+        ->whereBetween('time_message', [$startDate, $endDate])
+        ->groupBy(DB::raw('DATEADD(HOUR, DATEDIFF(HOUR, 0, time_message), 0)'))
         ->orderBy('hour')
         ->get();
     }
