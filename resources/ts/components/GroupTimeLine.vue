@@ -59,22 +59,24 @@
             <section v-show="tab == 3" class="h-full !overflow-y-auto scroll indigo-scroll !overflow-hidden px-2">
                <table class="w-full">
                   <tr class="border-b-4 border-zinc-900 bg-stone-950">
-                     <td class="py-1 px-2">№</td>
-                     <td class="py-1">Transport nomi</td>
-                     <td class="py-1">Kirgan vaqti</td>
-                     <td class="py-1">Chiqqan vaqti</td>
-                     <td class="py-1">Umumiy</td>
+                     <td class="py-1 px-2 w-8">№</td>
+                     <td class="py-1 w-32">Transport nomi</td>
+                     <td class="py-1 w-40">Kirgan vaqti</td>
+                     <td class="py-1 w-40">Chiqqan vaqti</td>
+                     <td class="py-1 w-16">Umumiy</td>
                      <td class="py-1 " v-if="props.color == 'indigo'">Sababi</td>
 
                   </tr>
                   <tr v-for="(transport, index) in selectedCars" class="bg-zinc-800 border-y-4 border-zinc-900">
-                     <td class="py-1 px-2">{{ index + 1 }}</td>
-                     <td class="py-1">{{ transport.name }}</td>
+                     <td class="py-1 px-2 w-8">{{ index + 1 }}</td>
+                     <td class="py-1 w-32">{{ transport.name }}</td>
                      <td class="py-1">{{ moment(transport.geozone_in).format('YYYY-MM-DD HH:mm') }}</td>
                      <td class="py-1">{{ moment(transport.geozone_out).format('YYYY-MM-DD HH:mm') }}</td>
                      <td class="py-1">{{ getDifference(transport) }}</td>
                      <td class="py-1 w-52" v-if="props.color == 'indigo'">
                         <form @submit.prevent="saveCause(transport)" class="w-full flex items-center pr-2">
+                           <!-- <multiselect :options="causes" :searchable="true" track-by="name" label="name" :close-on-select="false" :show-labels="false"
+                              placeholder="Tanlang"></multiselect> -->
                            <input :disabled="transport.bool" type="text" v-model="transport.cause"
                               class="outline-none relative bg-gray-700 shadow-inner px-1.5 py-0.5 disabled:bg-transparent rounded-l-sm">
                            <template
@@ -99,15 +101,17 @@
 </template>
 
 <script setup lang="ts">
+import Multiselect from 'vue-multiselect'
+import "vue-multiselect/dist/vue-multiselect.css"
 import { AuthStore } from '@/app/auth'
 const props = defineProps(['group', 'color'])
 import { ref, onMounted, reactive, computed } from 'vue'
 import Highcharts from 'highcharts'
 import moment from 'moment'
-import { UTCTime, timeDiff, formatDate, getDateAndSmena, secondsToFormatTime, getDifference, inSmenaTime } from '@/helpers/timeFormat'
+import { UTCTime, timeDiff, formatDate, getDateAndSmena, secondsToFormatTime, getDifference, inSmenaTime ,peresmenka } from '@/helpers/timeFormat'
 import { transportsTimeLine } from '@/config/charts'
 
-
+const causes = ref([])
 const auth = AuthStore()
 const tab = ref(3)
 
@@ -142,6 +146,7 @@ function changeSmena(smena) {
    getDiagramDate()
 }
 
+
 const chartTimeLine = ref()
 const selectedCars = ref()
 function getDiagramDate() {
@@ -149,7 +154,9 @@ function getDiagramDate() {
    axios.post('api/states/select_smena', { date: pickers.date, smena: pickers.smena })
       .then(({ data }) => {
          tableData.value = []
-         selectedCars.value = data.states.filter((car) => car.geozone == props.group && timeDiff(car, 'seconds') > 59 && inSmenaTime(car) == false)
+         selectedCars.value = data.states.filter((car) => {
+            return (car.geozone == props.group) && timeDiff(car, 'seconds') > 59 && peresmenka(car) == false
+         })
 
          selectedCars.value.forEach((selected, index, same) => {
             selected.bool = true
@@ -199,5 +206,14 @@ function getDiagramDate() {
 
 }
 
-onMounted(() => getDiagramDate())
+onMounted(() => {
+   getDiagramDate()
+
+   axios.get(`api/get-cause-list`).then(({data}) => {
+      causes.value = data
+   })
+
+})
 </script>
+
+<!-- 4022 -->

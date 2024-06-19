@@ -16,12 +16,10 @@ class ReportExport implements FromCollection, WithHeadings, WithMapping, ShouldA
    protected $weekCount;
    public function __construct($date, $weekCount)
    {
+      $DaySmena = env('BASE_SMENA_DAY');
       $this->weekCount = $weekCount;
-      $this->date = Carbon::parse($date)
-         ->timezone('Asia/Tashkent')
-         ->startOfDay()
-         ->addHours(9)
-         ->addMinutes(10);
+      $current = Carbon::parse($date)->timezone('Asia/Tashkent')->startOfDay()->format('Y-m-d');
+      $this->date = Carbon::parse("$current $DaySmena");
    }
 
    public function collection()

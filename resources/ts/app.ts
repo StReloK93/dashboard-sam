@@ -13,6 +13,7 @@ import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import "@/app/App.css"
 
+
 window.axios = axios
 import Highcharts from "highcharts"
 import HighchartsMore from "highcharts/highcharts-more"

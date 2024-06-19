@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { AuthStore } from "@/app/auth"
 import { computed, ref } from "vue";
-import { inZone, timeDiff, inExcavatorHelper, inSmenaTime, calculatePathLength } from "@/helpers/timeFormat";
+import { inZone, timeDiff, inExcavatorHelper, inSmenaTime, calculatePathLength , peresmenka } from "@/helpers/timeFormat";
 import axios from "axios";
 import moment from "moment";
 
@@ -176,7 +176,7 @@ export const Transports = defineStore("Transports", () => {
 
       cars.value?.forEach((car) => {
          car.in_smena.forEach((truck) => {
-            if (inZone(truck, auth.information?.smena) && inSmenaTime(truck) == false) {
+            if (inZone(truck, auth.information?.smena) && peresmenka(truck) == false) {
                const diff = timeDiff(truck, "minutes");
                const geozone = truck.geozone;
 

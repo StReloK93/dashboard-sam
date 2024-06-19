@@ -79,6 +79,21 @@ export function getDateAndSmena(time = undefined) {
    }
 }
 
+
+export function peresmenka(transport) {
+   const dayStart = moment(moment(transport.geozone_in).format(`YYYY-MM-DD 09:10`));
+   const dayEnd = moment(moment(transport.geozone_in).format(`YYYY-MM-DD 09:40`));
+
+   const nightStart = moment(moment(transport.geozone_in).format(`YYYY-MM-DD 21:10`));
+   const nightEnd = moment(moment(transport.geozone_in).format(`YYYY-MM-DD 21:40`));
+
+   const daysmena = moment(transport.geozone_out).isBetween(dayStart, dayEnd)
+   const nightsmena = moment(transport.geozone_out).isBetween(nightStart, nightEnd)
+   
+   return daysmena || nightsmena
+   
+}
+
 export function inSmenaTime(transport) {
    const oneStart = moment(moment().format(`YYYY-MM-DD 09:10`));
    const oneEnd = moment(moment().format(`YYYY-MM-DD 09:40`));

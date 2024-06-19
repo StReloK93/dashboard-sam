@@ -31,6 +31,7 @@ Route::get('transports/getGroups', [TransportController::class, 'getGroups']);
 Route::get('transports/excavatorstate', [TripsController::class, 'excavatorState']);
 Route::post('transports/car_reports', [TripsController::class, 'carReports']);
 Route::post('speeds-by-hour', [TripsController::class, 'getSpeedsByHour']);
+Route::get('get-cause-list', [TripsController::class, 'getCauseList']);
 
 Route::get('export/report/{date}/{weekCount}', function ($date, $weekCount) {
    return Excel::download(new ReportExport($date, $weekCount), "$date-$weekCount.xlsx");

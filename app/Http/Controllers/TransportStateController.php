@@ -97,31 +97,27 @@ class TransportStateController extends Controller
 
 	public function waitingInOilGraphic(Request $request)
 	{
+		$dayStart = env('BASE_SMENA_DAY');
+		$nightStart = env('BASE_SMENA_NIGHT');
 
-		$startDate = Carbon::parse($request->startDate)
-		->timezone('Asia/Tashkent')
-		->startOfDay()
-		->addHours(9)
-		->addMinutes(10);
+		$start = Carbon::parse($request->startDate)->startOfDay()->format('Y-m-d');
+		$end = Carbon::parse($request->endDate)->startOfDay()->format('Y-m-d');
+
+		$startDate = Carbon::parse("$start $dayStart");
+
 
 		
-
-		$endDate = Carbon::parse($request->endDate)
-		->timezone('Asia/Tashkent')
-		->startOfDay()
-		->addHours(9)
-		->addMinutes(10);
+		$endDate = Carbon::parse("$end $dayStart");
 
 		$key = 'Заправочный';
 
-		$dayStart = env('BASE_SMENA_DAY');
-		$nightStart = env('BASE_SMENA_NIGHT');
+
 
 		$allStates = DB::select("SELECT A.* ,B.smenaDate,B.smena,B.teamNum FROM transport_states A
   		left join WIALON.dbo.ReportSmenaTeam B ON 
    	(case when cast(geozone_in as time) between '$dayStart' AND '$nightStart' then 1 else 2 end) = B.smena
   			AND (case when cast(geozone_in as time) between '$dayStart' AND '$nightStart' then cast(geozone_in as date)
-			else case when cast(geozone_in as time) between '21:10:01' AND '23:59:59' then cast(geozone_in as date)
+			else case when cast(geozone_in as time) between '$nightStart' AND '23:59:59' then cast(geozone_in as date)
 			else dateadd(day, -1, cast(geozone_in as date))  end end) = B.smenaDate 
 			WHERE A.geozone_in between ? AND ? AND a.geozone LIKE N'%' + ? + '%' AND smena = 1
 			AND DATEDIFF(SECOND, A.geozone_in, A.geozone_out) > 59

@@ -72,14 +72,10 @@ class TripsController extends Controller
 
     public function carReports(Request $request)
     {
+        $DaySmena = env('BASE_SMENA_DAY');
 
-        $startDate = Carbon::parse($request->date)
-            ->timezone('Asia/Tashkent')
-            ->startOfDay()
-            ->addHours(9)
-            ->addMinutes(10);
-
-
+        $current = Carbon::parse($request->date)->startOfDay()->format('Y-m-d');
+        $startDate = Carbon::parse("$current $DaySmena");
         return DB::select("SELECT * FROM [dbo].[FMTBF_MTTR] (?, ?, 7)
         order by [name] ,[hafta]", [$startDate, $request->weekCount]);
 
@@ -88,12 +84,10 @@ class TripsController extends Controller
 
     public function carReportsQuarter(Request $request)
     {
-
-        $startDate = Carbon::parse($request->date)
-            ->timezone('Asia/Tashkent')
-            ->startOfDay()
-            ->addHours(9)
-            ->addMinutes(10);
+        $DaySmena = env('BASE_SMENA_DAY');
+        
+        $current = Carbon::parse($request->date)->startOfDay()->format('Y-m-d');
+        $startDate = Carbon::parse("$current $DaySmena");
 
 
         return DB::select("SELECT * FROM [dbo].[FMTBF_MTTR] (?, 12, 7)
@@ -101,6 +95,13 @@ class TripsController extends Controller
 
     }
 
+
+
+    public function getCauseList(){
+        return DB::connection('wialon')->select("
+            SELECT Detail.id , Detail.name , Main.name as main  FROM SprPrichinaOstanovkiDetail Detail INNER JOIN SprPrichinaOstanovkiMain Main ON Detail.idMain = Main.id
+        ");
+    }
 
 
 }

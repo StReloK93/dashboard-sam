@@ -44,16 +44,17 @@ class Smena
 
    public function getSmena($date, $smena)
    {
-      $point = Carbon::parse($date)->setTimezone('Asia/Tashkent');
-      $startOfDay = $point->copy()->startOfDay();
-      $startOfDay->addMinutes(10);
 
+      $DaySmena = env('BASE_SMENA_DAY');
+      $NightSmena = env('BASE_SMENA_NIGHT');
+
+      $current = Carbon::parse($date)->copy()->startOfDay()->format('Y-m-d');
 
       if ($smena == 1) {
-         $start = $startOfDay->addHours(9);
+         $start = Carbon::parse("$current $DaySmena");
          $end = $start->copy()->addHour(12);
       } else {
-         $start = $startOfDay->addHours(21);
+         $start = Carbon::parse("$current $NightSmena");
          $end = $start->copy()->addHour(12);
       }
 
