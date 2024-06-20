@@ -1,5 +1,5 @@
 <template>
-   <section @mousedown="$emit('close')" class="fixed inset-0 bg-zinc-950/70 flex justify-center items-center z-50">
+   <section @mousedown="$emit('close')" class="fixed inset-0 bg-zinc-950/70 backdrop-blur-[2px] flex justify-center items-center z-50">
       <aside @mousedown.stop class="w-[1100px] h-[540px] relative">
          <PreLoader v-if="loader" />
          <div class="slider-item">
@@ -60,37 +60,21 @@
                <table class="w-full">
                   <tr class="border-b-4 border-zinc-900 bg-stone-950">
                      <td class="py-1 px-2 w-8">№</td>
-                     <td class="py-1 w-32">Transport nomi</td>
+                     <td class="py-1 w-40">Transport nomi</td>
                      <td class="py-1 w-40">Kirgan vaqti</td>
                      <td class="py-1 w-40">Chiqqan vaqti</td>
-                     <td class="py-1 w-16">Umumiy</td>
-                     <td class="py-1 " v-if="props.color == 'indigo'">Sababi</td>
+                     <td class="py-1 w-24">Umumiy</td>
+                     <td class="py-1 px-2 max-w-80" v-if="props.color == 'indigo'">Sababi</td>
 
                   </tr>
                   <tr v-for="(transport, index) in selectedCars" class="bg-zinc-800 border-y-4 border-zinc-900">
                      <td class="py-1 px-2 w-8">{{ index + 1 }}</td>
-                     <td class="py-1 w-32">{{ transport.name }}</td>
-                     <td class="py-1">{{ moment(transport.geozone_in).format('YYYY-MM-DD HH:mm') }}</td>
-                     <td class="py-1">{{ moment(transport.geozone_out).format('YYYY-MM-DD HH:mm') }}</td>
-                     <td class="py-1">{{ getDifference(transport) }}</td>
-                     <td class="py-1 w-52" v-if="props.color == 'indigo'">
-                        <form @submit.prevent="saveCause(transport)" class="w-full flex items-center pr-2">
-                           <!-- <multiselect :options="causes" :searchable="true" track-by="name" label="name" :close-on-select="false" :show-labels="false"
-                              placeholder="Tanlang"></multiselect> -->
-                           <input :disabled="transport.bool" type="text" v-model="transport.cause"
-                              class="outline-none relative bg-gray-700 shadow-inner px-1.5 py-0.5 disabled:bg-transparent rounded-l-sm">
-                           <template
-                              v-if="(auth.user?.level == 1)">
-                              <button v-if="transport.bool" @click="transport.bool = false" type="button"
-                                 class="w-10 py-0.5 bg-gray-300 rounded-r-sm shadow active:bg-gray-500 hover:bg-gray-400">
-                                 <i class="fa-duotone fa-pen-nib text-gray-900"></i>
-                              </button>
-                              <button v-else type="submit"
-                                 class="w-10 py-0.5 bg-gray-300 rounded-sm shadow active:bg-gray-500 hover:bg-gray-400">
-                                 <i class="fa-duotone fa-floppy-disk text-gray-900"></i>
-                              </button>
-                           </template>
-                        </form>
+                     <td class="py-1 w-40">{{ transport.name }}</td>
+                     <td class="py-1 w-40">{{ moment(transport.geozone_in).format('YYYY-MM-DD HH:mm') }}</td>
+                     <td class="py-1 w-40">{{ moment(transport.geozone_out).format('YYYY-MM-DD HH:mm') }}</td>
+                     <td class="py-1 w-24">{{ getDifference(transport) }}</td>
+                     <td class="py-1 pl-2  max-w-80" v-if="props.color == 'indigo'">
+                        <EditTransportCause :transport="transport" :causes="causes" />
                      </td>
                   </tr>
                </table>
@@ -101,19 +85,19 @@
 </template>
 
 <script setup lang="ts">
-import Multiselect from 'vue-multiselect'
-import "vue-multiselect/dist/vue-multiselect.css"
-import { AuthStore } from '@/app/auth'
+import EditTransportCause from './EditTransportCause.vue';
+
+
 const props = defineProps(['group', 'color'])
 import { ref, onMounted, reactive, computed } from 'vue'
 import Highcharts from 'highcharts'
 import moment from 'moment'
-import { UTCTime, timeDiff, formatDate, getDateAndSmena, secondsToFormatTime, getDifference, inSmenaTime ,peresmenka } from '@/helpers/timeFormat'
+import { UTCTime, timeDiff, formatDate, getDateAndSmena, secondsToFormatTime, getDifference, peresmenka } from '@/helpers/timeFormat'
 import { transportsTimeLine } from '@/config/charts'
 
-const causes = ref([])
-const auth = AuthStore()
 const tab = ref(3)
+const causes = ref([])
+
 
 function setColor(boolean) {
    if (boolean) return `bg-${props.color}-600 text-white`
@@ -122,14 +106,6 @@ function setColor(boolean) {
 
 const tableData = ref(null)
 const loader = ref(false)
-
-function saveCause(transport) {
-   axios.patch(`api/transportstates/${transport.id}`, transport).then(({data}) => {
-      console.log(data)
-   })
-   transport.bool = true
-}
-
 
 const fullWaitTime = computed(() => {
    return tableData.value?.reduce((summ, car) => summ + car.difference, 0)
@@ -207,12 +183,10 @@ function getDiagramDate() {
 }
 
 onMounted(() => {
-   getDiagramDate()
-
-   axios.get(`api/get-cause-list`).then(({data}) => {
+   axios.get(`api/get-cause-list`).then(({ data }) => {
       causes.value = data
    })
-
+   getDiagramDate()
 })
 </script>
 

@@ -1,8 +1,6 @@
 import { UTCTime } from "@/helpers/timeFormat";
 
 export function transportsTimeLine(data, yAxis, smena) {
-    console.log(data);
-    
     return {
         series: [
             {

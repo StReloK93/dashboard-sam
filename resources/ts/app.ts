@@ -6,13 +6,13 @@ import TruckIcon from '@/ui/TruckIcon.vue'
 import "swiper/css"
 import "swiper/css/effect-cards"
 import PreLoader from '@/components/PreLoader.vue'
+import MiniPreLoader from '@/components/MiniPreLoader.vue'
 
 import { AuthStore } from "./app/auth"
 import axios from "axios"
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import "@/app/App.css"
-
 
 window.axios = axios
 import Highcharts from "highcharts"
@@ -27,6 +27,7 @@ const app = createApp(App).use(createPinia())
 app.component('VueDatePicker', VueDatePicker)
 app.component('TruckIcon', TruckIcon)
 app.component('PreLoader', PreLoader)
+app.component('MiniPreLoader', MiniPreLoader)
 const store = AuthStore()
 async function init() {
     await store.getUser()
