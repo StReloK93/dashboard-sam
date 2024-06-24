@@ -126,11 +126,19 @@ class WialonService
 					'loadCount' => 1,
 				]),
 			]);
+
+			if(count($point['messages']) == 0){
+				$transports[$key]['speed'] = 0;
+				$transports[$key]['y'] = 0;
+				$transports[$key]['x'] = 0;
+			}
+			else{
+				$transports[$key]['speed'] = $point['messages'][0]['pos']['s'];
+				$transports[$key]['y'] = $point['messages'][0]['pos']['y'];
+				$transports[$key]['x'] = $point['messages'][0]['pos']['x'];
+			}
 			$transports[$key]['name'] = $value['nm'];
 			$transports[$key]['transport_id'] = $value['id'];
-			$transports[$key]['speed'] = $point['messages'][0]['pos']['s'];
-			$transports[$key]['y'] = $point['messages'][0]['pos']['y'];
-			$transports[$key]['x'] = $point['messages'][0]['pos']['x'];
 			$transports[$key]['time_message'] = Carbon::createFromTimestamp($point['messages'][0]['t'])->toDateTimeString();
 			$transports[$key]['created_at'] = $created;
 
