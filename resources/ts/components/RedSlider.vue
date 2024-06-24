@@ -33,7 +33,6 @@ onMounted(() => {
 
    axios.get(`api/process/redcolumn/${props.transport_id}`).then(({data}) => {
       const stops = calculatePauses(data)
-      console.log(stops)
    })
 })
 </script>

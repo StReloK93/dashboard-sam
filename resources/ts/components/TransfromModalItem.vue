@@ -46,8 +46,8 @@ const states = TransportStates()
 
 
 function saveCause(transport) {
-   axios.patch(`api/transportstates/${transport.id}`, transport).then(({data}) => {
-      console.log(data)
+   axios.patch(`api/transportstates/${transport.id}`, transport).then(({ data }) => {
+      
    })
    transport.bool = true
 }
