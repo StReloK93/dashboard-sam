@@ -1,15 +1,12 @@
 import { defineStore } from 'pinia'
 import { computed, ref, Ref } from 'vue'
-import { AuthStore } from "@/app/auth"
 import axios from 'axios'
-import { inZone, timeDiff } from '@/helpers/timeFormat'
+import { inZones, timeDiff, inExcavatorHelper } from '@/helpers/timeFormat'
 
 
 export const TransportStates = defineStore('TransportStates', () => {
     const transports: Ref = ref(null)
     const transportsAll: Ref = ref(null)
-    const auth = AuthStore()
-
 
     async function getTransportState(transport_id) {
         const { data } = await axios.get(`/api/transportstates/${transport_id}`)
@@ -26,26 +23,24 @@ export const TransportStates = defineStore('TransportStates', () => {
     })
 
     const inATB = computed(() => {
-        const filtered = transports.value?.filter((transport) => inZone(transport, auth.information?.uat) || inZone(transport, 'авто'))
+        const filtered = transports.value?.filter((transport) => inZones(transport, settings.uat))
         
-        filtered?.forEach((item) => {
-            item.bool = true
-        })
+        filtered?.forEach((item) => item.bool = true)
         return filtered
     })
 
     const inOIL = computed(() => {
-        return transports.value?.filter((transport) => inZone(transport, auth.information?.oil))
+        return transports.value?.filter((transport) => inZones(transport, settings.oil))
     })
 
     const inSmenaAll = computed(() => {
-        const filtered = transports.value?.filter((transport) => inZone(transport, auth.information?.smena))
+        const filtered = transports.value?.filter((transport) => inZones(transport, settings.smena))
         filtered?.forEach((item) => item.bool = true)
         return filtered
     })
     const inSMENA = computed(() => {
         if (transports.value == null) return
-        const filtered = transports.value?.filter((transport) => inZone(transport, auth.information?.smena))
+        const filtered = transports.value?.filter((transport) => inZones(transport, settings.smena))
 
         const group: any = {}
 
@@ -59,11 +54,8 @@ export const TransportStates = defineStore('TransportStates', () => {
     const inExcavator = computed(() => {
         return transports.value?.filter((transport) => {
             if (timeDiff(transport, 'seconds') < 120) return false
-            const ekg = inZone(transport, 'экг')
-            const ex = inZone(transport, 'ex')
-            const gues = inZone(transport, 'эг')
             
-            return ex || ekg || gues || inZone(transport, 'фп') || inZone(transport, 'liebherr') 
+            return inExcavatorHelper(transport)
         })
     })
 

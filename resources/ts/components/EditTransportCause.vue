@@ -26,7 +26,7 @@
          </main>
       </Transition>
 
-      <template v-if="(auth.user?.level == 1)">
+      <template v-if="(auth.user?.level == 1 && ['inSmenaAll', 'indigo'].includes(props.type)) || (auth.user?.level == 0 && ['inATB', 'grey'].includes(props.type))">
          <button @click="menu = true" type="button" class="w-10 h-10 py-0.5 text-indigo-500 hover:text-indigo-700 active:text-indigo-400">
             <i class="fa-solid fa-pen-nib "></i>
          </button>
@@ -38,7 +38,7 @@
 import BaseSelect from '@/components/BaseSelect.vue'
 import { ref, computed } from 'vue'
 import { AuthStore } from '@/app/auth'
-const props = defineProps(['transport', 'causes'])
+const props = defineProps(['transport', 'causes', 'type'])
 const auth = AuthStore()
 
 const buttonLoader = ref(false)

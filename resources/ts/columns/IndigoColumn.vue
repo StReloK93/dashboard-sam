@@ -3,9 +3,12 @@
       <div class="h-28 px-2 flex items-center justify-around">
          <ColumnTopSlider :slides="indigoSlides" />
       </div>
-      <aside class="indigo-scroll overflow-y-auto flex-grow scroll overflow-x-hidden">
-         <TransportProcessGroup grid-cols="grid-cols-3" @openModal="(transport) => store.openModal(3, transport)"
-            title="Smena almashish maydonida" color="indigo" scroll-color="indigo-scroll" :data="transportStore.inSMENA" />
+      <aside class="indigo-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative">
+         <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-3" color="yellow" class="opacity-0"/>
+         <main class="absolute inset-0">
+            <TransportProcessGroup grid-cols="grid-cols-3" @openModal="(transport) => store.openModal(3, transport)"
+               title="Smena almashish maydonida" color="indigo" scroll-color="indigo-scroll" :data="transportStore.inSMENA" />
+         </main>
       </aside>
    </main>
 </template>
@@ -13,6 +16,7 @@
 <script setup lang="ts">
 import { Transports, TransportModal } from '@/entities/transports'
 import ColumnTopSlider from '@/components/ColumnTopSlider.vue'
+import TransportProcess from '@/components/TransportProcess.vue'
 import { reactive, computed } from 'vue'
 import TransportProcessGroup from '@/components/TransportProcessGroup.vue'
 const store = TransportModal()

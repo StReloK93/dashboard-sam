@@ -9,7 +9,15 @@ export function minuteFormat(minutes) {
 }
 
 export function inZone(car, zone) {
-   return car?.geozone?.toLowerCase().includes(zone.toLowerCase());
+   if (car?.geozone) {
+      return car?.geozone?.toLowerCase().includes(zone.toLowerCase());
+   }
+   else return false
+}
+
+export function inZones(car, zones: []) {
+   const array = zones.map((zone) => inZone(car, zone))
+   return array.some((elem) =>  elem == true)
 }
 
 export function timeDiff(car, type) {
@@ -27,7 +35,8 @@ export function inExcavatorHelper(transport) {
       inZone(transport, "ex") ||
       inZone(transport, "эг") ||
       inZone(transport, "фп") ||
-      inZone(transport, "фрп")
+      inZone(transport, "фрп") ||
+      inZone(transport, 'liebherr')
    );
 }
 
@@ -65,9 +74,10 @@ export function secondTimer() {
 }
 
 export function getDateAndSmena(time = undefined) {
+   
    const current = moment(time);
-   const startToday = moment(moment().format(`YYYY-MM-DD 09:10`))
-   const endToday = moment(moment().format(`YYYY-MM-DD 21:10`))
+   const startToday = moment(moment().format(`YYYY-MM-DD ${settings.day_smena}`))
+   const endToday = moment(moment().format(`YYYY-MM-DD ${settings.night_smena}`))
 
    if (startToday < current && endToday > current) {
       return { date: current.toDate(), smena: 1 };
@@ -79,31 +89,16 @@ export function getDateAndSmena(time = undefined) {
    }
 }
 
-
-export function peresmenka(transport) {
-   const dayStart = moment(moment(transport.geozone_in).format(`YYYY-MM-DD 09:10`));
-   const dayEnd = moment(moment(transport.geozone_in).format(`YYYY-MM-DD 09:40`));
-
-   const nightStart = moment(moment(transport.geozone_in).format(`YYYY-MM-DD 21:10`));
-   const nightEnd = moment(moment(transport.geozone_in).format(`YYYY-MM-DD 21:40`));
-
-   const daysmena = moment(transport.geozone_out).isBetween(dayStart, dayEnd)
-   const nightsmena = moment(transport.geozone_out).isBetween(nightStart, nightEnd)
-   
-   return daysmena || nightsmena
-   
-}
-
 export function inSmenaTime(transport) {
-   const oneStart = moment(moment().format(`YYYY-MM-DD 09:10`));
-   const oneEnd = moment(moment().format(`YYYY-MM-DD 09:40`));
-   const oneFirst = moment(transport.geozone_in).isBetween(oneStart, oneEnd);
-   const twoFirst = moment(transport.geozone_out).isBetween(oneStart, oneEnd);
+   const dayStart = moment(moment().format(`YYYY-MM-DD ${settings.day_smena}`));
+   const dayEnd = moment(moment().format(`YYYY-MM-DD ${settings.day_smena_job}`));
+   const oneFirst = moment(transport.geozone_in).isBetween(dayStart, dayEnd);
+   const twoFirst = moment(transport.geozone_out).isBetween(dayStart, dayEnd);
 
-   const twoStart = moment(moment().format(`YYYY-MM-DD 21:10`));
-   const twoEnd = moment(moment().format(`YYYY-MM-DD 21:40`));
-   const oneSecond = moment(transport.geozone_in).isBetween(twoStart, twoEnd);
-   const twoSecond = moment(transport.geozone_out).isBetween(twoStart, twoEnd);
+   const nightStart = moment(moment().format(`YYYY-MM-DD ${settings.night_smena}`));
+   const nightEnd = moment(moment().format(`YYYY-MM-DD ${settings.night_smena_job}`));
+   const oneSecond = moment(transport.geozone_in).isBetween(nightStart, nightEnd);
+   const twoSecond = moment(transport.geozone_out).isBetween(nightStart, nightEnd);
 
    return (oneFirst && twoFirst) || (oneSecond && twoSecond);
 }

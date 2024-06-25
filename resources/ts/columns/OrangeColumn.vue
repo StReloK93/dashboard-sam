@@ -6,9 +6,12 @@
       <div class="h-28 px-2 flex items-center justify-around">
          <ColumnTopSlider :slides="orangeSlides" />
       </div>
-      <aside class="orange-scroll overflow-y-auto flex-grow scroll overflow-x-hidden">
-         <TransportProcessGroup grid-cols="grid-cols-3" @openModal="(transport) => store.openModal(2, transport)"
-            title="Yoqilg'i olish maydonida" color="orange" scroll-color="orange-scroll" :data="transportStore.inOIL" />
+      <aside class="orange-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative">
+         <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-3" color="yellow" class="opacity-0"/>
+         <main class="absolute inset-0">
+            <TransportProcessGroup grid-cols="grid-cols-3" @openModal="(transport) => store.openModal(2, transport)"
+               title="Yoqilg'i olish maydonida" color="orange" scroll-color="orange-scroll" :data="transportStore.inOIL" />
+         </main>
       </aside>
    </main>
 </template>
@@ -19,6 +22,7 @@ import { Transports, TransportModal } from '@/entities/transports'
 import PricingMasters from '@/components/PricingMasters.vue'
 import ColumnTopSlider from '@/components/ColumnTopSlider.vue'
 import TransportProcessGroup from '@/components/TransportProcessGroup.vue'
+import TransportProcess from '@/components/TransportProcess.vue'
 
 const store = TransportModal()
 const transportStore = Transports()

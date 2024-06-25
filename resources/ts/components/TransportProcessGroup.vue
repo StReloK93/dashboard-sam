@@ -1,9 +1,9 @@
 <template>
-	<section :class="props.scrollColor" class="px-2 overflow-y-auto scroll">
+	<section :class="props.scrollColor" class="px-2 overflow-y-auto scroll relative">
 		<TransitionGroup name="fade">
 			<GroupTimeLine :color="props.color" v-if="timeLine" @close="timeLine = null" :group="timeLine" />
 		</TransitionGroup>
-		<h3 class="text-zinc-500 uppercase text-center mb-2">
+		<h3 class="text-zinc-500 uppercase text-center mb-2 sticky top-0">
 			{{ props.title }}
 		</h3>
 		<main v-for="(group, key) of data">

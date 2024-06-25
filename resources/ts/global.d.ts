@@ -5,4 +5,5 @@ declare global {
     var wialon: any;
     var L: any;
     var echo: Echo;
+    var settings: any;
 }

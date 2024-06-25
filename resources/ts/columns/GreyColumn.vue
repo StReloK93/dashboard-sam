@@ -5,6 +5,9 @@
       </Transition>
       <div class="h-28 px-2 flex items-center justify-around relative">
          <ColumnTopSlider :slides="greySlides" />
+         <a :href="setting.table_link" class="absolute top-1 right-1 border-2 border-gray-400 text-gray-300 font-semibold py-1 px-2 shadow shadow-gray-600 rounded text-sm">
+            TXK <i class="fa-solid fa-table-rows"></i>
+         </a>
       </div>
       <aside class="gray-scroll overflow-y-auto flex-grow scroll overflow-x-hidden">
          <TransportProcess counter="timer" grid-cols="grid-cols-3"
@@ -25,7 +28,7 @@ const store = TransportModal()
 const transportStore = Transports()
 const AUTH = AuthStore()
 const reportModal = ref(false)
-
+const setting = settings
 const greySlides:any = reactive([
    {
       bgColor: 'stroke-gray-400',
@@ -46,9 +49,9 @@ const greySlides:any = reactive([
    },
 ])
 
-if (AUTH.information.table_link) {
+if (settings.table_link) {
    greySlides.push({
-      onClick: () => { window.location = AUTH.information.table_link },
+      onClick: () => { window.location = settings.table_link },
       bgColor: 'stroke-gray-400',
       textColor: 'text-gray-400',
       class: "hover:bg-zinc-800 cursor-pointer active:bg-zinc-900",

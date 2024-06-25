@@ -7,6 +7,7 @@ import "swiper/css"
 import "swiper/css/effect-cards"
 import PreLoader from '@/components/PreLoader.vue'
 import MiniPreLoader from '@/components/MiniPreLoader.vue'
+console.log(settings)
 
 import { AuthStore } from "./app/auth"
 import axios from "axios"

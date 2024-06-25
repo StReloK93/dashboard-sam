@@ -14,5 +14,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/{path}', function () {
-    return view('app');
+
+    return view('app', [
+        'oil' => explode(',', env('BASE_OIL')),
+        'smena' => explode(',', env('BASE_SMENA')),
+        'uat' => explode(',', env('BASE_UAT')),
+        'day_smena' => env('BASE_SMENA_DAY'),
+        'day_smena_job' => env('BASE_SMENA_DAY_JOB'),
+        'night_smena' => env('BASE_SMENA_NIGHT'),
+        'night_smena_job' =>  env('BASE_SMENA_NIGHT_JOB'),
+        'table_link' => env('BASE_TABLE_LINK'),
+    ]);
 })->where('path', '.*');

@@ -5,7 +5,6 @@ import axios from "axios";
 
 export const AuthStore = defineStore("Auth", () => {
    const user = ref(null);
-   const information = ref(null);
 
    async function login(data) {
       const result = await axios.post("api/login", data);
@@ -28,13 +27,6 @@ export const AuthStore = defineStore("Auth", () => {
    async function getUser() {
       axios.defaults.headers.common["Authorization"] =
          localStorage.getItem("token");
-
-      await axios
-         .get("api/information")
-         .then(({ data }) => {
-            information.value = data;
-         })
-
       await axios
          .get("api/user")
          .then(({ data }) => {
@@ -66,7 +58,7 @@ export const AuthStore = defineStore("Auth", () => {
       }
    }
 
-   return { user, information, userRoles, getUser, login, register, logout };
+   return { user, userRoles, getUser, login, register, logout };
 });
 
 export const printStore = defineStore("printStore", () => {

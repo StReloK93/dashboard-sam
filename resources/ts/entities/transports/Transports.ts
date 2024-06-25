@@ -1,15 +1,14 @@
 import { defineStore } from "pinia";
-import { AuthStore } from "@/app/auth"
 import { computed, ref } from "vue";
-import { inZone, timeDiff, inExcavatorHelper, inSmenaTime, calculatePathLength , peresmenka } from "@/helpers/timeFormat";
+import { inZones, timeDiff, inExcavatorHelper, inSmenaTime, calculatePathLength  } from "@/helpers/timeFormat";
 import axios from "axios";
 import moment from "moment";
 
 export const Transports = defineStore("Transports", () => {
+
    const cars = ref([]);
    const summaSmenaCars = ref(0);
    const summaOilCars = ref(0);
-   const auth = AuthStore()
    const waterTrucks = ref()
    
 
@@ -54,11 +53,11 @@ export const Transports = defineStore("Transports", () => {
             const diffMinutes = timeDiff(transport, "minutes");
 
             if (
-               inZone(transport, auth.information?.smena) &&
+               inZones(transport, settings.smena) &&
                inSmenaTime(transport) == false
             )
                summSmenaTime += diffMinutes;
-            if (inZone(transport, auth.information?.oil)) summOilTime += diffMinutes;
+            if (inZones(transport, settings.oil)) summOilTime += diffMinutes;
             if (inExcavatorHelper(transport)) summExcavatorTime += diffMinutes;
 
             return inExcavatorHelper(transport)
@@ -89,24 +88,19 @@ export const Transports = defineStore("Transports", () => {
    });
 
    const isUnknown = computed(() => {
-      return cars.value?.filter((car) => {
-         const distance = calculatePathLength(car.tracks);
-         return distance < 30 && car.geozone == null;
-      });
+      return cars.value?.filter((car) => calculatePathLength(car.tracks) < 30 && car.geozone == null);
    });
 
-   const inATB = computed(() => cars.value?.filter((car) => inZone(car, auth.information?.uat) || inZone(car, "авто")));
+   const inATB = computed(() => cars.value?.filter((car) => inZones(car, settings.uat)));
 
    const inOilAll = computed(() =>
-      cars.value?.filter((car) => inZone(car, auth.information?.oil))
+      cars.value?.filter((car) => inZones(car, settings.oil))
    );
    const inSmenaAll = computed(() =>
-      cars.value?.filter((car) => inZone(car, auth.information?.smena))
+      cars.value?.filter((car) => inZones(car, settings.smena))
    );
    const inExcavator = computed(() =>
-      cars.value?.filter(
-         (car) => inExcavatorHelper(car)
-      )
+      cars.value?.filter((car) => inExcavatorHelper(car))
    );
 
    const inOilConflict = computed(() => {
@@ -114,8 +108,7 @@ export const Transports = defineStore("Transports", () => {
       cars.value?.forEach((car) => {
          car.in_smena.forEach((truck) => {
             if (
-               (inZone(truck, auth.information?.oil) || inZone(truck, auth.information?.smena)) &&
-               timeDiff(truck, "minutes") > 0
+               (inZones(truck, settings.oil.concat(settings.smena))) && timeDiff(truck, "minutes") > 0
             )
                allCars.push(truck);
          });
@@ -127,7 +120,7 @@ export const Transports = defineStore("Transports", () => {
    });
 
    const inOIL = computed(() => {
-      const oil = cars.value?.filter((car) => inZone(car, auth.information?.oil));
+      const oil = cars.value?.filter((car) => inZones(car, settings.oil));
       const group: any = {};
       oil?.forEach((item) => {
          const zone = item.geozone;
@@ -138,7 +131,7 @@ export const Transports = defineStore("Transports", () => {
 
       cars.value?.forEach((car) => {
          car.in_smena.forEach((truck) => {
-            if (inZone(truck, auth.information?.oil)) {
+            if (inZones(truck, settings.oil)) {
                const diff = timeDiff(truck, "minutes");
                const geozone = truck.geozone;
                if (group[geozone]) {
@@ -165,7 +158,7 @@ export const Transports = defineStore("Transports", () => {
    });
 
    const inSMENA = computed(() => {
-      const smena = cars.value?.filter((car) => inZone(car, auth.information?.smena));
+      const smena = cars.value?.filter((car) => inZones(car, settings.smena));
 
       const group: any = {};
       smena?.forEach((item) => {
@@ -176,7 +169,7 @@ export const Transports = defineStore("Transports", () => {
 
       cars.value?.forEach((car) => {
          car.in_smena.forEach((truck) => {
-            if (inZone(truck, auth.information?.smena) && peresmenka(truck) == false) {
+            if (inZones(truck, settings.smena) && inSmenaTime(truck) == false) {
                const diff = timeDiff(truck, "minutes");
                const geozone = truck.geozone;
 

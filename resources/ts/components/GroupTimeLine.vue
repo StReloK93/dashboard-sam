@@ -74,7 +74,7 @@
                      <td class="py-1 w-40">{{ moment(transport.geozone_out).format('YYYY-MM-DD HH:mm') }}</td>
                      <td class="py-1 w-24">{{ getDifference(transport) }}</td>
                      <td class="py-1 pl-2  max-w-80" v-if="props.color == 'indigo'">
-                        <EditTransportCause :transport="transport" :causes="causes" />
+                        <EditTransportCause :type="props.color"  :transport="transport" :causes="causes" />
                      </td>
                   </tr>
                </table>
@@ -92,7 +92,7 @@ const props = defineProps(['group', 'color'])
 import { ref, onMounted, reactive, computed } from 'vue'
 import Highcharts from 'highcharts'
 import moment from 'moment'
-import { UTCTime, timeDiff, formatDate, getDateAndSmena, secondsToFormatTime, getDifference, peresmenka } from '@/helpers/timeFormat'
+import { UTCTime, timeDiff, formatDate, getDateAndSmena, secondsToFormatTime, getDifference, inSmenaTime } from '@/helpers/timeFormat'
 import { transportsTimeLine } from '@/config/charts'
 
 const tab = ref(3)
@@ -131,7 +131,7 @@ function getDiagramDate() {
       .then(({ data }) => {
          tableData.value = []
          selectedCars.value = data.states.filter((car) => {
-            return (car.geozone == props.group) && timeDiff(car, 'seconds') > 59 && peresmenka(car) == false
+            return (car.geozone == props.group) && timeDiff(car, 'seconds') > 59 && inSmenaTime(car) == false
          })
 
          selectedCars.value.forEach((selected, index, same) => {
