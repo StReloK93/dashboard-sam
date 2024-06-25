@@ -20,14 +20,13 @@ import ColumnTopSlider from '@/components/ColumnTopSlider.vue'
 import { Transports, TransportModal } from '@/entities/transports'
 import TransportProcess from '@/components/TransportProcess.vue'
 import ReportModal from '@/components/ReportModal.vue'
-
+import { AuthStore } from '@/app/auth'
 const store = TransportModal()
 const transportStore = Transports()
-
+const AUTH = AuthStore()
 const reportModal = ref(false)
 
-
-const greySlides = reactive([
+const greySlides:any = reactive([
    {
       bgColor: 'stroke-gray-400',
       textColor: 'text-gray-400',
@@ -46,4 +45,17 @@ const greySlides = reactive([
       icon: "fa-duotone fa-scroll"
    },
 ])
+
+if (AUTH.information.table_link) {
+   greySlides.push({
+      onClick: () => { window.location = AUTH.information.table_link },
+      bgColor: 'stroke-gray-400',
+      textColor: 'text-gray-400',
+      class: "hover:bg-zinc-800 cursor-pointer active:bg-zinc-900",
+      timer: 30,
+      value: "Jadval",
+      icon: "fa-solid fa-table-rows"
+   })
+}
+
 </script>
