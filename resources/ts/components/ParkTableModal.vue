@@ -4,13 +4,15 @@
       <aside @mousedown.stop class="w-[1366px] h-[600px] relative">
          <main class="slider-item px-1">
             <div
-               class="bg-orange-600 text-center mb-1.5 py-1 flex items-center justify-center rounded shadow font-semibold text-xl">
-               Avtoag'dargichlarni yoqilg'i olishda kutishga ketgan vaqtlari (Smenalar bo'yicha)
+               class="bg-red-600 text-center mb-1.5 py-1 flex items-center justify-center rounded shadow font-semibold text-xl">
+               Avtoag'dargichlarni texnik korikdan o'tish jadvali
             </div>
-            <section class="!overflow-y-auto scroll orange-scroll w-full flex-grow">
+            <section class="!overflow-y-auto scroll red-scroll w-full flex-grow">
                <main class="pb-2">
-                  <input type="date" @change="getData" v-model="startDate" class="mr-2 text-gray-800 px-1.5 py-0.5 rounded-sm">
-                  <input type="date" @change="getData" v-model="endDate" class="mr-2 text-gray-800 px-1.5 py-0.5 rounded-sm">
+                  <input type="date" @change="getData" v-model="startDate"
+                     class="mr-2 text-gray-800 px-1.5 py-0.5 rounded-sm">
+                  <input type="date" @change="getData" v-model="endDate"
+                     class="mr-2 text-gray-800 px-1.5 py-0.5 rounded-sm">
                </main>
                <table class="w-full">
                   <tr class="border-b-2 border-zinc-900 bg-stone-950 ">
@@ -24,13 +26,15 @@
                      <td v-for="day in days" class="border-x-2 border-zinc-900 group-hover:bg-zinc-700 px-1 content-start"
                         :class="[{ 'bg-zinc-700': day == moment().format('YYYY-MM-DD') }]">
 
-                        <span v-for="car in getGarageNumbers(day, toName)" class="mr-1 text-sm bg-zinc-900 font-semibold px-1.5 rounded-sm neomorph">
+                        <span v-for="car in getGarageNumbers(day, toName)"
+                           class="mr-1 text-sm bg-zinc-900 font-semibold px-1.5 rounded-sm neomorph">
                            {{ car.GarN }}
                         </span>
                      </td>
-                     <td class="border-x-2 border-zinc-900 group-hover:bg-zinc-700 !bg-orange-900 px-1 content-start">
-                        <span v-for="car in getOtherTos(toName)" class="mr-1 text-sm bg-orange-600 font-semibold px-1.5 rounded-sm shadow-md ">
-                           {{ car.GarN }}
+                     <td class="border-x-2 border-zinc-900 group-hover:bg-zinc-700 !bg-red-900 px-1 content-start">
+                        <span v-for="car in getOtherTos(toName)"
+                           class="mr-1 text-sm bg-red-600 font-semibold px-1.5 rounded-sm shadow-md inline-block content-center">
+                           {{ car.GarN }} <span class="text-red-950 font-bold inline-block ml-1">{{ car.Farq }}</span>
                         </span>
                      </td>
                   </tr>
@@ -55,7 +59,6 @@ const otherDays = ref([])
 
 
 
-days.value = getDaysArray(startDate.value, endDate.value)
 
 
 function getGarageNumbers(day, name) {
@@ -68,14 +71,16 @@ function getOtherTos(toName) {
 
 
 function getData() {
+   days.value = getDaysArray(startDate.value, endDate.value)
+
    axios.post('api/information/get-park-information', { startDate: startDate.value, endDate: endDate.value, park: 1 }).then(({ data: result }) => {
       rows.value = result
 
       otherDays.value = result.filter((row) => {
-         const isTrue = moment(row.Sana).isBetween(moment(startDate.value), moment(endDate.value).add(1,'days'))
+         const isTrue = moment(row.Sana).isBetween(moment(startDate.value), moment(endDate.value).add(1, 'days'))
          return isTrue == false
       })
-      
+
       const texObsList = result.map((row) => row.TexOb)
       texObsList.sort((a, b) => +a.replace(/\D/g, "") - +b.replace(/\D/g, ""))
 
