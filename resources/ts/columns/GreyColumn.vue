@@ -1,13 +1,14 @@
 <template>
    <main class="border-r border-zinc-800 flex flex-col">
-      <Transition name="fade">
+      <TransitionGroup name="fade">
          <ReportModal @close="reportModal = false" v-if="reportModal" />
-      </Transition>
+         <ParkTableModal @close="parkModal = false"  v-if="parkModal" />
+      </TransitionGroup>
       <div class="h-28 px-2 flex items-center justify-around relative">
          <ColumnTopSlider :slides="greySlides" />
-         <a v-if="setting.table_link" :href="setting.table_link" class="absolute top-1 right-1 border-2 border-gray-400 text-gray-300 font-semibold py-1 px-2 shadow shadow-gray-600 rounded text-sm">
+         <button @click="parkModal = true" class="absolute top-1 right-1 border-2 border-gray-400 text-gray-300 font-semibold py-1 px-2 shadow shadow-gray-600 rounded text-sm">
             TXK <i class="fa-solid fa-table-rows"></i>
-         </a>
+         </button>
       </div>
       <aside class="gray-scroll overflow-y-auto flex-grow scroll overflow-x-hidden">
          <TransportProcess counter="timer" grid-cols="grid-cols-3"
@@ -19,14 +20,16 @@
 
 <script setup lang="ts">
 import { reactive, computed, ref } from 'vue'
+import ParkTableModal from '@/components/ParkTableModal.vue'
 import ColumnTopSlider from '@/components/ColumnTopSlider.vue'
 import { Transports, TransportModal } from '@/entities/transports'
 import TransportProcess from '@/components/TransportProcess.vue'
 import ReportModal from '@/components/ReportModal.vue'
-import { AuthStore } from '@/app/auth'
+
+const parkModal = ref(false)
+
 const store = TransportModal()
 const transportStore = Transports()
-const AUTH = AuthStore()
 const reportModal = ref(false)
 const setting = settings
 const greySlides:any = reactive([
@@ -48,5 +51,4 @@ const greySlides:any = reactive([
       icon: "fa-duotone fa-scroll"
    },
 ])
-
 </script>

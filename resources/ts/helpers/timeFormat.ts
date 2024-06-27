@@ -204,3 +204,17 @@ export function calculatePauses(points: []) {
 
    return stops;
 }
+
+
+export function getDaysArray(startDate, endDate) {
+   const start = moment(startDate);
+   const end = moment(endDate);
+   const daysArray = [];
+
+   while (start.isSameOrBefore(end)) {
+      daysArray.push(start.format('YYYY-MM-DD'));
+      start.add(1, 'days');
+   }
+
+   return daysArray;
+}

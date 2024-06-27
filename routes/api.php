@@ -19,6 +19,7 @@ Route::get('process/excavator', [TransportStateController::class, 'excavator']);
 Route::get('process/redcolumn/{transport_id}', [TransportStateController::class, 'redColumn']);
 Route::post('states/select_smena', [TransportStateController::class, 'selectSmena']);
 Route::post('states/peresmena-graphic', [TransportStateController::class, 'waitingInOilGraphic']);
+Route::post('information/get-park-information', [TransportStateController::class, 'getParkInformation']);
 
 
 Route::get('transports/all', [TransportController::class, 'index']);
