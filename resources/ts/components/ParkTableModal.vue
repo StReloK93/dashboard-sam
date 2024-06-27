@@ -73,7 +73,7 @@ function getOtherTos(toName) {
 function getData() {
    days.value = getDaysArray(startDate.value, endDate.value)
 
-   axios.post('api/information/get-park-information', { startDate: startDate.value, endDate: endDate.value, park: 1 }).then(({ data: result }) => {
+   axios.post('api/information/get-park-information', { startDate: startDate.value, endDate: endDate.value }).then(({ data: result }) => {
       rows.value = result
 
       otherDays.value = result.filter((row) => {

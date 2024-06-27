@@ -162,6 +162,7 @@ class TransportStateController extends Controller
 	}
 
 	public function getParkInformation(Request $request){
-		return DB::connection('ueb')->select("SELECT * FROM [dbo].UEB_TO_Yed_Okno_AC(?,?, ?)", [$request->startDate, $request->endDate, $request->park]);
+		
+		return DB::connection('ueb')->select("SELECT * FROM [dbo].UEB_TO_Yed_Okno_AC(?,?, ?)", [$request->startDate, $request->endDate, (int) env("BASE_PARK")]);
 	}
 }
