@@ -5,7 +5,7 @@
          <main class="slider-item px-1">
             <div
                class="bg-red-600 text-center mb-1.5 py-1 flex items-center justify-center rounded shadow font-semibold text-xl">
-               Avtoag'dargichlarni texnik korikdan o'tish jadvali
+               Avtoag'dargichlarni texnik ko'rikdan o'tish jadvali
             </div>
             <section class="!overflow-y-auto scroll red-scroll w-full flex-grow">
                <main class="pb-2">
@@ -21,7 +21,7 @@
                      <td class="text-center"></td>
                   </tr>
                   <tr v-for="toName in toList" class="bg-zinc-800 border-y-2 border-zinc-900 hover:bg-stone-950 group">
-                     <td class="bg-stone-950 text-center h-12">{{ toName }}</td>
+                     <td class="bg-stone-950 text-center h-12">{{ getToName(toName) }}</td>
 
                      <td v-for="day in days" class="border-x-2 border-zinc-900 group-hover:bg-zinc-700 px-1 content-start"
                         :class="[{ 'bg-zinc-700': day == moment().format('YYYY-MM-DD') }]">
@@ -58,6 +58,32 @@ const days = ref([])
 const otherDays = ref([])
 
 
+function getToName(name:any) {
+   const index = name?.replace(/\D/g, "")
+   console.log(index);
+   
+   const arrayNames = [
+      'TO-250 (1)',
+      'TO-500 (2)',
+      'TO-250 (3)',
+      'TO-1000 (4)',
+      'TO-250 (5)',
+      'TO-500 (6)',
+      'TO-250 (7)',
+      'TO-2000 (8)',
+      'TO-250 (9)',
+      'TO-500 (10)',
+
+      'TO-250 (11)',
+      'TO-3000 (12)',
+      'TO-250 (13)',
+      'TO-500 (14)',
+      'TO-250 (15)',
+      'TO-4000 (16)',
+   ]
+
+   return arrayNames[+index - 1]
+}
 
 
 
