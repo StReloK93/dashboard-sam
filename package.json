@@ -16,6 +16,7 @@
     "dependencies": {
         "@popperjs/core": "^2.11.8",
         "@vuepic/vue-datepicker": "^8.5.0",
+        "exceljs": "^4.4.0",
         "highcharts": "^11.3.0",
         "highcharts-gantt": "^0.1.7",
         "highcharts-solid-gauge": "^0.1.7",

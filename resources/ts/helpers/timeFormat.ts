@@ -218,3 +218,29 @@ export function getDaysArray(startDate, endDate) {
 
    return daysArray;
 }
+
+
+export function getToName(name: any) {
+   const index = name?.replace(/\D/g, "")
+   const arrayNames = [
+      'TO-250 (1)',
+      'TO-500 (2)',
+      'TO-250 (3)',
+      'TO-1000 (4)',
+      'TO-250 (5)',
+      'TO-500 (6)',
+      'TO-250 (7)',
+      'TO-2000 (8)',
+      'TO-250 (9)',
+      'TO-500 (10)',
+
+      'TO-250 (11)',
+      'TO-3000 (12)',
+      'TO-250 (13)',
+      'TO-500 (14)',
+      'TO-250 (15)',
+      'TO-4000 (16)',
+   ]
+
+   return arrayNames[+index - 1]
+}
