@@ -8,11 +8,11 @@
                Avtoag'dargichlarni texnik ko'rikdan o'tish jadvali
             </div>
             <section class="!overflow-y-auto scroll red-scroll w-full flex-grow">
-               <main class="pb-2">
-                  <input type="date" @change="getData" v-model="startDate"
-                     class="mr-2 text-gray-800 px-1.5 py-0.5 rounded-sm">
-                  <input type="date" @change="getData" v-model="endDate"
-                     class="mr-2 text-gray-800 px-1.5 py-0.5 rounded-sm">
+               <main class="pb-2 flex justify-between">
+                  <aside>
+                     <VueDatePicker @update:model-value="handleDate" v-model="dates" range :format="formatDate" auto-apply
+                        placeholder="Kunni tanlang" class="pr-4" />
+                  </aside>
                </main>
                <table class="w-full">
                   <tr class="border-b-2 border-zinc-900 bg-stone-950 ">
@@ -29,7 +29,17 @@
                         <span v-for="car in getGarageNumbers(day, toName)"
                            class="mr-1 text-sm bg-zinc-900 font-semibold px-1.5 rounded-sm neomorph">
                            {{ car.GarN }}
+                           <tippy target="_parent">
+                              <div>Marka: <b>{{ car.MARKA_AC_NAME }}</b></div>
+                              <div>Turi: <b>{{ car.BASKET_NAME }}</b></div>
+                              <div>{{car.NameTO}}: <b>{{ car.DataTO }}</b></div>
+                           </tippy>
                         </span>
+                        <span v-for="car in getFacts(day, toName)"
+                           class="mr-1 text-sm bg-green-900 font-semibold px-1.5 rounded-sm neomorph">
+                           {{ car.GarN }}
+                        </span>
+                        
                      </td>
                      <td class="border-x-2 border-zinc-900 group-hover:bg-zinc-700 !bg-red-900 px-1 content-start">
                         <span v-for="car in getOtherTos(toName)"
@@ -46,11 +56,12 @@
 </template>
 
 <script setup lang="ts">
+import { formatDate } from '@/helpers/timeFormat'
 import moment from 'moment'
 import { getDaysArray } from '@/helpers/timeFormat'
 import { ref, onMounted } from 'vue'
-const startDate = ref(moment().add(-3, 'days').format('YYYY-MM-DD'))
-const endDate = ref(moment().add(7, 'days').format('YYYY-MM-DD'))
+
+const tab = ref(1)
 
 const toList = ref([])
 const rows = ref([])
@@ -58,10 +69,22 @@ const days = ref([])
 const otherDays = ref([])
 
 
-function getToName(name:any) {
+const handleDate = (modelData) => {
+   if (modelData) {
+      dates.value = modelData
+      getData()
+   }
+}
+const startDates = new Date()
+const endDates = new Date()
+startDates.setDate(startDates.getDate() - 3);
+endDates.setDate(endDates.getDate() + 7);
+
+const dates = ref([startDates,endDates])
+
+
+function getToName(name: any) {
    const index = name?.replace(/\D/g, "")
-   console.log(index);
-   
    const arrayNames = [
       'TO-250 (1)',
       'TO-500 (2)',
@@ -91,19 +114,30 @@ function getGarageNumbers(day, name) {
    return rows.value.filter((row) => row.Sana == day && row.TexOb == name)
 }
 
+
+function getFacts(day, name) {
+   const index = name?.replace(/\D/g, "")
+   
+   return rows.value.filter((row) => {
+      console.log(row.DataTO, day);
+      return row.DataTO == day && row.idVidTO == index
+   })
+}
+
+
 function getOtherTos(toName) {
    return otherDays.value.filter((row) => row.TexOb == toName)
 }
 
 
 function getData() {
-   days.value = getDaysArray(startDate.value, endDate.value)
+   days.value = getDaysArray(dates.value[0], dates.value[1])
 
-   axios.post('api/information/get-park-information', { startDate: startDate.value, endDate: endDate.value }).then(({ data: result }) => {
+   axios.post('api/information/get-park-information', { startDate: days.value[0], endDate: days.value.at(-1) }).then(({ data: result }) => {
       rows.value = result
 
       otherDays.value = result.filter((row) => {
-         const isTrue = moment(row.Sana).isBetween(moment(startDate.value), moment(endDate.value).add(1, 'days'))
+         const isTrue = moment(row.Sana).isBetween(moment(days.value[0]), moment(days.value.at(-1)).add(1, 'days'))
          return isTrue == false
       })
 

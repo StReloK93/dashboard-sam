@@ -28,7 +28,7 @@
                      <button @click="tab = 1" :class="setColor(tab == 1)" class="w-20 h-full font-semibold rounded shadow">
                         <i class="fa-solid fa-chart-gantt"></i> Grafik
                      </button>
-                     <button @click="tab = 2" v-if="props.color == 'orange'" :class="setColor(tab == 2)"
+                     <button @click="tab = 2" :class="setColor(tab == 2)"
                         class="px-2 h-full font-semibold rounded shadow ml-3 flex-grow">
                         <i class="fa-solid fa-table-list"></i> Yoqilg'i olishda kutib qolish {{
                            secondsToFormatTime(fullWaitTime) }}
@@ -38,6 +38,8 @@
             </div>
             <section v-show="tab == 1" ref="chartTimeLine"
                class="h-full !overflow-y-auto scroll indigo-scroll !overflow-hidden"></section>
+
+<!-- Kutib qolish jadvali -->
             <section v-show="tab == 2" class="h-full !overflow-y-auto scroll indigo-scroll !overflow-hidden px-2">
                <table class="w-full">
                   <tr class="border-b-4 border-zinc-900 bg-stone-950">
@@ -56,6 +58,8 @@
                   </tr>
                </table>
             </section>
+<!-- Kutib qolish jadvali -->
+
             <section v-show="tab == 3" class="h-full !overflow-y-auto scroll indigo-scroll !overflow-hidden px-2">
                <table class="w-full">
                   <tr class="border-b-4 border-zinc-900 bg-stone-950">

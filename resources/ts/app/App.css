@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -131,6 +132,8 @@
       1
    ); /*Timing on menu appear animation*/
    --dp-transition-timing: ease-out; /*Timing on slide animations*/
+
+   --dp-input-padding: 5px 30px 5px 5px;
 }
 
 .loader {
