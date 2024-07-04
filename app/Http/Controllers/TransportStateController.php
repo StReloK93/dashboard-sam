@@ -9,7 +9,7 @@ use App\Models\TransportList;
 use App\Helpers\Smena;
 use Carbon\Carbon;
 use DB;
-use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class TransportStateController extends Controller
