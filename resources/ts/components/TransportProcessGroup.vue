@@ -1,7 +1,7 @@
 <template>
 	<section :class="props.scrollColor" class="px-2 overflow-y-auto scroll relative">
 		<TransitionGroup name="fade">
-			<GroupTimeLine :color="props.color" v-if="timeLine" @close="timeLine = null" :group="timeLine" />
+			<TransportProcessGroupModal :color="props.color" v-if="timeLine" @close="timeLine = null" :group="timeLine" />
 		</TransitionGroup>
 		<h3 class="text-zinc-500 uppercase text-center mb-2 sticky top-0">
 			{{ props.title }}
@@ -36,7 +36,7 @@
 <script setup lang="ts">
 import TransportButton from '@/ui/TransportButton.vue'
 import { minuteFormat } from '@/helpers/timeFormat'
-import GroupTimeLine from './GroupTimeLine.vue'
+import TransportProcessGroupModal from './TransportProcessGroupModal.vue'
 import { ref, watch } from 'vue'
 const props = defineProps(['color', 'title', 'count', 'data', 'gridCols', 'scrollColor'])
 

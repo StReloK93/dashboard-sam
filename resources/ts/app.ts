@@ -27,6 +27,7 @@ HighchartsSolidGauge(Highcharts);
 
 const app = createApp(App);
 
+
 app.use(createPinia());
 app.directive('tippy', TippyDirective);
 app.component('tippy', Tippy);
@@ -41,6 +42,7 @@ async function init() {
    await store.getUser();
    app.use(router);
    app.mount("#app");
+   console.log(settings);
 }
 init();
 

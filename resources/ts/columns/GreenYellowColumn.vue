@@ -20,13 +20,18 @@
 import ColumnTopSlider from '@/components/ColumnTopSlider.vue'
 import TransportProcess from '@/components/TransportProcess.vue'
 import { Transports, TransportModal } from '@/entities/transports'
+import { Excavators } from '@/entities/transports/Excavators'
 import { reactive, computed } from 'vue'
 const store = TransportModal()
 const transportStore = Transports()
+const excavatorStore = Excavators()
 
 const greenSlides = reactive([
    {
-      onStart: transportStore.getTransports,
+      onStart: () => {
+         transportStore.getTransports()
+         excavatorStore.getExcavatorStates()
+      } ,
       bgColor: 'stroke-green-600',
       textColor: 'text-green-400',
       timer: 30,

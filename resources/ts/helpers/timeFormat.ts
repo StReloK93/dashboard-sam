@@ -244,3 +244,21 @@ export function getToName(name: any) {
 
    return arrayNames[+index - 1]
 }
+
+
+export function splitNumberAndText(str) {
+   // Используем регулярное выражение для поиска числа в начале строки
+   const match = str.match(/^(\d+)(.*)$/);
+   // Если число найдено, возвращаем его и остальной текст
+   if (match) {
+      return {
+         number: parseInt(match[1], 10),
+         text: match[2].trim().slice(1)
+      };
+   }
+   // Если числа нет, возвращаем null и исходный текст
+   return {
+      number: null,
+      text: str
+   };
+}

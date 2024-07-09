@@ -1,5 +1,5 @@
 <template>
-    <main class="h-80" ref="chartLine"></main>
+    <main class="h-64" ref="chartLine"></main>
 </template>
 
 <script setup lang="ts">

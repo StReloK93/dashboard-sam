@@ -17,6 +17,7 @@
             'night_smena': @json($night_smena),
             'night_smena_job': @json($night_smena_job),
             'table_link': @json($table_link),
+            'excavators': @json($excavators),
         }
     </script>
     @vite('resources/ts/app.ts')
