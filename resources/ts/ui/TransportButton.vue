@@ -7,7 +7,7 @@
 			<span v-else>C{{ props.name?.replace(/\D/g, "") }}</span>
 			<br>
 			<span class="text-gray-500 text-[10px] leading-[0px] pl-0.5">
-				{{ props.type?.group_name.replace(/\D/g, "") }}
+				{{ props.type?.type }}
 			</span>
 		</div>
 		<template v-if="props.timer_type">

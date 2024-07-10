@@ -19,7 +19,7 @@ class TransportState extends Model
 
     public function truck()
     {
-        return $this->hasOne(Truck::class, 'transport_id', 'transport_id');
+        return $this->hasOne(Car::class, 'name', 'name');
     }
 
     public function tracks()
