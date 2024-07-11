@@ -1,7 +1,7 @@
 <template>
 	<section :class="props.scrollColor" class="px-2 overflow-y-auto scroll relative">
 		<TransitionGroup name="fade">
-			<TransportProcessGroupModal :color="props.color" v-if="timeLine" @close="timeLine = null" :group="timeLine" />
+			<TransportProcessGroupModal :color="props.color" v-if="timeLine && color != 'gray'" @close="timeLine = null" :group="timeLine" />
 		</TransitionGroup>
 		<h3 class="text-zinc-500 uppercase text-center mb-2 sticky top-0">
 			{{ props.title }}

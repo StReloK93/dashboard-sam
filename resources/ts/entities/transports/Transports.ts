@@ -157,6 +157,53 @@ export const Transports = defineStore("Transports", () => {
       return group;
    });
 
+
+   const inATBGroup = computed(() => {
+      const time = moment();
+      const carsATB = cars.value?.filter((car) => inZones(car, settings.uat))
+      carsATB.sort(
+         (a, b) => time.diff(a.geozone_in, "minutes") - time.diff(b.geozone_in, "minutes")
+      );
+
+      const group: any = {};
+
+      carsATB?.forEach((car) => {
+         const zone = car.truck.type;
+
+         if (group[zone]) group[zone].cars.push(car);
+         else group[zone] = { cars: [car], summTime: 0, counter: 0 };
+      });
+
+      cars.value?.forEach((car) => {
+         car.in_smena.forEach((truck) => {
+            if (inZones(truck, settings.uat)) {
+               const diff = timeDiff(truck, "minutes");
+               const geozone = car.truck.type;
+               if (group[geozone]) {
+                  group[geozone].summTime += diff;
+                  if (diff > 0) group[geozone].counter++;
+               } else {
+                  group[geozone] = {
+                     cars: [],
+                     summTime: diff,
+                     counter: diff > 0 ? 1 : 0,
+                  };
+               }
+            }
+         });
+      });
+
+      var summa = 0;
+      for (const iterator in group) {
+         summa += group[iterator].counter;
+      }
+      summaOilCars.value = summa;
+
+      console.log(group);
+      
+      return group;
+   });
+
    const inSMENA = computed(() => {
       const smena = cars.value?.filter((car) => inZones(car, settings.smena));
 
@@ -236,6 +283,7 @@ export const Transports = defineStore("Transports", () => {
       cars,
       summaSmenaCars,
       summaOilCars,
+      inATBGroup
    };
 });
 
