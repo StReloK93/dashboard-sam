@@ -45,8 +45,13 @@ class TripsController extends Controller
 
     public function excavatorState()
     {
-        
-        return DB::select("SELECT distinct mexanizm_nomi, status_of FROM wialon.dbo.ex_status(?, 1, ?)",[now()->format('Y-m-d'), env("BASE_PARK")]);
+        $smena = $this->time->getPeriod(now());
+        return DB::select("SELECT distinct mexanizm_nomi, status_of FROM wialon.dbo.ex_status(?, ?, ?)",
+        [
+            $smena['start']->format('Y-m-d'),
+            $smena['smena'] ,
+            env("BASE_PARK")
+        ]);
     }
 
 
