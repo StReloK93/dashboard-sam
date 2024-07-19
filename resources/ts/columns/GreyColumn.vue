@@ -35,9 +35,6 @@ const parkModal = ref(false);
 const store = TransportModal();
 const transportStore = Transports();
 
-
-console.log(transportStore.inATBGroup);
-
 const reportModal = ref(false);
 const greySlides: any = reactive([
    {

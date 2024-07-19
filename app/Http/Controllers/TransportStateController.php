@@ -112,19 +112,15 @@ class TransportStateController extends Controller
 
 		$endDate = Carbon::parse("$end $dayStart");
 
-		$key = 'Заправочный';
-
-
-
 		$allStates = DB::select("SELECT A.* ,B.smenaDate,B.smena,B.teamNum FROM transport_states A
   		left join WIALON.dbo.ReportSmenaTeam B ON 
    	(case when cast(geozone_in as time) between '$dayStart' AND '$nightStart' then 1 else 2 end) = B.smena
   			AND (case when cast(geozone_in as time) between '$dayStart' AND '$nightStart' then cast(geozone_in as date)
 			else case when cast(geozone_in as time) between '$nightStart' AND '23:59:59' then cast(geozone_in as date)
 			else dateadd(day, -1, cast(geozone_in as date))  end end) = B.smenaDate 
-			WHERE A.geozone_in between ? AND ? AND a.geozone LIKE N'%' + ? + '%' AND smena = 1
+			WHERE A.geozone_in between ? AND ? AND a.geozone LIKE N'%' + ? + '%'
 			AND DATEDIFF(SECOND, A.geozone_in, A.geozone_out) > 59
-		", [$startDate, $endDate, $key]);
+		", [$startDate, $endDate, 'Заправочный']);
 		$arr = [];
 
 
@@ -161,7 +157,10 @@ class TransportStateController extends Controller
 
 		}
 
-		return $arr;
+		return [
+			'chartData' => $arr,
+			'allData' => $allStates,
+		];
 	}
 
 	public function getParkInformation(Request $request)

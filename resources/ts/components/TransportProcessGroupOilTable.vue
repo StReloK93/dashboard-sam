@@ -21,48 +21,24 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { secondsToFormatTime } from '@/helpers/timeFormat'
+import { secondsToFormatTime, calculateConflictTime, calculate } from '@/helpers/timeFormat'
 import { watch, ref, onMounted } from 'vue'
 const props = defineProps(['selectedCars'])
 const emit = defineEmits(['table-update'])
 
 const tableData = ref([])
-watch(() => props.selectedCars, () => {
-   updateChart()
-})
+watch(() => props.selectedCars, () => updateChart())
+
 
 function updateChart() {
    tableData.value = []
-   props.selectedCars.forEach((selected, index, same) => {
-      selected.bool = true
+   tableData.value = calculateConflictTime(props.selectedCars)
 
-      const startDate = moment(selected.geozone_in)
-      const endDate = moment(selected.geozone_out)
-
-      const conflicts = same.filter((car) => moment(car.geozone_in).isBetween(startDate, endDate))
-
-      if (conflicts.length > 0) {
-         conflicts.forEach((nagliCar) => {
-            const endAlso = moment(nagliCar.geozone_out).isBetween(startDate, endDate)
-
-            const difference = endAlso ? moment(nagliCar.geozone_out).diff(nagliCar.geozone_in, 'seconds') : endDate.diff(nagliCar.geozone_in, 'seconds')
-
-            tableData.value.push({
-               name: selected.name + ' va ' + nagliCar.name,
-               difference: difference,
-               start: nagliCar.geozone_in,
-               end: endAlso ? nagliCar.geozone_out : selected.geozone_out
-            })
-
-         })
-      }
-   })
-
+   const result = calculate(props.selectedCars)
+   console.log(result);
+   
    emit('table-update', tableData.value)
 }
-onMounted(() => {
-   updateChart()
-})
-</script>
 
-<!-- select * from wialon.dbo.ex_status('2024-07-08', 1) -->
+onMounted(() => updateChart())
+</script>

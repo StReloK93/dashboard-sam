@@ -198,9 +198,6 @@ export const Transports = defineStore("Transports", () => {
          summa += group[iterator].counter;
       }
       summaOilCars.value = summa;
-
-      console.log(group);
-      
       return group;
    });
 

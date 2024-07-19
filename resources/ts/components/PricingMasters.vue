@@ -7,11 +7,14 @@
                   class="text-center h-9 mb-1.5 flex items-center justify-center rounded shadow font-semibold text-xl">
                   Avtoag'dargichlarni yoqilg'i olishda kutishga ketgan vaqtlari (Smenalar bo'yicha)
                </div>
-               <div class="flex">
+               <div class="flex justify-between">
                   <span class="w-72 mb-1.5">
-                     <VueDatePicker @update:model-value="handleDate" v-model="dates" range :format="formatDate" auto-apply
+                     <VueDatePicker @update:model-value="changeDate" v-model="dates" range :format="formatDate" auto-apply
                         placeholder="Kunni tanlang" />
                   </span>
+                  <button @click="exportExcel" class="px-4 h-9 content-center font-semibold rounded shadow bg-gray-600 active:bg-gray-400">
+                     Yuklash <i class="fa-duotone fa-file-excel ml-2"></i>
+                  </button>
                </div>
             </div>
             <div ref="chart" class="flex-grow"></div>
@@ -24,8 +27,8 @@
 import { ref, onMounted } from 'vue'
 import Highcharts from 'highcharts'
 import PricingChart from '@/config/PricingChart'
-import { formatDate } from '@/helpers/timeFormat'
-const handleDate = (modelData) => {
+import { formatDate, calculateChartDataPrices, downloadExcel, formatterToExcel } from '@/helpers/timeFormat'
+function changeDate(modelData) {
    if (modelData) {
       dates.value = modelData
       getChartData()
@@ -34,48 +37,28 @@ const handleDate = (modelData) => {
 const date = new Date()
 date.setDate(date.getDate() - 7);
 
-const dates = ref([
-   date,
-   new Date(),
-])
+const dates = ref([date, new Date()])
 
 const props = defineProps(['color'])
 const chart = ref()
-
+const allData = ref([])
 function getChartData() {
    axios.post('api/states/peresmena-graphic', {
       startDate: dates.value[0],
       endDate: dates.value[1],
    }).then(({ data }) => {
+      allData.value = data.allData
 
-
-      const mileena = data.reduce((accum, item) => {
-         const selected = accum.find((accumChild) => accumChild.name == item.smena && accumChild.smenaDate == item.smenaDate)
-
-         if (selected) selected.difference += item.difference
-         else accum.push({ name: item.smena, smenaDate: item.smenaDate, difference: item.difference })
-         return accum
-      }, [])
-
-      const groupedData = {};
-
-      mileena.forEach(item => {
-         if (!groupedData[item.name]) groupedData[item.name] = { totalDifference: 0, count: 0 }
-         groupedData[item.name].totalDifference += item.difference;
-         groupedData[item.name].count += 1;
-      });
-
-      // Создаем массив с результатами и вычисляем среднее значение
-      const chartData = Object.keys(groupedData).map(name => {
-         const { totalDifference, count } = groupedData[name];
-         return { name: name, y: totalDifference / count }
-      });
-
-
-      chartData.sort((a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0))
+      const chartData = calculateChartDataPrices(data.chartData)
       // @ts-ignore
       Highcharts.chart(chart.value, PricingChart(chartData));
    })
+}
+
+
+function exportExcel() {
+   const totalArray = formatterToExcel(allData.value)
+   downloadExcel(totalArray, 'download.xls')
 }
 
 onMounted(() => {

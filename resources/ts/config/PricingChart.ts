@@ -1,4 +1,4 @@
-import { secondsToFormatTime } from "@/helpers/timeFormat"
+import { secondsToFormatTime } from "@/helpers/timeFormat";
 
 export default function (chartData) {
     return {
@@ -19,13 +19,27 @@ export default function (chartData) {
             },
         },
         xAxis: {
+            title: {
+                text: "Smenalar",
+            },
             type: "category",
             gridLineWidth: 1,
             gridLineColor: "#222",
+
+            labels: {
+                style: {
+                    color: '#bbb'
+                }
+            }
         },
         yAxis: {
             title: {
                 text: null,
+            },
+            labels: {
+                style: {
+                    color: '#bbb'
+                }
             },
             gridLineWidth: 1,
             gridLineColor: "#222",
@@ -42,8 +56,10 @@ export default function (chartData) {
         tooltip: {
             headerFormat: null,
             formatter: function () {
-                return `<span>Umumiy ketgan vaqt: <b>${secondsToFormatTime(this.y)}</b></span>`
-            }
+                return `<span>Umumiy ketgan vaqt: <b>${secondsToFormatTime(
+                    this.y
+                )}</b></span>`;
+            },
         },
 
         series: [
