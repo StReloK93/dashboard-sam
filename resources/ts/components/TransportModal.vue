@@ -22,7 +22,8 @@
                     <TransfromModalItem type="inSmenaAll" header-color="bg-indigo-600" class="scroll indigo-scroll" />
                 </SwiperSlide>
                 <SwiperSlide v-slot="{ isActive }" class="slider-item neomorph border-t-2 border-t-red-600">
-                    <RedSlider v-if="isActive" header-color="bg-red-600" :transport_id="store.transport.transport_id" class="scroll red-scroll" />
+                    <RedSlider v-if="isActive" header-color="bg-red-600" :transport_id="store.transport.transport_id"
+                        class="scroll red-scroll" />
                 </SwiperSlide>
                 <SwiperSlide class="slider-item neomorph border-t-2 border-t-gray-600">
                     <TransfromModalItem type="inATB" header-color="bg-gray-600" class="scroll gray-scroll" />
@@ -39,7 +40,10 @@ import { TransportStates, TransportModal } from '@/entities/transports'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { EffectCards } from 'swiper/modules'
 import CircleUI from '@/ui/CircleUI.vue'
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, provide } from 'vue'
+
+
+const causes = ref([])
 const store = TransportModal()
 const activeSlide = ref(0)
 const mounted = ref(false)
@@ -63,8 +67,11 @@ const carColor = computed(() => {
 
 const transport = TransportStates()
 transport.getTransportState(store.transport.transport_id)
-
+provide('causes', causes)
 onMounted(() => {
+    axios.get(`api/get-cause-list`).then(({ data }) => {
+        causes.value = data
+    })
     setTimeout(() => mounted.value = true, 200);
 })
 </script>

@@ -34,16 +34,8 @@ import EditTransportCause from './EditTransportCause.vue';
 import moment from 'moment'
 import { getDifference } from '@/helpers/timeFormat'
 import { TransportStates } from '@/entities/transports'
-import { onMounted, ref } from 'vue'
-import axios from 'axios'
+import { inject, ref } from 'vue'
 const props = defineProps(['type', 'headerColor'])
-const causes = ref([])
+const causes = inject('causes')
 const states = TransportStates()
-
-
-onMounted(() => {
-   axios.get(`api/get-cause-list`).then(({ data }) => {
-      causes.value = data
-   })
-})
 </script>

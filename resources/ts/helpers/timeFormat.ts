@@ -464,7 +464,8 @@ export function formatterToExcel(allData) {
       for (const key in groupByZone) {
          const result = calculate(groupByZone[key]);
          totalArray.push({
-            day: elem,
+            day: elem.substring(0, 10),
+            shift: elem.substring(11, 12),
             geozone: key,
             maxTime: secondsToFormatTime(result.oneCarTime),
             waitingTime: secondsToFormatTime(result.moreCarTime),

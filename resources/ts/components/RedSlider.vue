@@ -28,9 +28,7 @@ import axios from 'axios'
 const props = defineProps(['type', 'headerColor', 'transport_id'])
 
 const states = TransportStates()
-const points = ref()
 onMounted(() => {
-
    axios.get(`api/process/redcolumn/${props.transport_id}`).then(({data}) => {
       const stops = calculatePauses(data)
    })
