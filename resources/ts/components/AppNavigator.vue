@@ -18,7 +18,7 @@ const dashboardLinks = ref([
    // { url: '127.0.0.1:8000', name: 'Localhost' },
    {url: '192.168.14.23:3007', name: 'Sharqiy koni' },
    {url: '192.168.14.23:3009', name: 'Daugiztau koni' },
-   {url: '192.168.14.23:3011', name: 'Ajibugut koni' },
+   // {url: '192.168.14.23:3011', name: 'Ajibugut koni' },
    {url: '192.168.48.7:3000', name: 'Amantay koni' },
    {url: '192.168.48.7:3001', name: 'Muruntau koni' },
 ])
