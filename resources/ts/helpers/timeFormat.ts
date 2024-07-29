@@ -309,6 +309,7 @@ export function calculate(selectedCars) {
       moreCarCount: tableData.length,
       diapazone: maxTime,
       geozoneFreeTime: maxTime - summaTrackStayTime - confictTime,
+      smena: selectedCars[0].teamNum,
    };
 }
 
@@ -333,9 +334,9 @@ export function calculateConflictTime(selectedCars) {
 
             const difference = endAlso
                ? moment(nagliCar.geozone_out).diff(
-                    nagliCar.geozone_in,
-                    "seconds"
-                 )
+                  nagliCar.geozone_in,
+                  "seconds"
+               )
                : endDate.diff(nagliCar.geozone_in, "seconds");
 
             tableData.push({
@@ -350,42 +351,26 @@ export function calculateConflictTime(selectedCars) {
    return tableData;
 }
 
-export function calculateChartDataPrices(chartInformation) {
-   const mileena = chartInformation.reduce((accum, item) => {
-      const selected = accum.find(
-         (accumChild) =>
-            accumChild.name == item.smena &&
-            accumChild.smenaDate == item.smenaDate
-      );
+export function calculateChartDataPrices(array) {
+   const reduced = array.reduce((summator, detect) => {
+      if (summator[detect.smena]) summator[detect.smena].push(detect);
+      else summator[detect.smena] = [detect];
 
-      if (selected) selected.difference += item.difference;
-      else
-         accum.push({
-            name: item.smena,
-            smenaDate: item.smenaDate,
-            difference: item.difference,
-         });
-      return accum;
-   }, []);
+      return summator
+   }, {})
 
-   const groupedData = {};
-
-   mileena.forEach((item) => {
-      if (!groupedData[item.name])
-         groupedData[item.name] = { totalDifference: 0, count: 0 };
-      groupedData[item.name].totalDifference += item.difference;
-      groupedData[item.name].count += 1;
-   });
-
-   // Создаем массив с результатами и вычисляем среднее значение
-   const chartData = Object.keys(groupedData).map((name) => {
-      const { totalDifference, count } = groupedData[name];
-      return { name: name, y: totalDifference / count };
-   });
-
-   chartData.sort((a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0));
-
-   return chartData;
+   const total = []
+   for (const key in reduced) {
+      const element = reduced[key];
+      
+      const totalTime = element.reduce((summator, current) => summator + timeToSeconds(current.waitingTime), 0)
+      const days = new Set(element.map((current) => current.day))
+      
+      total.push({name: key, y: totalTime / days.size, totalTime: totalTime, days: days.size })
+   }
+   
+   total.sort((a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0));
+   return total;
 }
 
 export function downloadExcel(array, filename) {
@@ -402,12 +387,12 @@ export function downloadExcel(array, filename) {
        <table>
            <tr><th>${header.join("</th><th>")}</th></tr>
            ${rows
-              .split("\n")
-              .map(
-                 (row) =>
-                    `<tr><td>${row.split("\t").join("</td><td>")}</td></tr>`
-              )
-              .join("")}
+         .split("\n")
+         .map(
+            (row) =>
+               `<tr><td>${row.split("\t").join("</td><td>")}</td></tr>`
+         )
+         .join("")}
        </table>`;
 
    const excelFile = `
@@ -463,15 +448,33 @@ export function formatterToExcel(allData) {
 
       for (const key in groupByZone) {
          const result = calculate(groupByZone[key]);
+         
          totalArray.push({
             day: elem.substring(0, 10),
             shift: elem.substring(11, 12),
+            smena: result.smena,
             geozone: key,
             maxTime: secondsToFormatTime(result.oneCarTime),
             waitingTime: secondsToFormatTime(result.moreCarTime),
             countTrucksInWaiting: result.moreCarCount,
          });
+
+        
       }
    });
    return totalArray;
+}
+
+
+export function timeToSeconds(timeStr) {
+   const parts = timeStr.split(':');
+
+   const hours = parseInt(parts[0], 10);
+   const minutes = parseInt(parts[1], 10);
+   const seconds = parseInt(parts[2], 10);
+
+   const hourInSeconds = hours * 3600
+   const minuteInSeconds = minutes * 60
+
+   return minuteInSeconds + hourInSeconds + seconds;
 }

@@ -56,9 +56,12 @@ export default function (chartData) {
         tooltip: {
             headerFormat: null,
             formatter: function () {
-                return `<span>Umumiy ketgan vaqt: <b>${secondsToFormatTime(
-                    this.y
-                )}</b></span>`;
+                const selected = chartData.find((seel) => seel.name == this.key)
+                return `
+                    <span">O'rtacha vaqt: <b> ${secondsToFormatTime(selected.y)}</b></span><br>
+                    <span>Umumiy kutilgan vaqt: <b>${secondsToFormatTime(selected.totalTime)}</b></span><br>
+                    <span>Smena soni: <b> ${selected.days}</b></span>
+                `;
             },
         },
 

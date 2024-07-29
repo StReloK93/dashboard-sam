@@ -22,6 +22,7 @@ class TransportStateController extends Controller
 
 	public function index()
 	{
+
 		$list = TransportList::latest('id')->first();
 		$period = $this->time->getPeriod(now());
 
@@ -98,70 +99,70 @@ class TransportStateController extends Controller
 	}
 
 
+
+
+
 	public function waitingInOilGraphic(Request $request)
 	{
+		// 25:55
+		// 21:09
+		// 47:04
 		$dayStart = env('BASE_SMENA_DAY');
 		$nightStart = env('BASE_SMENA_NIGHT');
-
 		$start = Carbon::parse($request->startDate)->startOfDay()->format('Y-m-d');
 		$end = Carbon::parse($request->endDate)->startOfDay()->format('Y-m-d');
 
 		$startDate = Carbon::parse("$start $dayStart");
-
-
-
 		$endDate = Carbon::parse("$end $dayStart");
 
+
 		$allStates = DB::select("SELECT A.* ,B.smenaDate,B.smena,B.teamNum FROM transport_states A
-  		left join WIALON.dbo.ReportSmenaTeam B ON 
-   	(case when cast(geozone_in as time) between '$dayStart' AND '$nightStart' then 1 else 2 end) = B.smena
-  			AND (case when cast(geozone_in as time) between '$dayStart' AND '$nightStart' then cast(geozone_in as date)
-			else case when cast(geozone_in as time) between '$nightStart' AND '23:59:59' then cast(geozone_in as date)
-			else dateadd(day, -1, cast(geozone_in as date))  end end) = B.smenaDate 
-			WHERE A.geozone_in between ? AND ? AND a.geozone LIKE N'%' + ? + '%'
-			AND DATEDIFF(SECOND, A.geozone_in, A.geozone_out) > 59
-		", [$startDate, $endDate, 'Заправочный']);
-		$arr = [];
+			left join WIALON.dbo.ReportSmenaTeam B ON 
+			(case when cast(geozone_in as time) between '$dayStart' AND '$nightStart' then 1 else 2 end) = B.smena
+				AND (case when cast(geozone_in as time) between '$dayStart' AND '$nightStart' then cast(geozone_in as date)
+				else case when cast(geozone_in as time) between '$nightStart' AND '23:59:59' then cast(geozone_in as date)
+				else dateadd(day, -1, cast(geozone_in as date))  end end) = B.smenaDate 
+				WHERE A.geozone_in between ? AND ? AND a.geozone LIKE N'%' + ? + '%'
+				AND DATEDIFF(SECOND, A.geozone_in, A.geozone_out) > 59
+			", [$startDate, $endDate, 'Заправочный']);
+		// $arr = [];
 
 
-		foreach ($allStates as $state) {
+		// foreach ($allStates as $state) {
 
-			$STARTDATES = $state->geozone_in;
-			$ENDDATES = $state->geozone_out;
-			$GEOZONE = $state->geozone;
+		// 	$STARTDATES = $state->geozone_in;
+		// 	$ENDDATES = $state->geozone_out;
+		// 	$GEOZONE = $state->geozone;
 
-			$filter = array_filter($allStates, function ($oneState) use ($STARTDATES, $ENDDATES, $GEOZONE) {
-				if ($GEOZONE == $oneState->geozone && $this->time->timeBetween($oneState->geozone_in, $STARTDATES, $ENDDATES)) {
-					return true;
-				} else
-					return false;
-			});
-
-
+		// 	$filter = array_filter($allStates, function ($oneState) use ($STARTDATES, $ENDDATES, $GEOZONE) {
+		// 		if ($GEOZONE == $oneState->geozone && $this->time->timeBetween($oneState->geozone_in, $STARTDATES, $ENDDATES)) {
+		// 			return true;
+		// 		} else
+		// 			return false;
+		// 	});
 
 
-			if (count($filter) > 0) {
-				foreach ($filter as $car) {
-					$also = $this->time->timeBetween($car->geozone_out, $STARTDATES, $ENDDATES);
+		// 	foreach ($filter as $car) {
+		// 		$also = $this->time->timeBetween($car->geozone_out, $STARTDATES, $ENDDATES);
 
-					$difference = $also ? $this->time->secondDiffWithoutSmena($car->geozone_in, $car->geozone_out) : $this->time->secondDiffWithoutSmena($car->geozone_in, $ENDDATES);
+		// 		$difference = $also ? $this->time->secondDiffWithoutSmena($car->geozone_in, $car->geozone_out) : $this->time->secondDiffWithoutSmena($car->geozone_in, $ENDDATES);
 
-					$arr[] = [
-						'difference' => $difference,
-						'smena' => $state->teamNum,
-						'smenaDate' => $state->smenaDate,
-					];
-				}
+		// 		$arr[] = [
+		// 			'difference' => $difference,
+		// 			'smena' => $state->teamNum,
+		// 			'smenaDate' => $state->smenaDate,
+		// 			'geozone' => $state->geozone,
+		// 		];
+		// 	}
 
-			}
+		// }
 
-		}
-
-		return [
-			'chartData' => $arr,
-			'allData' => $allStates,
-		];
+		return $allStates;
 	}
+
+
+
+
 
 	public function getParkInformation(Request $request)
 	{

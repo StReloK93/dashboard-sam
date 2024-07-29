@@ -28,6 +28,12 @@ import { ref, onMounted } from 'vue'
 import Highcharts from 'highcharts'
 import PricingChart from '@/config/PricingChart'
 import { formatDate, calculateChartDataPrices, downloadExcel, formatterToExcel } from '@/helpers/timeFormat'
+
+const props = defineProps(['color'])
+const chart = ref()
+
+
+
 function changeDate(modelData) {
    if (modelData) {
       dates.value = modelData
@@ -39,17 +45,16 @@ date.setDate(date.getDate() - 7);
 
 const dates = ref([date, new Date()])
 
-const props = defineProps(['color'])
-const chart = ref()
+
 const allData = ref([])
 function getChartData() {
    axios.post('api/states/peresmena-graphic', {
       startDate: dates.value[0],
       endDate: dates.value[1],
    }).then(({ data }) => {
-      allData.value = data.allData
-
-      const chartData = calculateChartDataPrices(data.chartData)
+      allData.value = data
+      
+      const chartData = calculateChartDataPrices(formatterToExcel(allData.value))
       // @ts-ignore
       Highcharts.chart(chart.value, PricingChart(chartData));
    })
