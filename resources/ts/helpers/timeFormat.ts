@@ -166,6 +166,32 @@ export function UTCTime<Number>(time: string) {
    );
 }
 
+
+export function getDaysInMonth(year, month) {
+   // Month is 0-based (0 is January, 11 is December)
+   let date = new Date(year, month, 1);
+   let days = [];
+
+   while (date.getMonth() === month) {
+      days.push(new Date(date));
+      date.setDate(date.getDate() + 1);
+   }
+
+   return days;
+}
+
+export function extractYearAndMonth(dateString) {
+   const match = dateString.match(/^(\d{4})-(\d{2})$/);
+   if (match) {
+     const [, year, month] = match;
+     return { year, month };
+   } else {
+     throw new Error('Invalid date format');
+   }
+ }
+ 
+
+
 export function formatDate(date: any) {
    if (date.constructor === Array) {
       const dayStart = date[0].getDate();
@@ -362,13 +388,13 @@ export function calculateChartDataPrices(array) {
    const total = []
    for (const key in reduced) {
       const element = reduced[key];
-      
+
       const totalTime = element.reduce((summator, current) => summator + timeToSeconds(current.waitingTime), 0)
       const days = new Set(element.map((current) => current.day))
-      
-      total.push({name: key, y: totalTime / days.size, totalTime: totalTime, days: days.size })
+
+      total.push({ name: key, y: totalTime / days.size, totalTime: totalTime, days: days.size })
    }
-   
+
    total.sort((a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0));
    return total;
 }
@@ -448,7 +474,7 @@ export function formatterToExcel(allData) {
 
       for (const key in groupByZone) {
          const result = calculate(groupByZone[key]);
-         
+
          totalArray.push({
             day: elem.substring(0, 10),
             shift: elem.substring(11, 12),
@@ -459,7 +485,7 @@ export function formatterToExcel(allData) {
             countTrucksInWaiting: result.moreCarCount,
          });
 
-        
+
       }
    });
    return totalArray;

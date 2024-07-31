@@ -198,8 +198,20 @@ class TransportStateController extends Controller
 				.leading-3{
 					background: rgb(21 21 26);
 				}
+				.content-center {
+					align-content: center;
+				}
+				.text-center {
+				text-align: center;
+				}
 				.h-9{
 					height: 36px;
+				}
+				.h-10{
+					height: 40px;
+				}
+				.w-10{
+					width: 40px;
 				}
 				.border-x-2.border-zinc-900{
 					padding: 0px 5px;

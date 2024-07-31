@@ -90,4 +90,8 @@ class TripsController extends Controller
     }
 
 
+    public function getToExcavators(Request $request){
+        return DB::select("exec wialon.[dbo].proc_MechanismGraphics ?, ?, ?", [$request->year, $request->month, env("BASE_PARK")]);
+    }
+
 }
