@@ -208,10 +208,13 @@ class TransportStateController extends Controller
 					height: 36px;
 				}
 				.h-10{
-					height: 40px;
+					height: 21px;
+				}
+				.max-w-20{
+					max-width: 80px;
 				}
 				.w-10{
-					width: 40px;
+					width: 21px;
 				}
 				.border-x-2.border-zinc-900{
 					padding: 0px 5px;

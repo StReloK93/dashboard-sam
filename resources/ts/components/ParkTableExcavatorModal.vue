@@ -24,17 +24,16 @@
                <main ref="importable">
                   <table class="w-full leading-3">
                      <tr class="border-b-2 border-zinc-900 bg-stone-950 ">
-                        <th class="h-9"></th>
+                        <th class="h-9 max-w-20"></th>
                         <th v-for="(day, index) in days" class="border-x-2 w-10 border-zinc-900 text-center text-xs">
                            {{ index + 1 }}
                         </th>
                      </tr>
                      <tr v-for="toName in toList"
                         class="bg-zinc-800 border-y-2 border-zinc-900 hover:bg-stone-950 group">
-                        <td class="bg-stone-950 text-center h-10">EKG {{ toName.n_garaj }}</td>
-                        <td v-for="(day, index) in days"
-                           class="border-x-2 border-zinc-900 group-hover:bg-zinc-700 content-center text-center"
-                           :class="[{ 'bg-zinc-700': day == moment().format('YYYY-MM-DD') }]">
+                        <td class="bg-stone-950 text-center h-10 max-w-20">EKG {{ toName.n_garaj }}</td>
+                        <td v-for="(day, index) in days" class="border-x-2 border-zinc-900 group-hover:bg-zinc-700 content-center text-center"
+                           :class="[{ 'bg-gray-700': index + 1 == moment().date() }]">
                            {{ toName[index + 1] }}
                         </td>
                      </tr>
