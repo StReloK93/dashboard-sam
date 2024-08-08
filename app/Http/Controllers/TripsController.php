@@ -46,12 +46,14 @@ class TripsController extends Controller
     public function excavatorState()
     {
         $smena = $this->time->getPeriod(now());
-        return DB::select("SELECT distinct mexanizm_nomi, status_of FROM wialon.dbo.ex_status(?, ?, ?)",
-        [
-            $smena['start']->format('Y-m-d'),
-            $smena['smena'] ,
-            env("BASE_PARK")
-        ]);
+        return DB::select(
+            "SELECT distinct mexanizm_nomi, status_of FROM wialon.dbo.ex_status(?, ?, ?)",
+            [
+                $smena['start']->format('Y-m-d'),
+                $smena['smena'],
+                env("BASE_PARK")
+            ]
+        );
     }
 
 
@@ -90,8 +92,14 @@ class TripsController extends Controller
     }
 
 
-    public function getToExcavators(Request $request){
-        return DB::select("exec wialon.[dbo].proc_MechanismGraphics ?, ?, ?", [$request->year, $request->month, env("BASE_PARK")]);
+    public function getToExcavators(Request $request)
+    {
+        $startOfMonth = Carbon::create($request->year, $request->month)->startOfMonth();
+        $endOfMonth = Carbon::create($request->year, $request->month)->endOfMonth();
+        return DB::table("WIALON.dbo.v_MechanismsGraphics")
+        ->where("idPodrazd", env("BASE_PARK"))
+        ->whereBetween('date_of', [$startOfMonth, $endOfMonth])
+        ->orderBy('date_of','desc')->get();
     }
 
 }

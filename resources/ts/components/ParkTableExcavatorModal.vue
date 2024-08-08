@@ -11,8 +11,6 @@
                <main class="pb-2 flex justify-between">
                   <aside>
                      <input type="month" @change="getData" v-model="dates" class="text-gray-700 px-2 py-1 rounded shadow outline-none">
-                     <!-- <VueDatePicker @update:model-value="handleDate" v-model="dates" range :format="formatDate" auto-apply
-                        placeholder="Kunni tanlang" class="pr-4" /> -->
                   </aside>
                   <aside>
                      <button @click="generatePDF"
@@ -31,10 +29,15 @@
                      </tr>
                      <tr v-for="toName in toList"
                         class="bg-zinc-800 border-y-2 border-zinc-900 hover:bg-stone-950 group">
-                        <td class="bg-stone-950 text-center h-10 max-w-20">EKG {{ toName.n_garaj }}</td>
-                        <td v-for="(day, index) in days" class="border-x-2 border-zinc-900 group-hover:bg-zinc-700 content-center text-center"
-                           :class="[{ 'bg-gray-700': index + 1 == moment().date() }]">
-                           {{ toName[index + 1] }}
+                        <td class="bg-stone-950 text-center h-10 max-w-20">{{ toName }}</td>
+                        <td v-for="(day, index) in days" class="border-x-2 border-zinc-900 group-hover:bg-zinc-700 content-start text-center py-1"
+                           :class="[{ 'bg-gray-500': index + 1 == moment().date() }]">
+                           <div :class="{'!bg-red-600': excavator.comments}" class="mb-1 w-8 py-1 rounded-sm mx-auto bg-zinc-900 last:mb-0 font-semibold text-sm" v-for="excavator in getGarageNumbers(day, toName)">
+                              {{ excavator.n_garaj }}
+                              <tippy v-if="excavator.comments" target="_parent">
+                                 <div>{{ excavator.comments }}</div>
+                              </tippy>
+                           </div>
                         </td>
                      </tr>
                   </table>
@@ -53,6 +56,7 @@ const importable = ref()
 
 const toList = ref([])
 const days = ref([])
+const rows = ref([])
 
 const dates = ref(moment().format('YYYY-MM'))
 
@@ -71,14 +75,34 @@ async function generatePDF() {
    })
 }
 
+
+function getGarageNumbers(day, name) {
+   const filtered =  rows.value.filter((row) => {
+      
+      const selectedDay = moment(day).format('YYYY-MM-DD')
+
+      return (row.date_of == selectedDay && (row.causeType == name))
+   })
+   filtered.sort((a, b) => +a.n_garaj - +b.n_garaj)
+
+   return filtered
+}
+
+
+
 async function getData() {
    toList.value = []
    days.value = []
+   rows.value = []
    const { year, month } = extractYearAndMonth(dates.value)
    days.value = getDaysInMonth(+year, +month - 1)
+
    const { data: result } = await axios.post('api/get-to-excavators', { year, month })
-   result.sort((a, b) => +a.n_garaj.replace(/\D/g, "") - +b.n_garaj.replace(/\D/g, ""))
-   toList.value = result
+
+   rows.value = result
+   const causes = result.map((cause) => cause.causeType)
+   toList.value = new Set(causes) as any
+
 }
 
 
