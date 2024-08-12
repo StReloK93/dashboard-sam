@@ -32,7 +32,15 @@
                         <td class="bg-stone-950 text-center h-10 max-w-20">{{ toName }}</td>
                         <td v-for="(day, index) in days" class="border-x-2 border-zinc-900 group-hover:bg-zinc-700 content-start text-center py-1"
                            :class="[{ 'bg-gray-500': index + 1 == moment().date() }]">
-                           <div :class="{'!bg-red-600': excavator.comments}" class="mb-1 w-8 py-1 rounded-sm mx-auto bg-zinc-900 last:mb-0 font-semibold text-sm" v-for="excavator in getGarageNumbers(day, toName)">
+                           <div 
+                              v-for="excavator in getGarageNumbers(day, toName)"
+                              :class="[
+                                 {'bg-teal-600': searchText(excavator.comments, 'bajarildi')},
+                                 {'bg-red-600': searchText(excavator.comments, 'bajarilmadi')},
+                                 {'bg-zinc-900': excavator.comments == null},
+                              ]"
+                              class="mb-1 w-8 py-1 rounded-sm mx-auto last:mb-0 font-semibold text-sm"
+                           >
                               {{ excavator.n_garaj }}
                               <tippy v-if="excavator.comments" target="_parent">
                                  <div>{{ excavator.comments }}</div>
@@ -75,7 +83,11 @@ async function generatePDF() {
    })
 }
 
-
+function searchText(comment, conditions){
+   if(comment == null) return
+   return comment.toLowerCase().includes(conditions)
+}
+searchText('bajarildi (maraz)', 'bajarildi')
 function getGarageNumbers(day, name) {
    const filtered =  rows.value.filter((row) => {
       
