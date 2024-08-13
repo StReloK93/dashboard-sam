@@ -30,6 +30,10 @@ Route::get('transports/wialon', [TransportController::class, 'getWithWialon']);
 Route::get('transports/geozones', [TransportController::class, 'geozones']);
 Route::get('transports/account', [TransportController::class, 'account']);
 Route::get('transports/getGroups', [TransportController::class, 'getGroups']);
+Route::get('transports/getGroupUnitsWithName', [TransportController::class, 'getGroupUnitsWithName']);
+Route::get('transports/getDumpTrucks', [TransportController::class, 'getDumpTrucks']);
+
+
 
 Route::get('transports/excavatorstate', [TripsController::class, 'excavatorState']);
 Route::post('transports/car_reports', [TripsController::class, 'carReports']);

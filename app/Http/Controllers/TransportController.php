@@ -39,4 +39,15 @@ class TransportController extends Controller
         return $this->wialon->getGroups();
     }
 
+    public function getGroupUnitsWithName()
+    {
+        return $this->wialon->getGroupUnitsWithName(7381);
+    }
+
+    public function getDumpTrucks()
+    {
+        return $this->wialon->getDumpTrucks();
+    }
+    
+
 }

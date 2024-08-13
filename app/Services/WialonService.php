@@ -88,7 +88,6 @@ class WialonService
 		$waterTrucksDisabled = $this->watertrucks_id == 0 || $this->gusaks_group_id == 0;
 		$waterTrucks = $waterTrucksDisabled ? null : $this->getWaterTrucks();
 
-		
 		$dumpTrucks = $this->getDumpTrucks();
 
 		return collect($dumpTrucks)->merge($waterTrucks)->toArray();
@@ -281,9 +280,7 @@ class WialonService
 		$time = now();
 
 		foreach ($transports as $car) {
-			$transport = TransportState::where([
-				['transport_id', $car['transport_id']],
-			])->latest('geozone_out')->first();
+			$transport = TransportState::where('transport_id', $car['transport_id'])->latest('geozone_out')->first();
 
 			if (isset($transport) && $transport->geozone == $car['geozone']) {
 
@@ -303,31 +300,16 @@ class WialonService
 			}
 		}
 
+		$transportList = TransportList::latest('id')->first();
 		$collection = collect($transports)->pluck('transport_id')->toArray();
-		TransportList::create(['tranports' => $collection]);
+
+		if(isset($transportList)){
+			$transportList->tranports = $collection;
+		}
+		else{
+			TransportList::create(['tranports' => $collection]);
+		}
 
 		return DB::table('transports')->insert($transports);
 	}
-
-
-
-		// public function setTypes()
-	// {
-	// 	$groups = $this->getGroups();
-
-	// 	$list = [9748, 9749, 9750, 9751];
-
-	// 	foreach ($groups['items'] as $key => $group) {
-	// 		if (in_array($group['id'], $list)) {
-
-	// 			foreach ($group['u'] as $key => $value) {
-	// 				Truck::updateOrCreate(
-	// 					['transport_id' => $value],
-	// 					['group_name' => $group['nm'], 'group_id' => $group['id']]
-	// 				);
-	// 			}
-
-	// 		}
-	// 	}
-	// }
 }
