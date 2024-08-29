@@ -83,11 +83,6 @@ async function generatePDF() {
    })
 }
 
-function searchText(comment, conditions){
-   if(comment == null) return
-   return comment.toLowerCase().includes(conditions)
-}
-searchText('bajarildi (maraz)', 'bajarildi')
 function getGarageNumbers(day, name) {
    const filtered =  rows.value.filter((row) => {
       
