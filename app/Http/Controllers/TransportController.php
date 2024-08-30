@@ -41,7 +41,7 @@ class TransportController extends Controller
 
     public function getGroupUnitsWithName()
     {
-        return $this->wialon->getGroupUnitsWithName(7381);
+        return $this->wialon->getGroupUnitsWithName((int) env("BASE_GROUP_ALL_DUMPTRUCKS"));
     }
 
     public function getDumpTrucks()

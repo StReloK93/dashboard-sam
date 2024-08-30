@@ -305,6 +305,7 @@ class WialonService
 
 		if(isset($transportList)){
 			$transportList->tranports = $collection;
+			$transportList->save();
 		}
 		else{
 			TransportList::create(['tranports' => $collection]);
