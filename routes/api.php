@@ -40,6 +40,7 @@ Route::post('transports/car_reports', [TripsController::class, 'carReports']);
 Route::post('speeds-by-hour', [TripsController::class, 'getSpeedsByHour']);
 Route::get('get-cause-list', [TripsController::class, 'getCauseList']);
 Route::post('get-to-excavators', [TripsController::class, 'getToExcavators']);
+Route::post('get-to-drillings', [TripsController::class, 'getToDrillings']);
 
 
 

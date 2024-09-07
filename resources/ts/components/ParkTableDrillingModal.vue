@@ -5,7 +5,7 @@
          <main class="slider-item px-1">
             <div
                class="bg-red-600 text-center mb-1.5 py-1 flex items-center justify-center rounded shadow font-semibold text-xl">
-               Ekskavatorlarni texnik ko'rikdan o'tish jadvali
+               Burg'ulash uskunalarini texnik ko'rikdan o'tish jadvali
             </div>
             <section class="!overflow-y-auto scroll red-scroll w-full flex-grow">
                <main class="pb-2 flex justify-between">
@@ -105,7 +105,7 @@ async function getData() {
    const { year, month } = extractYearAndMonth(dates.value)
    days.value = getDaysInMonth(+year, +month - 1)
 
-   const { data: result } = await axios.post('api/get-to-excavators', { year, month })
+   const { data: result } = await axios.post('api/get-to-drillings', { year, month })
 
    rows.value = result
    const causes = result.map((cause) => cause.causeType)

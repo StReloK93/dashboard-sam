@@ -4,6 +4,7 @@
          <ReportModal @close="reportModal = false" v-if="reportModal" />
          <ParkTableModal @close="parkModal = false" v-if="parkModal" />
          <ParkTableExcavatorModal @close="parkExcavatorModal = false" v-if="parkExcavatorModal" />
+         <ParkTableDrillingModal @close="parkDrillingModal = false" v-if="parkDrillingModal" />
       </TransitionGroup>
       <div class="h-28 px-2 flex items-center justify-around relative">
          <ColumnTopSlider :slides="greySlides" />
@@ -13,8 +14,12 @@
                TXK <TruckIcon color="fill-orange-400" width="20" colorSecond="fill-orange-700" class="-scale-x-100 ml-1.5"/>
             </button>
             <button @click="parkExcavatorModal = true"
-               class="border-2 flex border-gray-400 text-gray-300 font-semibold py-1 px-2 shadow shadow-gray-600 rounded text-sm">
+               class="border-2 flex border-gray-400 text-gray-300 font-semibold py-1 px-2 shadow shadow-gray-600 rounded text-sm mb-1">
                TXK <img src="/images/excavator.png" class="w-4  ml-2">
+            </button>
+            <button @click="parkDrillingModal = true"
+               class="border-2 flex border-gray-400 text-gray-300 font-semibold py-1 px-2 shadow shadow-gray-600 rounded text-sm">
+               TXK <img src="/images/drilling-rig.png" class="w-4  ml-2">
             </button>
          </main>
       </div>
@@ -32,6 +37,7 @@
 import { reactive, computed, ref } from "vue";
 import ParkTableModal from "@/components/ParkTableModal.vue";
 import ParkTableExcavatorModal from "@/components/ParkTableExcavatorModal.vue";
+import ParkTableDrillingModal from "@/components/ParkTableDrillingModal.vue";
 import ColumnTopSlider from "@/components/ColumnTopSlider.vue";
 import { Transports, TransportModal } from "@/entities/transports";
 import TransportProcess from "@/components/TransportProcess.vue";
@@ -40,6 +46,7 @@ import TransportProcessGroup from '@/components/TransportProcessGroup.vue'
 
 const parkModal = ref(false);
 const parkExcavatorModal = ref(false);
+const parkDrillingModal = ref(false);
 
 const store = TransportModal();
 const transportStore = Transports();

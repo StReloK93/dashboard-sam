@@ -98,8 +98,22 @@ class TripsController extends Controller
         $endOfMonth = Carbon::create($request->year, $request->month)->endOfMonth();
         return DB::table("WIALON.dbo.v_MechanismsGraphics")
         ->where("idPodrazd", env("BASE_PARK"))
+        ->where("tip", 1)
         ->whereBetween('date_of', [$startOfMonth, $endOfMonth])
         ->orderBy('date_of','desc')->get();
+
+    }
+
+    public function getToDrillings(Request $request)
+    {
+        $startOfMonth = Carbon::create($request->year, $request->month)->startOfMonth();
+        $endOfMonth = Carbon::create($request->year, $request->month)->endOfMonth();
+        return DB::table("WIALON.dbo.v_MechanismsGraphics")
+        ->where("idPodrazd", env("BASE_PARK"))
+        ->where("tip", 2)
+        ->whereBetween('date_of', [$startOfMonth, $endOfMonth])
+        ->orderBy('date_of','desc')->get();
+
     }
 
 }
