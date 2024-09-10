@@ -37,7 +37,7 @@
                               :class="[
                                  {'bg-teal-600': excavator.isDone == '1' },
                                  {'bg-red-600': excavator.isDone == '0'},
-                                 {'bg-zinc-900': excavator.comments == null},
+                                 {'bg-zinc-900': excavator.isDone == null},
                               ]"
                               class="mb-1 w-8 py-1 rounded-sm mx-auto last:mb-0 font-semibold text-sm"
                            >

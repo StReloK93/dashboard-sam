@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Wialon\AuthWialon;
-use App\Models\Truck;
 
 use DB;
 use Carbon\Carbon;
@@ -310,6 +309,8 @@ class WialonService
 		else{
 			TransportList::create(['tranports' => $collection]);
 		}
+
+		
 
 		return DB::table('transports')->insert($transports);
 	}
