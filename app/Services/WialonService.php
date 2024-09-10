@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use App\Models\TransportState;
 use App\Models\TransportList;
 use App\Services\GeoZoneService;
-
+use App\Services\Muruntau;
 class WialonService
 {
 	protected $wialon, $frontal_id, $excavator_id, $dumptrucks_id, $account_index, $account, $geozones_group_id, $gusaks_group_id, $watertrucks_id;
@@ -310,7 +310,10 @@ class WialonService
 			TransportList::create(['tranports' => $collection]);
 		}
 
-		
+		// 
+		$service = new Muruntau();
+		$service->writeDb($transport);
+		// 
 
 		return DB::table('transports')->insert($transports);
 	}

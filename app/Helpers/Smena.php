@@ -124,4 +124,29 @@ class Smena
    }
 
    
+
+   public function currentDaySmena($currentTime){
+      $DaySmena = env('BASE_SMENA_DAY');
+      $NightSmena = env('BASE_SMENA_NIGHT');
+
+      $currentDay = $currentTime->copy()->startOfDay()->format('Y-m-d');
+      $daySmenaStart = Carbon::parse("$currentDay $DaySmena");
+      $nightSmenastart = Carbon::parse("$currentDay $NightSmena");
+
+      $day = null;
+
+
+      if ($daySmenaStart <= $currentTime && $currentTime < $nightSmenastart) {
+         $smena = 1;
+         $day = $currentDay;
+      } elseif ($currentTime >= $nightSmenastart) {
+         $smena = 2;
+         $day = $currentDay;
+      } else {
+         $smena = 2;
+         $day = $currentTime->copy()->subDay()->format('Y-m-d');
+      }
+
+      return ['smena' => $smena,'day' => $day];
+   }
 }
