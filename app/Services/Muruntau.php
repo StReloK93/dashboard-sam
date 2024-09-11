@@ -14,7 +14,7 @@ class Muruntau
       if(empty(env('DB_DATABASE_ONLINE'))) return;
 
       $models = $this->modelFormatter($transports);
-      DB::connection('muruntau')->table('table_name')->truncate();
+      DB::connection('muruntau')->table('ReportStaysMekhanizmsLastCordinate')->delete();
       DB::connection('muruntau')->table('ReportStaysMekhanizmsLastCordinate')->insert($models);
    }
 
@@ -36,7 +36,6 @@ class Muruntau
             'smena' => $daySettings['smena'],
             'idPodrazd' => 1,
             'created' => $value['time_message'],
-            "speed" => 1
          ];
       }
 
