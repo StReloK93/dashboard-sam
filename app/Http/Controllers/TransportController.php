@@ -49,5 +49,9 @@ class TransportController extends Controller
         return $this->wialon->getDumpTrucks();
     }
     
+    public function writeToDB()
+    {
+        return $this->wialon->writeToDB();
+    }
 
 }

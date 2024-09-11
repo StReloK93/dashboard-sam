@@ -22,12 +22,8 @@ class Muruntau
    {
       $smena = new Smena();
       $excavatorGeozone = collect($transports)->filter(function ($item) {
-         if (isset($item['geozone']) && is_string($item['geozone'])) {
             return mb_stripos(mb_strtolower($item['geozone']), mb_strtolower(env('BASE_MURUNTAU_TEXT'))) !== false;
-         }
-         return false;
       })->all();
-
       $array = [];
 
       foreach ($excavatorGeozone as $key => $value) {

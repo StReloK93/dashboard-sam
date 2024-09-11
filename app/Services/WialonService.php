@@ -312,7 +312,7 @@ class WialonService
 
 		// 
 		$service = new Muruntau();
-		$service->writeDb($transport);
+		$service->writeDb($transports);
 		// 
 
 		return DB::table('transports')->insert($transports);
