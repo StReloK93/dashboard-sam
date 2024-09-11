@@ -14,7 +14,8 @@ class Muruntau
       if(empty(env('DB_DATABASE_ONLINE'))) return;
 
       $models = $this->modelFormatter($transports);
-      DB::connection('muruntau')->table('ReportStaysMekhanizmsLastHistoryOnline')->insert($models);
+      DB::connection('muruntau')->table('table_name')->truncate();
+      DB::connection('muruntau')->table('ReportStaysMekhanizmsLastCordinate')->insert($models);
    }
 
 
