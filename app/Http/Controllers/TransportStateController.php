@@ -104,9 +104,6 @@ class TransportStateController extends Controller
 
 	public function waitingInOilGraphic(Request $request)
 	{
-		// 25:55
-		// 21:09
-		// 47:04
 		$dayStart = env('BASE_SMENA_DAY');
 		$nightStart = env('BASE_SMENA_NIGHT');
 		$start = Carbon::parse($request->startDate)->startOfDay()->format('Y-m-d');
@@ -116,48 +113,22 @@ class TransportStateController extends Controller
 		$endDate = Carbon::parse("$end $dayStart");
 
 
-		$allStates = DB::select("SELECT A.* ,B.smenaDate,B.smena,B.teamNum FROM transport_states A
+		$allStates = DB::select("SELECT A.* ,B.smenaDate,B.smena,B.teamNum FROM transport_states A 
 			left join WIALON.dbo.ReportSmenaTeam B ON 
 			(case when cast(geozone_in as time) between '$dayStart' AND '$nightStart' then 1 else 2 end) = B.smena
 				AND (case when cast(geozone_in as time) between '$dayStart' AND '$nightStart' then cast(geozone_in as date)
 				else case when cast(geozone_in as time) between '$nightStart' AND '23:59:59' then cast(geozone_in as date)
-				else dateadd(day, -1, cast(geozone_in as date))  end end) = B.smenaDate 
+				else dateadd(day, -1, cast(geozone_in as date))  end end) = B.smenaDate and idPodrazd = ?
 				WHERE A.geozone_in between ? AND ? AND a.geozone LIKE N'%' + ? + '%'
 				AND DATEDIFF(SECOND, A.geozone_in, A.geozone_out) > 59
-			", [$startDate, $endDate, 'Заправочный']);
-		// $arr = [];
+			order by smenaDate", [(int) env("BASE_PARK"), $startDate, $endDate, 'Заправочный']);
 
 
-		// foreach ($allStates as $state) {
-
-		// 	$STARTDATES = $state->geozone_in;
-		// 	$ENDDATES = $state->geozone_out;
-		// 	$GEOZONE = $state->geozone;
-
-		// 	$filter = array_filter($allStates, function ($oneState) use ($STARTDATES, $ENDDATES, $GEOZONE) {
-		// 		if ($GEOZONE == $oneState->geozone && $this->time->timeBetween($oneState->geozone_in, $STARTDATES, $ENDDATES)) {
-		// 			return true;
-		// 		} else
-		// 			return false;
-		// 	});
-
-
-		// 	foreach ($filter as $car) {
-		// 		$also = $this->time->timeBetween($car->geozone_out, $STARTDATES, $ENDDATES);
-
-		// 		$difference = $also ? $this->time->secondDiffWithoutSmena($car->geozone_in, $car->geozone_out) : $this->time->secondDiffWithoutSmena($car->geozone_in, $ENDDATES);
-
-		// 		$arr[] = [
-		// 			'difference' => $difference,
-		// 			'smena' => $state->teamNum,
-		// 			'smenaDate' => $state->smenaDate,
-		// 			'geozone' => $state->geozone,
-		// 		];
-		// 	}
-
-		// }
-
-		return $allStates;
+		return response($allStates)
+		->header('0dayStart' , $dayStart)
+		->header('0nightStart' , $nightStart)
+		->header('0startDate' , $startDate)
+		->header('0endDate' ,  $endDate);
 	}
 
 

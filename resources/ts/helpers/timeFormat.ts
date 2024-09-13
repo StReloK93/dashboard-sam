@@ -484,8 +484,6 @@ export function formatterToExcel(allData) {
             waitingTime: secondsToFormatTime(result.moreCarTime),
             countTrucksInWaiting: result.moreCarCount,
          });
-
-
       }
    });
    return totalArray;
