@@ -168,7 +168,7 @@ export const Transports = defineStore("Transports", () => {
       const group: any = {};
 
       carsATB?.forEach((car) => {
-         const zone = car.truck.type;
+         const zone = car.truck?.type;
 
          if (group[zone]) group[zone].cars.push(car);
          else group[zone] = { cars: [car], summTime: 0, counter: 0 };
@@ -178,7 +178,7 @@ export const Transports = defineStore("Transports", () => {
          car.in_smena.forEach((truck) => {
             if (inZones(truck, settings.uat)) {
                const diff = timeDiff(truck, "minutes");
-               const geozone = car.truck.type;
+               const geozone = car.truck?.type;
                if (group[geozone]) {
                   group[geozone].summTime += diff;
                   if (diff > 0) group[geozone].counter++;
