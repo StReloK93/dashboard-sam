@@ -28,7 +28,8 @@ import { computed, ref } from 'vue'
 const timePistali = ref(settings.day_smena == "07:50")
 
 function pistaliName(name){
-	return name.replace(/ /g, '').replace(/\(.*?\)/g, '').match(/№(\d+)/)[1]
+	if(name) return name?.replace(/ /g, '').replace(/\(.*?\)/g, '').match(/№(\d+)/)[1]
+	else return ""
 }
 
 const colors = {
