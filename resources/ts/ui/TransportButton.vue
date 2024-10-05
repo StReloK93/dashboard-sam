@@ -4,7 +4,7 @@
 		<div :class="[buttonColor.text, { 'opacity-0': props.name == null }]"
 			class="mr-3 font-semibold text-sm leading-[10px] text-left">
 			<span v-if="props.color == 'sky'">ГМ{{ props.name?.replace(/\D/g, "") }}</span>
-			<span v-else-if="timePistali">C{{ props.name?.match(/№(\d+)/) }}</span>
+			<span v-else-if="timePistali">C{{ pistaliName(props.name) }}</span>
 			<span v-else>C{{ props.name?.replace(/\D/g, "") }}</span>
 			<br>
 			<span class="text-gray-500 text-[10px] leading-[0px] pl-0.5">
@@ -27,6 +27,9 @@ import { computed, ref } from 'vue'
 
 const timePistali = ref(settings.day_smena == "07:50")
 
+function pistaliName(name){
+	return name.replace(/ /g, '').replace(/\(.*?\)/g, '').match(/№(\d+)/)[1]
+}
 
 const colors = {
 	sky: {
