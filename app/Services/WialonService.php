@@ -34,7 +34,7 @@ class WialonService
 
 
 
-	public function getDumpTrucks(){
+	public function getDumpTrucks($radius){
 		$dumpTrucks = $this->getTransportPoints($this->dumptrucks_id);
 		$zones = $this->getMainGeozones();
 		$excavators = $this->getExcavators();
@@ -47,7 +47,7 @@ class WialonService
 			if ($geozoneName == null) {
 				$distances = $this->geoService->getDistances($pointCar, $excavators);
 
-				if ($distances[0]['distance'] < 41) {
+				if ($distances[0]['distance'] < $radius) {
 					$dumpTrucks[$key]['distance_ex'] = round($distances[0]['distance']);
 					$dumpTrucks[$key]['geozone'] = $distances[0]['name'];
 				} else {
@@ -82,12 +82,12 @@ class WialonService
 		return $waterTrucks;
 	}
 
-	public function getTransportsWithZone()
+	public function getTransportsWithZone($radius)
 	{
 		$waterTrucksDisabled = $this->watertrucks_id == 0 || $this->gusaks_group_id == 0;
-		$waterTrucks = $waterTrucksDisabled ? null : $this->getWaterTrucks();
 
-		$dumpTrucks = $this->getDumpTrucks();
+		$waterTrucks = $waterTrucksDisabled ? null : $this->getWaterTrucks();
+		$dumpTrucks = $this->getDumpTrucks($radius);
 
 		return collect($dumpTrucks)->merge($waterTrucks)->toArray();
 	}
@@ -275,7 +275,7 @@ class WialonService
 
 	public function writeToDB()
 	{
-		$transports = $this->getTransportsWithZone();
+		$transports = $this->getTransportsWithZone(41);
 		$time = now();
 
 		foreach ($transports as $car) {

@@ -26,7 +26,7 @@ class TransportStateController extends Controller
 		$list = TransportList::latest('id')->first();
 		$period = $this->time->getPeriod(now());
 
-		return TransportState::with([
+		$query = TransportState::with([
 			'inSmena' => function ($query) use ($period) {
 				$query->whereBetween('geozone_out', [$period['start'], $period['end']]);
 			},
@@ -34,9 +34,12 @@ class TransportStateController extends Controller
 			'tracks' => function ($query) {
 				$query->where('created_at', '>=', now()->subMinutes(10));
 			},
-		])
-			->whereNot('name', 'like', '%MAN%')
-			->whereIn('transport_states.transport_id', $list->tranports)
+		]);
+		if(env('BASE_SMENA_DAY' != "07:50")){
+			$query->whereNot('name', 'like', '%MAN%');
+		}
+
+		return $query->whereIn('transport_states.transport_id', $list->tranports)
 			->join(
 				DB::raw('(SELECT transport_id, MAX(id) AS max_id FROM transport_states GROUP BY transport_id) as latest_transports'),
 				function ($join) {
