@@ -64,8 +64,8 @@ const chartOptions: any = {
         },
     },
     yAxis: {
-        min: 15,
-        max: 25,
+        min: 10,
+        max: 35,
         title: null,
         minorGridLineWidth: 0,
         gridLineWidth: 0,
