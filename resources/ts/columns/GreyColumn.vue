@@ -8,7 +8,7 @@
       </TransitionGroup>
       <div class="h-28 px-2 flex items-center justify-around relative">
          <ColumnTopSlider :slides="greySlides" />
-         <main class="absolute top-1 right-1 flex flex-col">
+         <main v-if="setting.tos" class="absolute top-1 right-1 flex flex-col">
             <button @click="parkModal = true"
                class="border-2 flex border-gray-400 text-gray-300 font-semibold py-1 px-2 shadow shadow-gray-600 rounded text-sm mb-1">
                TXK <TruckIcon color="fill-orange-400" width="20" colorSecond="fill-orange-700" class="-scale-x-100 ml-1.5"/>
@@ -50,6 +50,8 @@ const parkDrillingModal = ref(false);
 
 const store = TransportModal();
 const transportStore = Transports();
+
+const setting = settings
 
 const reportModal = ref(false);
 const greySlides: any = reactive([
