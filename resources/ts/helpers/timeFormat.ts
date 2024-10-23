@@ -183,14 +183,16 @@ export function getDaysInMonth(year, month) {
 export function extractYearAndMonth(dateString) {
    const match = dateString.match(/^(\d{4})-(\d{2})$/);
    if (match) {
-     const [, year, month] = match;
-     return { year, month };
+      const [, year, month] = match;
+      return { year, month };
    } else {
-     throw new Error('Invalid date format');
+      throw new Error('Invalid date format');
    }
- }
- 
+}
 
+export function getRandomArbitrary(min, max) {
+   return Math.ceil(Math.random() * (max - min) + min) ;
+}
 
 export function formatDate(date: any) {
    if (date.constructor === Array) {
