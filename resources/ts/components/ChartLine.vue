@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import Highcharts from 'highcharts'
+import Highcharts, { color } from 'highcharts'
 import moment from 'moment'
 import { UTCTime } from "@/helpers/timeFormat"
 
@@ -26,10 +26,10 @@ const endToday = moment().set({
 function getChartData() {
     axios.post('api/speeds-by-hour', { startDate: null, endDate: null }).then(({ data }) => {
         chartConstructor.value.series[0].setData(data.map((byHour) => {
-            return {y: byHour.average_speed, x: UTCTime(byHour.hour)}
+            return { y: byHour.average_speed, x: UTCTime(byHour.hour) }
         }));
     })
-}    
+}
 
 
 const chartLine = ref()
@@ -46,6 +46,7 @@ const chartOptions: any = {
             // scrollPositionX: 1
         }
     },
+
     title: null,
     subtitle: null,
     xAxis: {
@@ -60,10 +61,16 @@ const chartOptions: any = {
         // max: UTCTime(endToday.format('YYYY-MM-DD HH:mm')),
         type: 'datetime',
         labels: {
-            overflow: 'justify'
+            overflow: 'justify',
+
         },
     },
     yAxis: {
+        labels: {
+            style: {
+                color: '#bbb'
+            }
+        },
         min: 10,
         max: 35,
         title: null,
@@ -91,9 +98,21 @@ const chartOptions: any = {
     },
     series: [{
         name: "Tezlik smena bo'yicha",
-        data: []
-
+        data: [],
+        label: {
+            enabled: false,
+            color: 'red'
+        }
     }],
+    legend: {
+        labelFormatter: function() {
+            // Изменяем цвет конкретного названия ряда
+            if (this.name === "Tezlik smena bo'yicha") {
+                return '<span style="color: #2caffe;">' + this.name + '</span>'; // Красный цвет для текста
+            }
+            return this.name;
+        }
+    },
     navigation: {
         menuItemStyle: {
             fontSize: '10px'
@@ -107,6 +126,6 @@ onMounted(() => {
 
     setInterval(() => {
         getChartData()
-    }, 60*1000*30)
+    }, 60 * 1000 * 30)
 })
 </script>
