@@ -25,12 +25,12 @@ import { reactive, computed } from 'vue'
 const store = TransportModal()
 const transportStore = Transports()
 const excavatorStore = Excavators()
-
+const pageSettings = settings
 const greenSlides = reactive([
    {
       onStart: () => {
          transportStore.getTransports()
-         excavatorStore.getExcavatorStates()
+         if(pageSettings.excavators) excavatorStore.getExcavatorStates()
       } ,
       bgColor: 'stroke-green-600',
       textColor: 'text-green-400',
