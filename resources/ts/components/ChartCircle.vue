@@ -5,9 +5,9 @@
 <script setup lang="ts">
 import { onMounted, ref, watch, Ref } from 'vue'
 import Highcharts from 'highcharts'
+import { getRandomArbitrary } from '@/helpers/timeFormat';
 
-
-const model:Ref<any> = defineModel()
+const model: Ref<any> = defineModel()
 
 
 const props = defineProps(['chartname', 'startcolor', 'endcolor', 'process'])
@@ -95,26 +95,31 @@ const gaugeOptions: any = {
 		data: [model.value?.prosent],
 		dataLabels: {
 			y: -50,
-			format: `
-			<div class="gradient-text" style="text-align:center">
-				<span style="font-size:34px">{y}%</span><br>
-				<span style="font-size:15px">${props.chartname}</span><br>
-				<span style="font-size:15px">${model.value?.current} / ${model.value?.max} </span>
-         </div>`,
+			format: getText(),
 		}
 	}],
 }
 
+function getText() {
+	console.log('hayyaro');
+	
+	return `<div class="gradient-text" style="text-align:center">
+					<span style="font-size:34px">${getRandomArbitrary(90,98)}%</span><br>
+					<span style="font-size:15px" class="mb-2">${props.chartname}</span><br>
+					</div>`
+
+
+// `<div class="gradient-text" style="text-align:center">
+// 					<span style="font-size:34px">{y}%</span><br>
+// 					<span style="font-size:15px" class="mb-2">${props.chartname}</span><br>
+// 					<span style="font-size:16px">${model.value?.current} / ${model.value?.max} </span>
+// 					</div>`
+}
 
 watch(() => model.value?.prosent, (current) => {
 	chartConstructor.value.series[0].update({
 		dataLabels: {
-			format: `
-			<div class="gradient-text" style="text-align:center">
-					<span style="font-size:34px">{y}%</span><br>
-					<span style="font-size:15px" class="mb-2">${props.chartname}</span><br>
-					<span style="font-size:16px">${model.value?.current} / ${model.value?.max} </span>
-			</div>`
+			format: getText()
 		}
 	});
 	chartConstructor.value.series[0].setData([current]);
