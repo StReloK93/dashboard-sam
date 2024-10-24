@@ -1,14 +1,14 @@
 <template>
    <main class="border-r border-zinc-800 flex flex-col">
-      <TransitionGroup name="fade">
+      <!-- <TransitionGroup name="fade">
          <ReportModal @close="reportModal = false" v-if="reportModal" />
          <ParkTableModal @close="parkModal = false" v-if="parkModal" />
          <ParkTableExcavatorModal @close="parkExcavatorModal = false" v-if="parkExcavatorModal" />
          <ParkTableDrillingModal @close="parkDrillingModal = false" v-if="parkDrillingModal" />
-      </TransitionGroup>
+      </TransitionGroup> -->
       <div class="h-28 px-2 flex items-center justify-around relative">
          <ColumnTopSlider :slides="greySlides" />
-         <main v-if="setting.tos" class="absolute top-1 right-1 flex flex-col">
+         <!-- <main v-if="setting.tos" class="absolute top-1 right-1 flex flex-col">
             <button @click="parkModal = true"
                class="border-2 flex border-gray-400 text-gray-300 font-semibold py-1 px-2 shadow shadow-gray-600 rounded text-sm mb-1">
                TXK <TruckIcon color="fill-orange-400" width="20" colorSecond="fill-orange-700" class="-scale-x-100 ml-1.5"/>
@@ -21,7 +21,7 @@
                class="border-2 flex border-gray-400 text-gray-300 font-semibold py-1 px-2 shadow shadow-gray-600 rounded text-sm">
                TXK <img src="/images/drilling-rig.png" class="w-4  ml-2">
             </button>
-         </main>
+         </main> -->
       </div>
       <aside class="gray-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative">
          <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-3" color="yellow" class="opacity-0" />
@@ -67,14 +67,14 @@ const greySlides: any = reactive([
          colorSecond: "fill-gray-700",
       },
    },
-   {
-      onClick: () => (reportModal.value = true),
-      bgColor: "stroke-gray-400",
-      textColor: "text-gray-400",
-      class: "hover:bg-zinc-800 cursor-pointer active:bg-zinc-900",
-      timer: 30,
-      value: "Hisobot",
-      icon: "fa-duotone fa-scroll",
-   },
+   // {
+   //    onClick: () => (reportModal.value = true),
+   //    bgColor: "stroke-gray-400",
+   //    textColor: "text-gray-400",
+   //    class: "hover:bg-zinc-800 cursor-pointer active:bg-zinc-900",
+   //    timer: 30,
+   //    value: "Hisobot",
+   //    icon: "fa-duotone fa-scroll",
+   // },
 ]);
 </script>
