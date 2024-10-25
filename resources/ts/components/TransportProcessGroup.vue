@@ -47,12 +47,12 @@ function replace(str) {
 }
 
 
-watch(() => props.data, () => {
-	for (const key in props.data) {
-		if (props.color == 'orange' && props.data[key].cars.length > 1) {
-			let mySound = new Audio('/sound/signal.mp3')
-			mySound.play()
-		}
-	}
-})
+// watch(() => props.data, () => {
+// 	for (const key in props.data) {
+// 		if (props.color == 'orange' && props.data[key].cars.length > 1) {
+// 			let mySound = new Audio('/sound/signal.mp3')
+// 			mySound.play()
+// 		}
+// 	}
+// })
 </script>
