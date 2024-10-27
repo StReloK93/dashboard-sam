@@ -1,11 +1,16 @@
 <template>
 	<main class="h-52" ref="chart"></main>
+	<div class="text-white">
+	</div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref, watch, Ref } from 'vue'
 import Highcharts from 'highcharts'
 import { getRandomArbitrary } from '@/helpers/timeFormat';
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n() 
+
 
 const model: Ref<any> = defineModel()
 
@@ -103,7 +108,7 @@ const gaugeOptions: any = {
 function getText() {
 	return `<div class="gradient-text" style="text-align:center">
 					<span style="font-size:34px">{y}%</span><br>
-					<span style="font-size:15px" class="mb-2">${props.chartname}</span><br>
+					<span style="font-size:15px" class="mb-2">${t(props.chartname)}</span><br>
 					<span style="font-size:16px">${model.value?.current} / ${model.value?.max} </span>
 					</div>`
 }
@@ -117,6 +122,13 @@ watch(() => model.value?.prosent, (current) => {
 	chartConstructor.value.series[0].setData([current]);
 })
 
+watch(() => locale.value, () => {
+	chartConstructor.value.series[0].update({
+		dataLabels: {
+			format: getText()
+		}
+	});
+})
 onMounted(() => {
 	chartConstructor.value = Highcharts.chart(chart.value, gaugeOptions)
 	const svg = chart.value.getElementsByTagName('svg');

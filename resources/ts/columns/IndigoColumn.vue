@@ -7,7 +7,7 @@
          <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-3" color="yellow" class="opacity-0"/>
          <main class="absolute inset-0">
             <TransportProcessGroup grid-cols="grid-cols-3" @openModal="(transport) => store.openModal(3, transport)"
-               title="Smena almashish maydonida" color="indigo" scroll-color="indigo-scroll" :data="transportStore.inSMENA" />
+               :title="$t('inchange')" color="indigo" scroll-color="indigo-scroll" :data="transportStore.inSMENA" />
          </main>
       </aside>
    </main>

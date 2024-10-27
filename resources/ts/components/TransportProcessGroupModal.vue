@@ -16,22 +16,22 @@
                   </div>
                   <div class="flex gap-1 ml-1">
                      <button @click="changeSmena(1)" :class="setColor(pickers.smena == 1)" class="w-24 rounded shadow">
-                        1 - Smena
+                        1 - {{ $t('change') }}
                      </button>
                      <button @click="changeSmena(2)" :class="setColor(pickers.smena == 2)" class="w-24 rounded shadow">
-                        2 - Smena
+                        2 - {{ $t('change') }}
                      </button>
                   </div>
                   <div class="flex gap-1 ml-1 flex-grow">
                      <button @click="tab = 1" :class="setColor(tab == 1)" class="w-20 h-full font-semibold rounded shadow">
-                        <i class="fa-solid fa-chart-gantt"></i> Grafik
+                        <i class="fa-solid fa-chart-gantt"></i> {{ $t('grafic') }}
                      </button>
-                     <button @click="tab = 2" :class="setColor(tab == 2)" class="w-20 h-full font-semibold rounded shadow">
-                        <i class="fa-solid fa-table-list"></i> Jadval
+                     <button @click="tab = 2" :class="setColor(tab == 2)" class="w-24 h-full font-semibold rounded shadow">
+                        <i class="fa-solid fa-table-list"></i> {{ $t('table') }}
                      </button>
                      <button v-if="props.color == 'orange'" @click="tab = 3" :class="setColor(tab == 3)"
                         class="px-2 h-full font-semibold rounded shadow ml-1 flex-grow">
-                        <i class="fa-solid fa-table-list"></i> Yoqilg'i olishda kutib qolish
+                        <i class="fa-solid fa-table-list"></i> {{ $t('waitinginoil') }}
                         <span v-if="fullWaitTime">
                            {{ secondsToFormatTime(fullWaitTime) }}
                         </span>
@@ -41,7 +41,7 @@
                      </button>
                      <button v-if="props.color == 'indigo'" @click="tab = 4" :class="setColor(tab == 4)"
                         class="px-2 h-full font-semibold rounded shadow ml-1 flex-grow">
-                        <i class="fa-solid fa-table-list"></i> Bir xil sabab bilan bir vaqtda tamirlashda
+                        <i class="fa-solid fa-table-list"></i> {{ $t('inremontcause') }}
                      </button>
                   </div>
                </h3>

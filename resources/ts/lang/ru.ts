@@ -1,0 +1,38 @@
+export default {
+   appname: 'Единое окно автосамосвалов',
+   inprocess: "В процессе",
+   inexcavator: "В ожидании",
+   inoil: "В заправке",
+   inchange: "В пересменке",
+   inatb: "В площадке УАТ",
+   inred: "Простои без причин",
+   minute: "Минут",
+   hour: "Час",
+   day: "День",
+   signin: "Войти",
+   exit: "Выйти",
+   back: "Назад",
+   activeExcavators: "Активные экскаваторы",
+   activeTrucks: "Активные самосвалы",
+   chartspeed: "График средный скорости самосвалов",
+
+   sharqiy: "Восточный",
+   daugiztau: "Даугызтау",
+   amantay: "Амантай",
+   muruntau: "Мурунтау",
+   pistali: "Пистали",
+
+
+   transports: "Транспорты",
+   geozone: "Геозона",
+   timein: "Время входа",
+   timeout: "Время выхода",
+   timeall: "Общий",
+   cause: "Причина",
+
+   change: "Смена",
+   grafic: "График",
+   table: "Таблица",
+   inremontcause: "В ремонте по одинаковый причины",
+   waitinginoil: "Ожидания в заправке",
+}

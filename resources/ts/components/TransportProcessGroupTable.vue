@@ -3,11 +3,11 @@
       <table class="w-full">
          <tr class="border-b-4 border-zinc-900 bg-stone-950">
             <td class="py-1 px-2 w-8">№</td>
-            <td class="py-1 w-40">Transport nomi</td>
-            <td class="py-1 w-40">Kirgan vaqti</td>
-            <td class="py-1 w-40">Chiqqan vaqti</td>
-            <td class="py-1 w-24">Umumiy</td>
-            <td class="py-1 px-2 max-w-80" v-if="props.color == 'indigo'">Sababi</td>
+            <td class="py-1 w-40">{{ $t('transports') }}</td>
+            <td class="py-1 w-40">{{$t('timein')}}</td>
+            <td class="py-1 w-40">{{$t('timeout')}}</td>
+            <td class="py-1 w-24">{{$t('timeall')}}</td>
+            <td class="py-1 px-2 max-w-80" v-if="props.color == 'indigo'">{{$t('cause')}}</td>
 
          </tr>
          <tr v-for="(transport, index) in selectedCars" class="bg-zinc-800 border-y-4 border-zinc-900">

@@ -3,26 +3,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import Highcharts, { color } from 'highcharts'
-import moment from 'moment'
+import { onMounted, ref, watch } from 'vue'
+import Highcharts from 'highcharts'
 import { UTCTime } from "@/helpers/timeFormat"
+import { useI18n } from 'vue-i18n'
 
-
-
-const startToday = moment().set({
-    hour: 9,
-    minute: 10,
-    second: 0,
-    millisecond: 0,
-});
-const endToday = moment().set({
-    hour: 21,
-    minute: 10,
-    second: 0,
-    millisecond: 0,
-});
-
+const { t, locale } = useI18n({ useScope: 'global' })
 function getChartData() {
     axios.post('api/speeds-by-hour', { startDate: null, endDate: null }).then(({ data }) => {
         chartConstructor.value.series[0].setData(data.map((byHour) => {
@@ -56,9 +42,6 @@ const chartOptions: any = {
 
         lineWidth: 0,
         minorGridLineWidth: 10,
-
-        // min: UTCTime(startToday.format('YYYY-MM-DD HH:mm')),
-        // max: UTCTime(endToday.format('YYYY-MM-DD HH:mm')),
         type: 'datetime',
         labels: {
             overflow: 'justify',
@@ -97,7 +80,7 @@ const chartOptions: any = {
         }
     },
     series: [{
-        name: "Tezlik smena bo'yicha",
+        name:  t('chartspeed'),
         data: [],
         label: {
             enabled: false,
@@ -106,11 +89,7 @@ const chartOptions: any = {
     }],
     legend: {
         labelFormatter: function() {
-            // Изменяем цвет конкретного названия ряда
-            if (this.name === "Tezlik smena bo'yicha") {
-                return '<span style="color: #2caffe;">' + this.name + '</span>'; // Красный цвет для текста
-            }
-            return this.name;
+            return '<span style="color: #2caffe;">' + this.name + '</span>';
         }
     },
     navigation: {
@@ -119,6 +98,12 @@ const chartOptions: any = {
         }
     }
 }
+
+watch(() => locale.value, () => {
+	chartConstructor.value.series[0].update({
+		name: t('chartspeed')
+	});
+})
 
 onMounted(() => {
     getChartData()

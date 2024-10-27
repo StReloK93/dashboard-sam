@@ -9,7 +9,7 @@
                <input type="password" v-model="formData.password" placeholder="Parol" class="w-full rounded border p-3 bg-[#FCFDFE] text-base text-body-color placeholder-[#ACB6BE] outline-none" />
             </div>
             <div class="mb-10">
-               <input type="submit" value="Sign In" class="w-full rounded border border-primary p-3 bg-primary text-base text-white cursor-pointer hover:bg-opacity-90 transition" />
+               <input type="submit" :value="$t('signin')" class="w-full rounded border border-primary p-3 bg-primary text-base text-white cursor-pointer hover:bg-opacity-90 transition" />
             </div>
          </form>
       </div>

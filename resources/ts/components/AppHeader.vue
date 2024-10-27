@@ -2,12 +2,12 @@
    <main class="bg-zinc-800 py-1 px-5 shadow text-white flex items-center justify-between">
       <div class="w-96"></div>
       <span class="text-xl mr-32 uppercase font-semibold tracking-widest text-stone-200">
-         Avtoag'dargichlar yagona oynasi
+         {{ $t('appname') }}
       </span>
       <div class="flex items-center">
          <section class="flex items-center mx-3">
             <span class="mx-4">
-               Minut
+               {{ $t('minute') }}
             </span>
             <aside class="w-2 h-9 relative flex justify-center items-center text-xs">
                <span
@@ -18,7 +18,7 @@
          </section>
          <section class="flex items-center mx-3">
             <span class="mx-4">
-               Soat
+               {{ $t('hour') }}
             </span>
             <aside class="w-2 h-9 bg-yellow-400 relative flex justify-center items-center text-xs">
                <span
@@ -29,7 +29,7 @@
          </section>
          <section class="flex items-center mx-3">
             <span class="mx-4">
-               Kun
+               {{ $t('day') }}
             </span>
             <aside class="w-2 h-9 bg-gray-300 relative flex justify-center items-center text-xs">
                <span
@@ -38,12 +38,12 @@
                </span>
             </aside>
             <div v-if="auth.user == null">
-               <router-link v-if="$route.name == 'home'" to="/login" class="px-5 ml-10">Kirish</router-link>
-               <router-link v-else to="/" class="px-5 ml-10">Orqaga</router-link>
+               <router-link v-if="$route.name == 'home'" to="/login" class="px-5 ml-10">{{ $t('signin') }}</router-link>
+               <router-link v-else to="/" class="px-5 ml-10">{{ $t('back') }}</router-link>
             </div>
             <div v-else>
                <button @click="auth.logout" class="px-5 ml-10">
-                  Chiqish
+                  {{ $t('exit') }}
                </button>
             </div>
          </section>

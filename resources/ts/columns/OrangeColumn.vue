@@ -10,7 +10,7 @@
          <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-3" color="yellow" class="opacity-0"/>
          <main class="absolute inset-0">
             <TransportProcessGroup grid-cols="grid-cols-3" @openModal="(transport) => store.openModal(2, transport)"
-               title="Yoqilg'i olish maydonida" color="orange" scroll-color="orange-scroll" :data="transportStore.inOIL" />
+               :title="$t('inoil')" color="orange" scroll-color="orange-scroll" :data="transportStore.inOIL" />
          </main>
       </aside>
    </main>

@@ -8,9 +8,9 @@
          <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-4" color="yellow" class="opacity-0"/>
          <main class="absolute inset-0">
             <TransportProcess counter="reys" :data="transportStore.inProcess" grid-cols="grid-cols-4"
-               @openModal="(transport) => store.openModal(0, transport)" title="Ish jarayonida" color="green" />
+               @openModal="(transport) => store.openModal(0, transport)" :title="$t('inprocess')" color="green" />
             <TransportProcess counter="timer" :data="transportStore.inExcavator" grid-cols="grid-cols-4"
-               @openModal="(transport) => store.openModal(1, transport)" title="Kutish jarayonida" color="yellow" />
+               @openModal="(transport) => store.openModal(1, transport)" :title="$t('inexcavator')" color="yellow" />
          </main>
       </aside>
    </main>

@@ -26,7 +26,7 @@
       <aside class="gray-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative">
          <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-3" color="yellow" class="opacity-0" />
          <main class="absolute inset-0">
-            <TransportProcessGroup @openModal="(transport) => store.openModal(5, transport)" grid-cols="grid-cols-3" title="ATB maydonida" color="gray"
+            <TransportProcessGroup @openModal="(transport) => store.openModal(5, transport)" grid-cols="grid-cols-3" :title="$t('inatb')" color="gray"
                scroll-color="gray-scroll" :data="transportStore.inATBGroup" />
          </main>
       </aside>

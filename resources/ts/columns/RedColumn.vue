@@ -7,10 +7,10 @@
          <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-2" color="yellow" class="opacity-0"/>
          <main class="absolute inset-0">
             <TransportProcess counter="timer" grid-cols="grid-cols-2"
-               @openModal="(transport) => store.openModal(4, transport)" title="Sababsiz to'xtaganlar" color="red"
+               @openModal="(transport) => store.openModal(4, transport)" :title="$t('inred')" color="red"
                :data="transportStore.isUnknown" />
             <hr class="my-4 border-zinc-800">
-            <TransportProcessGroup grid-cols="grid-cols-2" title="Suv olish maydonida" color="sky" scroll-color="sky-scroll" :data="waterTrucks.inGUSAK" />
+            <!-- <TransportProcessGroup grid-cols="grid-cols-2" title="Suv olish maydonida" color="sky" scroll-color="sky-scroll" :data="waterTrucks.inGUSAK" /> -->
          </main>
       </aside>
    </main>

@@ -3,13 +3,13 @@
       <table class="w-full">
          <tr class="border-b-4 border-zinc-900">
             <td :class="props.headerColor" class="py-1 rounded-tl px-2 w-10">№</td>
-            <td :class="props.headerColor" class="py-1 w-40">Geozona</td>
-            <td :class="props.headerColor" class="py-1 w-36">Kirgan vaqti</td>
-            <td :class="props.headerColor" class="py-1 w-36">Chiqqan vaqti</td>
-            <td :class="props.headerColor" class="py-1 w-20">Umumiy</td>
+            <td :class="props.headerColor" class="py-1 w-40">{{$t('geozone')}}</td>
+            <td :class="props.headerColor" class="py-1 w-36">{{$t('timein')}}</td>
+            <td :class="props.headerColor" class="py-1 w-36">{{$t('timeout')}}</td>
+            <td :class="props.headerColor" class="py-1 w-20">{{$t('timeall')}}</td>
 
             <td :class="props.headerColor" class="py-1 rounded-tr max-w-52" v-if="['inATB', 'inSmenaAll'].includes(props.type)">
-               Sababi
+               {{$t('cause')}}
             </td>
 
          </tr>
