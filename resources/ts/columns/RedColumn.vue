@@ -10,7 +10,7 @@
                @openModal="(transport) => store.openModal(4, transport)" :title="$t('inred')" color="red"
                :data="transportStore.isUnknown" />
             <hr class="my-4 border-zinc-800">
-            <!-- <TransportProcessGroup grid-cols="grid-cols-2" title="Suv olish maydonida" color="sky" scroll-color="sky-scroll" :data="waterTrucks.inGUSAK" /> -->
+            <TransportProcessGroup grid-cols="grid-cols-2" title="Suv olish maydonida" color="sky" scroll-color="sky-scroll" :data="waterTrucks.inGUSAK" />
          </main>
       </aside>
    </main>

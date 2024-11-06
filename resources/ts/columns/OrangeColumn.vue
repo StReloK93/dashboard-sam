@@ -55,14 +55,14 @@ const orangeSlides = reactive([
       value: computed(() => transportStore.summaOilCars),
       icon: "fa-solid fa-layer-group"
    },
-   // {
-   //    onClick: () => pricingModal.value = true,
-   //    bgColor: 'stroke-orange-400',
-   //    textColor: 'text-orange-400',
-   //    timer: 30,
-   //    value: "Baholash",
-   //    icon: "fa-duotone fa-chart-simple",
-   //    class: "hover:bg-zinc-800 cursor-pointer active:bg-zinc-900"
-   // },
+   {
+      onClick: () => pricingModal.value = true,
+      bgColor: 'stroke-orange-400',
+      textColor: 'text-orange-400',
+      timer: 30,
+      value: "Baholash",
+      icon: "fa-duotone fa-chart-simple",
+      class: "hover:bg-zinc-800 cursor-pointer active:bg-zinc-900"
+   },
 ])
 </script>
