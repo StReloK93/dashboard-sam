@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Services;
-
+use Illuminate\Support\Facades\Schema;
 use App\Services\WialonService;
 use Carbon\Carbon;
 use App\Helpers\Smena;
@@ -9,13 +9,16 @@ use DB;
 class Muruntau
 {
 
-   public function writeDb($transports)
+   public function writeDb($transports, $tablename)
    {
       if(empty(env('DB_DATABASE_ONLINE'))) return;
-
+      // ReportStaysMekhanizmsLastCordinate
       $models = $this->modelFormatter($transports);
-      DB::connection('muruntau')->table('ReportStaysMekhanizmsLastCordinate')->delete();
-      DB::connection('muruntau')->table('ReportStaysMekhanizmsLastCordinate')->insert($models);
+
+      if(Schema::connection('muruntau')->hasTable($tablename)){
+         DB::connection('muruntau')->table($tablename)->delete();
+         DB::connection('muruntau')->table($tablename)->insert($models);
+      }
    }
 
 
