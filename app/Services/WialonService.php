@@ -310,14 +310,14 @@ class WialonService
 			TransportList::create(['tranports' => $collection]);
 		}
 
-
-		$transports50 = $this->getTransportsWithZone(50);
 		$transports75 = $this->getTransportsWithZone(75);
+		$transports100 = $this->getTransportsWithZone(100);
+		$transports150 = $this->getTransportsWithZone(150);
 		// 
 		$service = new Muruntau();
-		$service->writeDb($transports, 'ReportStaysMekhanizmsLastCordinate');
-		$service->writeDb($transports50, 'ReportStaysMekhanizmsLastCordinate50');
-		$service->writeDb($transports75, 'ReportStaysMekhanizmsLastCordinate75');
+		$service->writeDb($transports75, 'ReportStaysMekhanizmsLastCordinate');
+		$service->writeDb($transports100, 'ReportStaysMekhanizmsLastCordinate50');
+		$service->writeDb($transports150, 'ReportStaysMekhanizmsLastCordinate75');
 		// 
 
 		return DB::table('transports')->insert($transports);
