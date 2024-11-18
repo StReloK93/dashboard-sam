@@ -1,10 +1,10 @@
 <template>
 	<button :class="{ 'opacity-0 cursor-default': props.name == null }"
 		class="inline-flex justify-between w-24 items-center px-2 py-1 neomorph rounded-2xl bg-zinc-800 active:shadow-md hover:bg-zinc-900 transition-all relative">
-		<div :class="[buttonColor.text, { 'opacity-0': props.name == null }]"
+		<div :class="[getManName(props.name) ? 'text-sky-400' :`${buttonColor.text}` , { 'opacity-0': props.name == null }]"
 			class="mr-3 font-semibold text-sm leading-[10px] text-left">
 			<span v-if="props.color == 'sky'">ГМ{{ props.name?.replace(/\D/g, "") }}</span>
-			<span v-else-if="timePistali">C{{ pistaliName(props.name) }}</span>
+			<span v-else-if="timePistali">{{ pistaliName(props.name) }}</span>
 			<span v-else>C{{ props.name?.replace(/\D/g, "") }}</span>
 			<br>
 			<span class="text-gray-500 text-[10px] leading-[0px] pl-0.5">
@@ -12,10 +12,9 @@
 			</span>
 		</div>
 		<template v-if="props.timer_type">
-			<span :class="colorLine" class="absolute w-2 h-2 right-4 -top-px z-10"></span>
-			<span :class="colorLine" class="absolute w-2 h-2 right-4 -bottom-px z-10"></span>
+			<span :class="colorLine" class="absolute w-2 h-[34px] right-4 -top-px z-10"></span>
 		</template>
-		<time :class="buttonColor.bg"
+		<time :class="[getManName(props.name) ? 'bg-sky-400' :`${buttonColor.bg}`]"
 			class="w-6 h-6 inline-flex text-xs text-zinc-900 rounded-full font-bold justify-center items-center z-20 relative">
 			{{ props.timer }}
 		</time>
@@ -28,8 +27,14 @@ import { computed, ref } from 'vue'
 const timePistali = ref(settings.day_smena == "07:50")
 
 function pistaliName(name){
-	if(name) return name?.replace(/ /g, '').replace(/\(.*?\)/g, '').match(/№(\d+)/)[1]
+	if(name?.toLowerCase().indexOf("man") > 0){
+		return 'M'+name?.replace(/ /g, '').replace(/\(.*?\)/g, '').match(/№(\d+)/)[1]
+	}
+	else if(name) return 'C'+name?.replace(/ /g, '').replace(/\(.*?\)/g, '').match(/№(\d+)/)[1]
 	else return ""
+}
+function getManName(name){
+	return name?.toLowerCase().indexOf("man") > 0
 }
 
 const colors = {

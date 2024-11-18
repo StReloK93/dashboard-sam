@@ -59,7 +59,7 @@ export const TransportStates = defineStore('TransportStates', () => {
         })
     })
 
-    return { transports,transportsAll, getTransportState, inATB, inOIL, inSMENA, inExcavator, isUnknown , inSmenaAll}
+    return { transports,transportsAll, getTransportState, inATB, inOIL, inSMENA, inExcavator, isUnknown , inSmenaAll }
 })
 
 

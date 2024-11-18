@@ -35,7 +35,8 @@ export function inExcavatorHelper(transport) {
       inZone(transport, "эг") ||
       inZone(transport, "фп") ||
       inZone(transport, "фрп") ||
-      inZone(transport, "liebherr")
+      inZone(transport, "liebherr") || 
+      inZone(transport, "ф.п")
    );
 }
 

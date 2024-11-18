@@ -5,7 +5,7 @@
          <ColumnTopSlider :slides="yellowSlides" />
       </div>
       <aside class="green-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative">
-         <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-4" color="yellow" class="opacity-0"/>
+         <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-4" color="yellow" class="opacity-0" />
          <main class="absolute inset-0">
             <TransportProcess counter="reys" :data="transportStore.inProcess" grid-cols="grid-cols-4"
                @openModal="(transport) => store.openModal(0, transport)" :title="$t('inprocess')" color="green" />
@@ -30,8 +30,8 @@ const greenSlides = reactive([
    {
       onStart: () => {
          transportStore.getTransports()
-         if(pageSettings.excavators) excavatorStore.getExcavatorStates()
-      } ,
+         if (pageSettings.excavators) excavatorStore.getExcavatorStates()
+      },
       bgColor: 'stroke-green-600',
       textColor: 'text-green-400',
       timer: 30,

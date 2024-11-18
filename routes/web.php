@@ -22,14 +22,14 @@ Route::get('/{path}', function () {
         'day_smena' => env('BASE_SMENA_DAY'),
         'day_smena_job' => env('BASE_SMENA_DAY_JOB'),
         'night_smena' => env('BASE_SMENA_NIGHT'),
-        'night_smena_job' =>  env('BASE_SMENA_NIGHT_JOB'),
+        'night_smena_job' => env('BASE_SMENA_NIGHT_JOB'),
         'table_link' => env('BASE_TABLE_LINK'),
         'excavators' => env('BASE_EXCAVATORS'),
         'tos' => env('BASE_TOS'),
 
         'pistali_frontals' => env('PISTALI_FRONTALS'),
         'pistali_mans' => env('PISTALI_MANS'),
-        'frontend_mans' => env('FRONTEND_PISTALI_MANS'),
-        'frontend_frontals' => env('FRONTEND_PISTALI_FRONTALS'),
+        'frontend_mans' => explode(',', env('FRONTEND_PISTALI_MANS')),
+        'frontend_frontals' => explode(',', env('FRONTEND_PISTALI_FRONTALS')),
     ]);
 })->where('path', '.*');
