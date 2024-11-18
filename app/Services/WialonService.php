@@ -101,10 +101,7 @@ class WialonService
 		// for only pistali
 
 
-
-		$allTransports = collect($dumpTrucks)->merge($mans)->toArray();
-		dd($allTransports);
-		return $dumpTrucks;
+		return collect($dumpTrucks)->merge($mans)->toArray();
 	}
 
 
