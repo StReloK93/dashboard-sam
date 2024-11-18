@@ -14,7 +14,7 @@ class TransportController extends Controller
 
     public function getWithWialon()
     {
-        return $this->wialon->getTransportsWithZone();
+        return $this->wialon->getTransportsWithZone(41);
     }
 
 
@@ -46,7 +46,7 @@ class TransportController extends Controller
 
     public function getDumpTrucks()
     {
-        return $this->wialon->getDumpTrucks();
+        return $this->wialon->getDumpTrucks(41);
     }
     
     public function writeToDB()
@@ -54,4 +54,9 @@ class TransportController extends Controller
         return $this->wialon->writeToDB();
     }
 
+
+    public function getTransportPoints()
+    {
+        return $this->wialon->getTransportPoints(10529);
+    }
 }

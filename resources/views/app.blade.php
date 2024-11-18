@@ -19,11 +19,14 @@
             'table_link': @json($table_link),
             'excavators': @json($excavators),
             'tos': @json($tos),
+            'pistali_frontals': @json($pistali_frontals),
+            'pistali_mans': @json($pistali_mans),
+            'frontend_frontals': @json($frontend_frontals),
+            'frontend_mans': @json($frontend_mans),
         }
     </script>
     @vite('resources/ts/app.ts')
 </head>
 
 <body id="app"></body>
-
 </html>

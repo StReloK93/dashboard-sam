@@ -61,6 +61,49 @@ class WialonService
 			}
 		}
 
+
+		// for only pistali
+		$pistali_frontals_id = (int) env('PISTALI_FRONTALS');
+		$pistali_mans_id = (int) env('PISTALI_MANS');
+
+		if($pistali_frontals_id && $pistali_mans_id){
+			$mans = $this->getTransportPoints($pistali_mans_id);
+			$frontals = $this->getTransportPoints($pistali_frontals_id);
+
+
+			foreach ($mans as $key => $car) {
+				$pointCar = ['x' => $car['x'], 'y' => $car['y']];
+	
+				$geozoneName = $this->geoService->findZone($pointCar, $zones);
+	
+				if ($geozoneName == null) {
+					$distances = $this->geoService->getDistances($pointCar, $frontals);
+	
+					if ($distances[0]['distance'] < 41) {
+						$mans[$key]['distance_ex'] = round($distances[0]['distance']);
+						$mans[$key]['geozone'] = $distances[0]['name'];
+					} else {
+						$mans[$key]['distance_ex'] = null;
+						$mans[$key]['geozone'] = null;
+					}
+	
+				} else {
+					$mans[$key]['distance_ex'] = null;
+					$mans[$key]['geozone'] = $geozoneName;
+				}
+			}
+
+		}
+		else{
+			$mans = [];
+		}
+
+		// for only pistali
+
+
+
+		$allTransports = collect($dumpTrucks)->merge($mans)->toArray();
+		dd($allTransports);
 		return $dumpTrucks;
 	}
 

@@ -26,5 +26,10 @@ Route::get('/{path}', function () {
         'table_link' => env('BASE_TABLE_LINK'),
         'excavators' => env('BASE_EXCAVATORS'),
         'tos' => env('BASE_TOS'),
+
+        'pistali_frontals' => env('PISTALI_FRONTALS'),
+        'pistali_mans' => env('PISTALI_MANS'),
+        'frontend_mans' => env('FRONTEND_PISTALI_MANS'),
+        'frontend_frontals' => env('FRONTEND_PISTALI_FRONTALS'),
     ]);
 })->where('path', '.*');
