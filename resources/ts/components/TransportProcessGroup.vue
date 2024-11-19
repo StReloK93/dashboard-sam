@@ -12,7 +12,7 @@
 				<span :class="`text-${color}-500 active:bg-${color}-500`">
 					{{ replace(key) }}
 				</span>
-				<div :class="`text-${color}-500`" class="flex items-center">
+				<div v-if="color != 'gray'" :class="`text-${color}-500`" class="flex items-center">
 					{{ minuteFormat(group.summTime) }}
 					<span :class="`bg-${color}-400 bg-${color}-500`"
 						class="w-11 h-6 ml-1 text-base justify-between px-1.5 inline-flex items-center text-zinc-950 rounded-sm">

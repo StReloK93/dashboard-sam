@@ -23,6 +23,7 @@
             'pistali_mans': @json($pistali_mans),
             'frontend_frontals': @json($frontend_frontals),
             'frontend_mans': @json($frontend_mans),
+            'gusaks': @json($gusaks),
         }
     </script>
     @vite('resources/ts/app.ts')

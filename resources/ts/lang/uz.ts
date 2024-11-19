@@ -13,6 +13,7 @@ export default {
    exit: "Chiqish",
    back: "Orqaga",
    activeExcavators: "Faol ekskavatorlar",
+   activeMans: "Faol ruda tashuvchilar",
    activeTrucks: "Faol Avtoag'dargichlar",
    chartspeed: "Avtoag'dargichlar o'rtacha tezlik grafigi",
 

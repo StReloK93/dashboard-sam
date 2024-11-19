@@ -54,6 +54,12 @@ class TransportController extends Controller
         return $this->wialon->writeToDB();
     }
 
+    public function getMessagesInterval()
+    {
+        return $this->wialon->getMessagesInterval(9443, Carbon::parse('2024-11-19 09:00')->timestamp, now()->timestamp);
+    }
+
+    
 
     public function getTransportPoints()
     {

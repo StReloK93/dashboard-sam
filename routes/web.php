@@ -31,5 +31,6 @@ Route::get('/{path}', function () {
         'pistali_mans' => env('PISTALI_MANS'),
         'frontend_mans' => explode(',', env('FRONTEND_PISTALI_MANS')),
         'frontend_frontals' => explode(',', env('FRONTEND_PISTALI_FRONTALS')),
+        'gusaks' => env('BASE_GUSAKS_GROUP_ID'),
     ]);
 })->where('path', '.*');

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { inZones, timeDiff, inExcavatorHelper, inSmenaTime, calculatePathLength  } from "@/helpers/timeFormat";
+import { inZones, timeDiff, inExcavatorHelper, inSmenaTime, calculatePathLength } from "@/helpers/timeFormat";
 import axios from "axios";
 import moment from "moment";
 
@@ -10,7 +10,7 @@ export const Transports = defineStore("Transports", () => {
    const summaSmenaCars = ref(0);
    const summaOilCars = ref(0);
    const waterTrucks = ref()
-   
+
 
    async function getTransports() {
       const { data } = await axios.get("/api/transportstates");
@@ -33,7 +33,7 @@ export const Transports = defineStore("Transports", () => {
 
       const withoutGM = data.filter((car) => car.name.includes('ГМ') == false)
       waterTrucks.value = data.filter((car) => car.name.includes('ГМ'))
-      
+
       withoutGM.sort(
          (a, b) => +a.name.replace(/\D/g, "") - +b.name.replace(/\D/g, "")
       );
@@ -169,7 +169,7 @@ export const Transports = defineStore("Transports", () => {
 
       carsATB?.forEach((car) => {
          const zone = car.truck != null ? car.truck?.type : '90';
-         
+
          if (group[zone]) group[zone].cars.push(car);
          else group[zone] = { cars: [car], summTime: 0, counter: 0 };
       });
@@ -253,19 +253,44 @@ export const Transports = defineStore("Transports", () => {
    }
 
    const summaTransports = computed(() => {
-      const activeCars =
-         inProcess.value?.length +
-         inExcavator.value?.length +
-         inOilAll.value?.length;
-      return { prosent: Math.round((activeCars / cars.value?.length) * 100), max: cars.value?.length, current: activeCars }
+      if (settings.pistali_mans) {
+         const onlyTrucks = cars.value?.filter((car) => car.name.toLowerCase().indexOf("man") > 0 == false)
+
+         const onlyProcess = inProcess.value?.filter((car) => car.name.toLowerCase().indexOf("man") > 0 == false)
+         const onlyExcavator = inExcavator.value?.filter((car) => car.name.toLowerCase().indexOf("man") > 0 == false)
+         const onlyOil = inOilAll.value?.filter((car) => car.name.toLowerCase().indexOf("man") > 0 == false)
+
+         const activeCars = onlyProcess?.length + onlyExcavator?.length + onlyOil?.length
+
+         return { prosent: Math.round((activeCars / onlyTrucks?.length) * 100), max: onlyTrucks?.length, current: activeCars }
+      }
+      else {
+         const activeCars =
+            inProcess.value?.length +
+            inExcavator.value?.length +
+            inOilAll.value?.length;
+         return { prosent: Math.round((activeCars / cars.value?.length) * 100), max: cars.value?.length, current: activeCars }
+      }
    });
 
+   const summaMans = computed(() => {
+      const onlyTrucks = cars.value?.filter((car) => car.name.toLowerCase().indexOf("man") > 0)
+
+      const onlyProcess = inProcess.value?.filter((car) => car.name.toLowerCase().indexOf("man") > 0)
+      const onlyExcavator = inExcavator.value?.filter((car) => car.name.toLowerCase().indexOf("man") > 0)
+      const onlyOil = inOilAll.value?.filter((car) => car.name.toLowerCase().indexOf("man") > 0)
+
+      const activeCars = onlyProcess?.length + onlyExcavator?.length + onlyOil?.length
+
+      return { prosent: Math.round((activeCars / onlyTrucks?.length) * 100), max: onlyTrucks?.length, current: activeCars }
+   });
 
 
    return {
       getTransports,
       getFilterGroup,
       summaTransports,
+      summaMans,
       inOilConflict,
       waterTrucks,
       inATB,

@@ -13,6 +13,7 @@ export default {
    exit: "Выйти",
    back: "Назад",
    activeExcavators: "Активные экскаваторы",
+   activeMans: "Активные рудавозы",
    activeTrucks: "Активные самосвалы",
    chartspeed: "График средный скорости самосвалов",
 

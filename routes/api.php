@@ -33,6 +33,9 @@ Route::get('transports/getGroups', [TransportController::class, 'getGroups']);
 Route::get('transports/getGroupUnitsWithName', [TransportController::class, 'getGroupUnitsWithName']);
 Route::get('transports/getDumpTrucks', [TransportController::class, 'getDumpTrucks']);
 Route::get('transports/getTransportPoints', [TransportController::class, 'getTransportPoints']);
+
+Route::get('transports/getMessagesInterval', [TransportController::class, 'getMessagesInterval']);
+
 Route::get('transports/write-db', [TransportController::class, 'writeToDB']);
 
 
