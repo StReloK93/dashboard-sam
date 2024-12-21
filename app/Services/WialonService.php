@@ -146,7 +146,6 @@ class WialonService
         $excavator = $this->getTransportPoints($this->excavator_id);
         $collection = collect($frontal)->merge($excavator)->merge($customZones);
 
-        dd($collection->all());
         return $collection->all();
     }
 
