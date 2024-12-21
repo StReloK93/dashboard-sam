@@ -29,10 +29,9 @@ const hostname = ref(window.location.host)
 const { locale } = useI18n({ useScope: 'global' })
 
 const dashboardLinks = ref([
-   // { url: '127.0.0.1:8000', name: 'Localhost' },
    { url: '192.168.14.23:3017', name: 'sharqiy' },
    { url: '192.168.14.23:3009', name: 'daugiztau' },
-   { url: '192.168.48.7:3000', name: 'amantay' },
+   { url: '192.168.14.23:3016', name: 'amantay' },
    { url: '192.168.48.7:3001', name: 'muruntau' },
    { url: '172.17.6.15:8000', name: 'pistali' },
 ])
