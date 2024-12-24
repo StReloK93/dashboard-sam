@@ -33,6 +33,7 @@ const dashboardLinks = ref([
    { url: '192.168.14.23:3009', name: 'daugiztau' },
    { url: '192.168.14.23:3016', name: 'amantay' },
    { url: '192.168.48.7:3001', name: 'muruntau' },
+   { url: '192.168.14.23:3018', name: 'turbay' },
    { url: '172.17.6.15:8000', name: 'pistali' },
 ])
 
