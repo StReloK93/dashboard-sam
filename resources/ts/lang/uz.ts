@@ -21,6 +21,7 @@ export default {
    daugiztau: "Daugiztau",
    amantay: "Amantay",
    muruntau: "Muruntau",
+   turbay: "Turbay",
    pistali: "Pistali",
 
    transports: "Transportlar",

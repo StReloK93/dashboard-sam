@@ -21,6 +21,7 @@ export default {
    daugiztau: "Даугызтау",
    amantay: "Амантай",
    muruntau: "Мурунтау",
+   turbay: "Турбай",
    pistali: "Пистали",
 
 
