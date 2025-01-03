@@ -24,6 +24,8 @@
             'frontend_frontals': @json($frontend_frontals),
             'frontend_mans': @json($frontend_mans),
             'gusaks': @json($gusaks),
+            'user_ip': @json($user_ip),
+            'only_myip': @json($only_myip),
         }
     </script>
     @vite('resources/ts/app.ts')

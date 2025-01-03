@@ -32,5 +32,7 @@ Route::get('/{path}', function () {
         'frontend_mans' => explode(',', env('FRONTEND_PISTALI_MANS')),
         'frontend_frontals' => explode(',', env('FRONTEND_PISTALI_FRONTALS')),
         'gusaks' => env('BASE_GUSAKS_GROUP_ID'),
+        'user_ip' => request()->ip(),
+        'only_myip' => explode(',', env('BASE_ONLY_MYIP')) ,
     ]);
 })->where('path', '.*');

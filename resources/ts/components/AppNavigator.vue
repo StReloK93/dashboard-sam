@@ -1,7 +1,7 @@
 <template>
    <footer class="bg-zinc-900 py-1 px-1.5 flex justify-between items-center">
       <div>
-         <a v-for="(dashboard, index) in dashboardLinks" :href="`http://${dashboard.url}`"
+         <a v-for="(dashboard, index) in links" :href="`http://${dashboard.url}`"
             :class="[{ 'neomorph !bg-orange-600': hostname == dashboard.url }]"
             class="h-full inline-block content-center bg-zinc-800 mr-1 px-3 w-40 text-white rounded text-center">
             {{ $t(dashboard.name) }}
@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 const hostname = ref(window.location.host)
 
@@ -32,10 +32,19 @@ const dashboardLinks = ref([
    { url: '192.168.14.23:3017', name: 'sharqiy' },
    { url: '192.168.14.23:3009', name: 'daugiztau' },
    { url: '192.168.14.23:3016', name: 'amantay' },
+   { url: '192.168.14.23:3018', name: 'turbay',  },
    { url: '192.168.48.7:3001', name: 'muruntau' },
-   { url: '192.168.14.23:3018', name: 'turbay' },
    { url: '172.17.6.15:8000', name: 'pistali' },
 ])
+
+const links = computed(() => {
+   if(settings.only_myip.includes(settings.user_ip)){
+      return dashboardLinks.value.filter((link) => link.url.indexOf("192.168.14.23") >= 0)
+   }
+   else{
+      return dashboardLinks.value
+   }
+})
 
 
 watch(() => locale.value, (current) => {
