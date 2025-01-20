@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\TransportState;
 use App\Models\Transport;
 use App\Models\TransportList;
+use App\Models\Causes;
 use App\Helpers\Smena;
 use Carbon\Carbon;
 use DB;
@@ -31,6 +32,7 @@ class TransportStateController extends Controller
 				$query->whereBetween('geozone_out', [$period['start'], $period['end']]);
 			},
 			'truck',
+			'causes',
 			'tracks' => function ($query) {
 				$query->where('created_at', '>=', now()->subMinutes(10));
 			},
@@ -72,7 +74,7 @@ class TransportStateController extends Controller
 			$period = $this->time->getPeriod(now());
 		}
 
-		$state = TransportState::whereBetween('geozone_out', [$period['start'], $period['end']])->get();
+		$state = TransportState::with('causes')->whereBetween('geozone_out', [$period['start'], $period['end']])->get();
 
 		return ['smena' => $period, 'states' => $state];
 	}
@@ -81,7 +83,7 @@ class TransportStateController extends Controller
 	public function show($transportId)
 	{
 		$period = $this->time->getPeriod(now());
-		return TransportState::where('transport_id', $transportId)
+		return TransportState::with('causes')->where('transport_id', $transportId)
 			->where('geozone_out', '>', $period['start'])
 			->where('geozone_out', '<', $period['end'])
 			->get();
@@ -96,9 +98,27 @@ class TransportStateController extends Controller
 
 	public function update($id, Request $req)
 	{
-		$state = TransportState::find($id);
-		$state->cause = $req->cause;
-		$state->save();
+		Causes::where('transport_state_id', $id)->whereNotIn('cause_id', $req->causes)->delete();
+
+		
+		$remotes = Causes::where('transport_state_id', $id)
+		->whereIn('cause_id', $req->causes)
+		->get()
+		->pluck('cause_id')
+		->all();
+
+		foreach ($req->causes as $key => $cause_id) {
+			$isset = in_array($cause_id , $remotes);
+			if($isset == false){
+				Causes::create([
+					'transport_state_id' => $id,
+					'cause_id' => $cause_id,
+				]);
+			}
+		}
+
+
+		return Causes::where('transport_state_id', $id)->get();
 	}
 
 

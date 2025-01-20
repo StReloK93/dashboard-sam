@@ -7,7 +7,7 @@ use App\Http\Controllers\TripsController;
 use App\Http\Controllers\TransportController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TransportStateController;
-
+use App\Wialon\WialonApi;
 
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -22,6 +22,7 @@ Route::post('states/peresmena-graphic', [TransportStateController::class, 'waiti
 Route::post('information/get-park-information', [TransportStateController::class, 'getParkInformation']);
 
 Route::post('export-table-pdf', [TransportStateController::class, 'exportTablePdf']);
+Route::get('import-geozones', [WialonApi::class, 'importGeozonesKML']);
 
 
 Route::get('transports/all', [TransportController::class, 'index']);

@@ -22,6 +22,11 @@ class TransportState extends Model
         return $this->hasOne(Car::class, 'name', 'name');
     }
 
+    public function causes()
+    {
+        return $this->hasMany(Causes::class);
+    }
+
     public function tracks()
     {
         return $this->hasMany(Transport::class, 'transport_id', 'transport_id')->select('y', 'x', 'created_at', 'transport_id');

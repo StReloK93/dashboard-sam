@@ -70,6 +70,31 @@ class WialonApi
       $accounts = collect($accountsInformation['items']);
 		return $accounts->first(fn($account) => $account['nm'] == env('BASE_ACCOUNT'));
    }
+
+
+   public function getAccountGeozonesID()
+   {
+      $accountsInformation = $this->wialon->get([
+         'svc' => 'core/search_items',
+         'params' => json_encode([
+            'spec' => [
+               'itemsType' => 'avl_resource',
+               'propName' => 'sys_name',
+               'propValueMask' => '*',
+               'sortType' => 'sys_name',
+            ],
+            'force' => 1,
+            'flags' => 4097,
+            'from' => 0,
+            'to' => 0,
+         ]),
+      ]);
+
+      // dd($accountsInformation);
+      $accounts = collect($accountsInformation['items']);
+		return $accounts->first(fn($account) => $account['nm'] == env('BASE_ACCOUNT'));
+   }
+
    public function getGroups()
    {
       return $this->wialon->get([
@@ -147,6 +172,27 @@ class WialonApi
       ]);
    }
 
+
+   public function importGeozonesKML()
+   {
+      // $account = $this->getAccountGeozonesID();
+		// $zones_ids = $account['zl'];
+      $arr = $this->wialon->get([
+         'svc' => 'exchange/export_zones',
+         'params' => json_encode([
+            'fileName' => 'asasd',
+            'zones' => [
+               [
+                  'itemId' => 1,
+                  'id' => 1,
+               ],
+            ],
+            'compress' => 1,
+         ]),
+      ]);
+
+      dd($arr);
+   }
 
 
    public function getGroupById($group_id){

@@ -10,11 +10,11 @@ import { useI18n } from 'vue-i18n'
 
 const { t, locale } = useI18n({ useScope: 'global' })
 function getChartData() {
-    axios.post('api/speeds-by-hour', { startDate: null, endDate: null }).then(({ data }) => {
-        chartConstructor.value.series[0].setData(data.map((byHour) => {
-            return { y: byHour.average_speed, x: UTCTime(byHour.hour) }
-        }));
-    })
+    // axios.post('api/speeds-by-hour', { startDate: null, endDate: null }).then(({ data }) => {
+    //     chartConstructor.value.series[0].setData(data.map((byHour) => {
+    //         return { y: byHour.average_speed, x: UTCTime(byHour.hour) }
+    //     }));
+    // })
 }
 
 
