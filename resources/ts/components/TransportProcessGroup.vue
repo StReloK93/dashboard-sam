@@ -3,7 +3,7 @@
 		<TransitionGroup name="fade">
 			<TransportProcessGroupModal :color="props.color" v-if="timeLine && color != 'gray'" @close="timeLine = null" :group="timeLine" />
 		</TransitionGroup>
-		<h3 class="text-zinc-500 uppercase text-center mb-2 sticky 2xl:text-base xl:text-sm text-xs top-0">
+		<h3 class="text-zinc-500 uppercase text-center mb-2 sticky 2xl:text-base xl:text-sm  lg:text-xs text-[10px] top-0">
 			{{ props.title }}
 		</h3>
 		<main v-for="(group, key) of data">

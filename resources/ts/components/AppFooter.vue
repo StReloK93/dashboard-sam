@@ -9,6 +9,9 @@
          <span class="text-gray-500 2xl:text-xs xl:text-[10px] xl:inline-block hidden leading-none">
             {{ car.name }}
          </span>
+         <tippy v-if="car.cause_old" target="_parent">
+            <div class="font-semibold">{{car.cause_old}}</div>
+         </tippy>
       </div>
    </footer>
 </template>

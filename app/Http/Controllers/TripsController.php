@@ -47,7 +47,7 @@ class TripsController extends Controller
     {
         $smena = $this->time->getPeriod(now());
         return DB::select(
-            "SELECT distinct mexanizm_nomi, status_of FROM wialon.dbo.ex_status(?, ?, ?)",
+            "SELECT distinct * FROM wialon.dbo.ex_status(?, ?, ?)",
             [
                 $smena['start']->format('Y-m-d'),
                 $smena['smena'],
