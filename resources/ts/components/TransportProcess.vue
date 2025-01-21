@@ -1,9 +1,9 @@
 <template>
-    <section :class="scrollColor" class="px-2">
-        <h3 class="text-zinc-500 uppercase text-center mb-2">
+    <section :class="scrollColor" class="xl:px-2 px-1">
+        <h3 class="text-zinc-500 uppercase text-center 2xl:text-base xl:text-sm  lg:text-xs text-[10px] mb-2">
 			{{ props.title }}
 		</h3>
-        <TransitionGroup tag="main" name="fade" :class="props.gridCols" class="grid gap-1.5 py-3">
+        <TransitionGroup tag="main" name="fade" :class="props.gridCols" class="grid xl:gap-1.5 gap-1 py-3">
             <TransportButton 
                 @click="$emit('openModal', transport)" 
                 v-for="(transport, index) in props.data" 

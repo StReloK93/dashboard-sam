@@ -1,15 +1,15 @@
 <template>
-   <main class="border-r border-zinc-800 flex flex-col">
-      <div class="h-28 px-2 flex items-center justify-around">
+   <main class="border-r border-zinc-800 flex flex-col xl:flex-grow-0 flex-grow">
+      <div class="xl:h-28 h-24 px-2 flex items-center justify-around">
          <ColumnTopSlider :slides="greenSlides" />
          <ColumnTopSlider :slides="yellowSlides" />
       </div>
-      <aside class="green-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative">
-         <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-4" color="yellow" class="opacity-0" />
+      <aside class="green-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative grid-col">
+         <TransportProcess counter="reys" :data="[]" :grid-cols="`xl:grid-cols-4 grid-cols-3`" color="yellow" class="opacity-0" />
          <main class="absolute inset-0">
-            <TransportProcess counter="reys" :data="transportStore.inProcess" grid-cols="grid-cols-4"
+            <TransportProcess counter="reys" :data="transportStore.inProcess" :grid-cols="`xl:grid-cols-4 grid-cols-3`"
                @openModal="(transport) => store.openModal(0, transport)" :title="$t('inprocess')" color="green" />
-            <TransportProcess counter="timer" :data="transportStore.inExcavator" grid-cols="grid-cols-4"
+            <TransportProcess counter="timer" :data="transportStore.inExcavator" :grid-cols="`xl:grid-cols-4 grid-cols-3`"
                @openModal="(transport) => store.openModal(1, transport)" :title="$t('inexcavator')" color="yellow" />
          </main>
       </aside>

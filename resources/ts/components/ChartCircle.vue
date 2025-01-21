@@ -1,15 +1,12 @@
 <template>
-	<main class="h-52" ref="chart"></main>
-	<div class="text-white">
-	</div>
+	<main class="2xl:h-52 xl:h-40 h-32" ref="chart"></main>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref, watch, Ref } from 'vue'
 import Highcharts from 'highcharts'
-import { getRandomArbitrary } from '@/helpers/timeFormat';
 import { useI18n } from 'vue-i18n'
-const { t, locale } = useI18n() 
+const { t, locale } = useI18n()
 
 
 const model: Ref<any> = defineModel()
@@ -27,7 +24,7 @@ const gaugeOptions: any = {
 	},
 	title: null,
 	pane: {
-		size: '100%',
+		size: '93%',
 		center: ['50%', '60%'],
 		startAngle: -115,
 		endAngle: 115,
@@ -84,7 +81,7 @@ const gaugeOptions: any = {
 					[1, props.endcolor],
 				]
 			},
-			borderWidth: 20,
+			borderWidth: 15,
 			radius: 90,
 			innerRadius: '90%',
 			dataLabels: {
@@ -106,10 +103,10 @@ const gaugeOptions: any = {
 }
 
 function getText() {
-	return `<div class="gradient-text" style="text-align:center">
-					<span style="font-size:34px">{y}%</span><br>
-					<span style="font-size:15px" class="mb-2">${t(props.chartname)}</span><br>
-					<span style="font-size:16px">${model.value?.current} / ${model.value?.max} </span>
+	return `<div class="gradient-text relative xl:top-0 top-2" style="text-align:center">
+					<span class="xl:text-2xl text-[20px]">{y}%</span><br>
+					<span class="mb-2 2xl:text-sm xl:text-xs text-[10px]">${t(props.chartname)}</span><br>
+					<span class="2xl:text-base xl:text-sm  text-xs">${model.value?.current} / ${model.value?.max} </span>
 					</div>`
 }
 

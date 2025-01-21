@@ -1,21 +1,21 @@
 <template>
-   <footer class="bg-zinc-900 py-1 px-1.5 flex justify-between items-center">
-      <div>
+   <footer class="bg-zinc-900 px-1 flex justify-between items-center text-white">
+      <div class="relative xl:top-0 -top-px">
          <a v-for="(dashboard, index) in links" :href="`http://${dashboard.url}`"
             :class="[{ 'neomorph !bg-orange-600': hostname == dashboard.url }]"
-            class="h-full inline-block content-center bg-zinc-800 mr-1 px-3 w-40 text-white rounded text-center">
+            class="inline-block content-center bg-zinc-800 mr-1 2xl:w-40 xl:w-28 lg:w-24 w-20 py-1 2xl:text-base xl:text-sm text-xs rounded text-center">
             {{ $t(dashboard.name) }}
          </a>
       </div>
       <div class="flex">
          <button :class="{ 'bg-zinc-800 grayscale-0': $i18n.locale == 'uz' }"
-            class="px-2 py-0.5 grayscale transition-all text-white uppercase inline-flex items-center mr-4"
+            class="px-2 py-0.5 grayscale transition-all uppercase inline-flex items-center mr-4 xl:text-base text-xs"
             @click="$i18n.locale = 'uz'">
-            <img src="/images/uz.png" class="w-7"> uz
+            <img src="/images/uz.png" class="xl:w-7 w-6"> uz
          </button>
          <button :class="{ 'bg-zinc-800 grayscale-0': $i18n.locale == 'ru' }"
-            class="px-2  py-0.5 grayscale transition-all text-white uppercase inline-flex items-center" @click="$i18n.locale = 'ru'">
-            <img src="/images/ru.png" class="w-7"> ru
+            class="px-2  py-0.5 grayscale transition-all uppercase inline-flex items-center xl:text-base text-xs" @click="$i18n.locale = 'ru'">
+            <img src="/images/ru.png" class="xl:w-7 w-6"> ru
          </button>
       </div>
    </footer>

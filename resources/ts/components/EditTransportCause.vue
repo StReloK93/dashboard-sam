@@ -7,7 +7,7 @@
       </main>
       <Transition name="fade">
          <main v-if="menu" @vue:mounted="openModal"
-            class="absolute top-1 right-2 backdrop-blur-sm bg-zinc-800/80 shadow-xl border border-zinc-900 w-[800px] h-96 z-50 flex flex-col">
+            class="absolute top-1 right-2 backdrop-blur-sm bg-zinc-800/80 shadow-xl border border-zinc-900 xl:w-[800px] w-[600px] h-96 z-50 flex flex-col">
             <div class="flex justify-between items-center pl-2 bg-indigo-600 text-white">
                <span>
                   {{ props.transport.name }}

@@ -1,10 +1,10 @@
 <template>
    <section @mousedown="$emit('close')"
       class="fixed inset-0 bg-zinc-950/70 backdrop-blur-[2px] flex justify-center items-center z-50">
-      <aside @mousedown.stop class="w-[1366px] h-[600px] relative">
+      <aside @mousedown.stop class="2xl:w-[1366px] xl:w-[1200px] w-[700px] h-[600px] relative">
          <main class="slider-item px-1">
             <div
-               class="bg-red-600 text-center mb-1.5 py-1 flex items-center justify-center rounded shadow font-semibold text-xl">
+               class="bg-red-600 text-center mb-1.5 py-1 flex items-center justify-center rounded shadow font-semibold xl:text-xl text-sm">
                Ekskavatorlarni texnik ko'rikdan o'tish jadvali
             </div>
             <section class="!overflow-y-auto scroll red-scroll w-full flex-grow">
@@ -20,10 +20,10 @@
                   </aside>
                </main>
                <main ref="importable">
-                  <table class="w-full leading-3">
+                  <table class="w-full leading-3 lg:text-base text-xs">
                      <tr class="border-b-2 border-zinc-900 bg-stone-950 ">
-                        <th class="h-9 max-w-20"></th>
-                        <th v-for="(day, index) in days" class="border-x-2 w-10 border-zinc-900 text-center text-xs">
+                        <th class="h-9 xl:max-w-20 max-w-10"></th>
+                        <th v-for="(day, index) in days" class="border-x-2 w-10 border-zinc-900 text-center xl:text-xs text-[10px]">
                            {{ index + 1 }}
                         </th>
                      </tr>

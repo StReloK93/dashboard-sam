@@ -1,6 +1,6 @@
 <template>
    <section class="h-full !overflow-y-auto scroll indigo-scroll !overflow-hidden px-2">
-      <table class="w-full">
+      <table class="w-full xl:text-base text-xs">
          <tr class="border-b-4 border-zinc-900 bg-stone-950">
             <td class="py-1 rounded-tl px-2">№</td>
             <td class="py-1">Transportlar</td>

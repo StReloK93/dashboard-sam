@@ -6,31 +6,31 @@
          <div class="slider-item">
             <div class="mb-1.5">
                <div :class="`bg-${props.color}-600`"
-                  class="text-center mx-2 h-9 flex items-center justify-center rounded shadow font-semibold text-xl">
+                  class="text-center mx-2 xl:h-9 h-7 flex items-center justify-center rounded shadow font-semibold text-xl">
                   {{ props.group }}
                </div>
-               <h3 class="flex gap-1 px-2 mt-1.5 rounded font-semibold h-9">
-                  <div class="w-40">
+               <h3 class="flex gap-1 px-2 mt-1.5 rounded font-semibold xl:h-9 h-7">
+                  <div class="w-40 xl:h-9 h-7">
                      <VueDatePicker @update:model-value="handleDate" v-model="pickers.date" :format="formatDate" auto-apply
                         placeholder="Kunni tanlang" />
                   </div>
                   <div class="flex gap-1 ml-1">
-                     <button @click="changeSmena(1)" :class="setColor(pickers.smena == 1)" class="w-24 rounded shadow">
+                     <button @click="changeSmena(1)" :class="setColor(pickers.smena == 1)" class="xl:w-24 w-20 rounded shadow  xl:text-base text-xs">
                         1 - {{ $t('change') }}
                      </button>
-                     <button @click="changeSmena(2)" :class="setColor(pickers.smena == 2)" class="w-24 rounded shadow">
+                     <button @click="changeSmena(2)" :class="setColor(pickers.smena == 2)" class="xl:w-24 w-20 rounded shadow  xl:text-base text-xs">
                         2 - {{ $t('change') }}
                      </button>
                   </div>
                   <div class="flex gap-1 ml-1 flex-grow">
-                     <button @click="tab = 1" :class="setColor(tab == 1)" class="w-20 h-full font-semibold rounded shadow">
+                     <button @click="tab = 1" :class="setColor(tab == 1)" class="xl:w-24 w-20 h-full font-semibold rounded shadow xl:text-base text-xs">
                         <i class="fa-solid fa-chart-gantt"></i> {{ $t('grafic') }}
                      </button>
-                     <button @click="tab = 2" :class="setColor(tab == 2)" class="w-24 h-full font-semibold rounded shadow">
+                     <button @click="tab = 2" :class="setColor(tab == 2)" class="xl:w-24 w-20 h-full font-semibold rounded shadow xl:text-base text-xs">
                         <i class="fa-solid fa-table-list"></i> {{ $t('table') }}
                      </button>
                      <button v-if="props.color == 'orange'" @click="tab = 3" :class="setColor(tab == 3)"
-                        class="px-2 h-full font-semibold rounded shadow ml-1 flex-grow">
+                        class="px-2 h-full font-semibold rounded shadow ml-1 flex-grow  xl:text-base text-xs">
                         <i class="fa-solid fa-table-list"></i> {{ $t('waitinginoil') }}
                         <span v-if="fullWaitTime">
                            {{ secondsToFormatTime(fullWaitTime) }}
@@ -40,7 +40,7 @@
                         </span>
                      </button>
                      <button v-if="props.color == 'indigo'" @click="tab = 4" :class="setColor(tab == 4)"
-                        class="px-2 h-full font-semibold rounded shadow ml-1 flex-grow">
+                        class="px-2 h-full font-semibold rounded shadow ml-1 flex-grow  xl:text-base text-xs">
                         <i class="fa-solid fa-table-list"></i> {{ $t('inremontcause') }}
                      </button>
                   </div>

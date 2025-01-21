@@ -16,7 +16,7 @@
       <GreyColumn />
 
       <!-- Ong tarafdagi chartlar -->
-      <ChartColumn />
+      <ChartColumn class="xl:block hidden" />
       
       <TransitionGroup name="fade">
          <SingleTransport class="z-50" v-if="store.transport" />

@@ -1,5 +1,5 @@
 <template>
-    <main class="h-64" ref="chartLine"></main>
+    <main class="2xl:h-64 xl:h-40 h-32" ref="chartLine"></main>
 </template>
 
 <script setup lang="ts">
@@ -8,13 +8,14 @@ import Highcharts from 'highcharts'
 import { UTCTime } from "@/helpers/timeFormat"
 import { useI18n } from 'vue-i18n'
 
+const props = defineProps(['label'])
 const { t, locale } = useI18n({ useScope: 'global' })
 function getChartData() {
-    // axios.post('api/speeds-by-hour', { startDate: null, endDate: null }).then(({ data }) => {
-    //     chartConstructor.value.series[0].setData(data.map((byHour) => {
-    //         return { y: byHour.average_speed, x: UTCTime(byHour.hour) }
-    //     }));
-    // })
+    axios.post('api/speeds-by-hour', { startDate: null, endDate: null }).then(({ data }) => {
+        chartConstructor.value.series[0].setData(data.map((byHour) => {
+            return { y: byHour.average_speed, x: UTCTime(byHour.hour) }
+        }));
+    })
 }
 
 
@@ -36,7 +37,7 @@ const chartOptions: any = {
     title: null,
     subtitle: null,
     xAxis: {
-        // visible: false,
+        visible: false,
         gridLineColor: 'transparent',
         gridLineWidth: 0,
 
@@ -49,6 +50,7 @@ const chartOptions: any = {
         },
     },
     yAxis: {
+        visible: props.label,
         labels: {
             style: {
                 color: '#bbb'
@@ -88,6 +90,7 @@ const chartOptions: any = {
         }
     }],
     legend: {
+        enabled: props.label,
         labelFormatter: function() {
             return '<span style="color: #2caffe;">' + this.name + '</span>';
         }

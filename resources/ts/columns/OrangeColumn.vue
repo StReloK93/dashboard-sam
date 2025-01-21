@@ -3,13 +3,13 @@
       <Transition name="fade">
          <PricingMasters @close="pricingModal = false" color="orange" v-if="pricingModal" />
       </Transition>
-      <div class="h-28 px-2 flex items-center justify-around">
+      <div class="xl:h-28 h-24 px-2 flex items-center justify-around">
          <ColumnTopSlider :slides="orangeSlides" />
       </div>
       <aside class="orange-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative">
-         <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-3" color="yellow" class="opacity-0"/>
+         <TransportProcess counter="reys" :data="[]" :grid-cols="`lg:grid-cols-3 grid-cols-2`" color="yellow" class="opacity-0"/>
          <main class="absolute inset-0">
-            <TransportProcessGroup grid-cols="grid-cols-3" @openModal="(transport) => store.openModal(2, transport)"
+            <TransportProcessGroup :grid-cols="`lg:grid-cols-3 grid-cols-2`" @openModal="(transport) => store.openModal(2, transport)"
                :title="$t('inoil')" color="orange" scroll-color="orange-scroll" :data="transportStore.inOIL" />
          </main>
       </aside>

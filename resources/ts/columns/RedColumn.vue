@@ -1,6 +1,6 @@
 <template>
    <main class="border-r border-zinc-800 flex flex-col">
-      <div class="h-28 px-2 flex items-center justify-around">
+      <div class="xl:h-28 h-24 px-2 flex items-center justify-around">
          <ColumnTopSlider :slides="redSlides" />
       </div>
       <aside class="red-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative">

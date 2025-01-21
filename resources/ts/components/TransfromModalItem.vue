@@ -1,6 +1,6 @@
 <template>
    <section class="h-full w-full overflow-y-auto px-1">
-      <table class="w-full">
+      <table class="w-full xl:text-base text-xs">
          <tr class="border-b-4 border-zinc-900">
             <td :class="props.headerColor" class="py-1 rounded-tl px-2 w-10">№</td>
             <td :class="props.headerColor" class="py-1 w-40">{{$t('geozone')}}</td>
