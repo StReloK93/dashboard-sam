@@ -25,10 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-        set_time_limit(600);
-
         date_default_timezone_set('Asia/Tashkent');
-        
     }
 }

@@ -9,7 +9,7 @@
          <span class="text-gray-500 2xl:text-xs xl:text-[10px] xl:inline-block hidden leading-none">
             {{ car.name }}
          </span>
-         <tippy v-if="car.cause_old" target="_parent">
+         <tippy v-if="car.cause_old && car.status_of != 'Ishda'" target="_parent">
             <div class="font-semibold">{{car.cause_old}}</div>
          </tippy>
       </div>
