@@ -22,16 +22,8 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import { getDifference, calculatePauses } from '@/helpers/timeFormat'
+import { getDifference } from '@/helpers/timeFormat'
 import { TransportStates } from '@/entities/transports'
-import { onMounted, ref } from 'vue'
-import axios from 'axios'
 const props = defineProps(['type', 'headerColor', 'transport_id'])
-
 const states = TransportStates()
-onMounted(() => {
-   axios.get(`api/process/redcolumn/${props.transport_id}`).then(({data}) => {
-      const stops = calculatePauses(data)
-   })
-})
 </script>

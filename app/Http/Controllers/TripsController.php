@@ -20,8 +20,7 @@ class TripsController extends Controller
     {
 
         if ($request->startDate == null) {
-            // $time = $this->time->getPeriod(now());
-            $startDate = now()->copy()->addHour(-24);
+            $startDate = now()->copy()->addHours(-24);
             $endDate = now();
         } else {
             $startDate = Carbon::parse($request->startDate)->timezone('Asia/Tashkent');

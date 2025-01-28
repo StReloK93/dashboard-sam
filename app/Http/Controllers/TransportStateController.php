@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Exports\ReportExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\TransportState;
 use App\Models\Transport;
 use App\Models\TransportList;
@@ -164,6 +166,11 @@ class TransportStateController extends Controller
 		$arr2 = DB::connection('ueb')->select("SELECT * FROM [dbo].UEB_FAKT_TO(?,?, ?)", [$request->startDate, $request->endDate, (int) env("BASE_PARK")]);
 
 		return collect($arr1)->merge($arr2);
+	}
+
+
+	public function exportReport($date, $weekCount){
+		return Excel::download(new ReportExport($date, $weekCount), "$date-$weekCount.xlsx");
 	}
 
 

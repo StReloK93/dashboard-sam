@@ -7,12 +7,12 @@
       "resources/ts/pages/Home.vue",
       "resources/ts/pages/Login.vue"
     ],
-    "file": "assets/app-42RlHAph.js",
+    "file": "assets/app-_YbQKBO9.js",
     "isEntry": true,
     "src": "resources/ts/app.ts"
   },
   "resources/ts/pages/Home.vue": {
-    "file": "assets/Home-yHuw3W6e.js",
+    "file": "assets/Home-3HwynNTS.js",
     "imports": [
       "resources/ts/app.ts"
     ],
@@ -20,7 +20,7 @@
     "src": "resources/ts/pages/Home.vue"
   },
   "resources/ts/pages/Login.vue": {
-    "file": "assets/Login-TYZHV5Fr.js",
+    "file": "assets/Login-eUukEro-.js",
     "imports": [
       "resources/ts/app.ts"
     ],

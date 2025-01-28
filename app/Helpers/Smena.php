@@ -52,10 +52,10 @@ class Smena
 
       if ($smena == 1) {
          $start = Carbon::parse("$current $DaySmena");
-         $end = $start->copy()->addHour(12);
+         $end = $start->copy()->addHours(12);
       } else {
          $start = Carbon::parse("$current $NightSmena");
-         $end = $start->copy()->addHour(12);
+         $end = $start->copy()->addHours(12);
       }
 
       return ['smena' => $smena, 'start' => $start, 'end' => $end];

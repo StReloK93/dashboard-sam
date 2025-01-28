@@ -4,6 +4,7 @@ namespace App\Wialon;
 use App\Wialon\WialonAuth;
 use Carbon\Carbon;
 
+
 class WialonApi
 {
    protected $wialon;
@@ -30,7 +31,6 @@ class WialonApi
 
    public function getAllUnits()
    {
-
       return $this->wialon->get([
          'svc' => 'core/search_items',
          'params' => json_encode([
@@ -42,7 +42,7 @@ class WialonApi
                'propType' => "sys_name",
             ],
             'flags' => 1,
-            'force' => 2,
+            'force' => 0,
             'from' => 0,
             'to' => 0,
          ]),
@@ -68,7 +68,7 @@ class WialonApi
       ]);
 
       $accounts = collect($accountsInformation['items']);
-		return $accounts->first(fn($account) => $account['nm'] == env('BASE_ACCOUNT'));
+      return $accounts->first(fn($account) => $account['nm'] == env('BASE_ACCOUNT'));
    }
 
 
@@ -90,9 +90,8 @@ class WialonApi
          ]),
       ]);
 
-      // dd($accountsInformation);
       $accounts = collect($accountsInformation['items']);
-		return $accounts->first(fn($account) => $account['nm'] == env('BASE_ACCOUNT'));
+      return $accounts->first(fn($account) => $account['nm'] == env('BASE_ACCOUNT'));
    }
 
    public function getGroups()
@@ -115,7 +114,7 @@ class WialonApi
       ]);
    }
 
-   public function messagesInterval($transport_id, $from, $to)
+   public function getMessagesInterval($transport_id, $from, $to)
    {
       return $this->wialon->get([
          'svc' => 'messages/load_interval',
@@ -123,8 +122,8 @@ class WialonApi
             'itemId' => $transport_id,
             'timeFrom' => $from,
             'timeTo' => $to,
-            'flags' => 1,         // Базовые данные
-            'flagsMask' => 65281, // Данные сообщений
+            'flags' => 1,
+            'flagsMask' => 65281,
             'loadCount' => 0xffffffff
          ]),
       ]);
@@ -142,15 +141,15 @@ class WialonApi
       ]);
 
       return array_map(function ($geozone) {
-			return [
-				'name' => $geozone['n'],
-				'center' => [
-					'y' => $geozone['b']['cen_y'],
-					'x' => $geozone['b']['cen_x'],
-				],
-				'points' => $geozone['p']
-			];
-		}, $geozones);
+         return [
+            'name' => $geozone['n'],
+            'center' => [
+               'y' => $geozone['b']['cen_y'],
+               'x' => $geozone['b']['cen_x'],
+            ],
+            'points' => $geozone['p']
+         ];
+      }, $geozones);
    }
 
    public function getTransportSensors($transport_id)
@@ -175,9 +174,7 @@ class WialonApi
 
    public function importGeozonesKML()
    {
-      // $account = $this->getAccountGeozonesID();
-		// $zones_ids = $account['zl'];
-      $arr = $this->wialon->get([
+      return $this->wialon->get([
          'svc' => 'exchange/export_zones',
          'params' => json_encode([
             'fileName' => 'asasd',
@@ -190,12 +187,11 @@ class WialonApi
             'compress' => 1,
          ]),
       ]);
-
-      dd($arr);
    }
 
 
-   public function getGroupById($group_id){
+   public function getGroupById($group_id)
+   {
       return $this->wialon->get([
          'svc' => 'core/search_items',
          'params' => json_encode([
@@ -216,41 +212,76 @@ class WialonApi
    }
 
 
+   public function groupTransportWithLastMessage($wialonGroupID)
+   {
+      if ($wialonGroupID == 0)
+         return [];
 
-   public function getGeozonesById($groupIndex)
-	{
-      if ($groupIndex == null || $groupIndex == 0) return [];
 
-		$account = $this->getAccount();
-		$zones_ids = $account['zg'][$groupIndex]['zns'];
+      $allUnits = collect($this->getAllUnits()['items']);
+      $groups = collect($this->getGroups()['items']);
 
-		return $this->getAccountGeozones($account['id'], $zones_ids);
-	}
+      $transportIds = $groups->firstWhere('id', $wialonGroupID)['u'] ?? [];
+      $groupUnits = array_map(fn($id) => $allUnits->first(fn($unit) => $unit['id'] == $id), $transportIds);
+
+
+      $transports = [];
+
+      foreach ($groupUnits as $key => $unit) {
+         $point = $this->lastMessage($unit['id'], now()->timestamp);
+
+         if (count($point['messages']) != 0) {
+            $transports[$key]['speed'] = $point['messages'][0]['pos']['s'];
+            $transports[$key]['y'] = $point['messages'][0]['pos']['y'];
+            $transports[$key]['x'] = $point['messages'][0]['pos']['x'];
+            $transports[$key]['time_message'] = Carbon::createFromTimestamp($point['messages'][0]['t'])->toDateTimeString();
+            $transports[$key]['name'] = $unit['nm'];
+            $transports[$key]['transport_id'] = $unit['id'];
+            $transports[$key]['created_at'] = now()->format('Y-m-d H:i:s');
+         }
+      }
+
+      return $transports;
+   }
+
+
+   public function getGeozonesGroup($groupIndex)
+   {
+      if ($groupIndex == 0)
+         return [];
+
+      $account = $this->getAccount();
+      $zones_ids = $account['zg'][$groupIndex]['zns'];
+
+      return $this->getAccountGeozones($account['id'], $zones_ids);
+   }
 
 
    public function getGroupUnitsWithName($group_id)
-	{
-      if ($group_id == null || $group_id == 0) return [];
+   {
+      if ($group_id == null || $group_id == 0)
+         return [];
 
-		$groups = $this->getGroupById($group_id);
-		$units = $this->getAllUnits();
+      $groups = $this->getGroupById($group_id);
+      $units = $this->getAllUnits();
 
-		return collect($units['items'])->whereIn('id', $groups['items'][0]['u'])->values()->all();
-	}
+      return collect($units['items'])->whereIn('id', $groups['items'][0]['u'])->values()->all();
+   }
 
 
 
-   public function messagesFormatter($messages, $transport_id){
+   public function messagesFormatter($messages, $transport_id)
+   {
       $array = [];
       $sensor = $this->getSensors($transport_id);
       foreach ($messages as $message) {
          $sensor_value = $sensor && isset($message['p'][$sensor]) ? $message['p'][$sensor] : null;
          $cuzov_value = null;
-         if($sensor_value){
-            if($sensor_value > 10000 && $sensor_value < 20000){
+         if ($sensor_value) {
+            if ($sensor_value > 10000 && $sensor_value < 20000) {
                $cuzov_value = 1;
             }
-            if($sensor_value > 20000){
+            if ($sensor_value > 20000) {
                $cuzov_value = 2;
             }
          }
@@ -270,16 +301,16 @@ class WialonApi
    }
 
    public function getSensors($transport_id)
-	{
-		$response = $this->getTransportSensors($transport_id);
+   {
+      $response = $this->getTransportSensors($transport_id);
 
-		if (isset($response['items'][0]['sens'])) {
-			$select = collect($response['items'][0]['sens'])->firstWhere('n', 'Датчик подъема Кузова');
-			if(isset($select)){
-				return explode('/', $select['p'])[0] ?? $select['p'];
-			}
-			else return null;
-		} 
-		else return null;
-	}
+      if (isset($response['items'][0]['sens'])) {
+         $select = collect($response['items'][0]['sens'])->firstWhere('n', 'Датчик подъема Кузова');
+         if (isset($select)) {
+            return explode('/', $select['p'])[0] ?? $select['p'];
+         } else
+            return null;
+      } else
+         return null;
+   }
 }
