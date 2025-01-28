@@ -6,6 +6,7 @@ export default {
    inchange: "В пересменке",
    inatb: "В площадке УАТ",
    inred: "Простои без причин",
+   ingusak: 'Гусак',
    minute: "Минут",
    hour: "Час",
    day: "День",

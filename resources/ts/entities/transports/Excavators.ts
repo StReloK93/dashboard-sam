@@ -7,8 +7,6 @@ export const Excavators = defineStore("Excavators", () => {
    async function getExcavatorStates() {
       const { data } = await axios.get("api/transports/excavatorstate");
       data.forEach((excavator) => {
-         if (excavator.status_of == "Ta`mirda") console.log(excavator);
-
          const { number, text } = splitNumberAndText(excavator.mexanizm_nomi);
          excavator.number = number;
          excavator.name = text;

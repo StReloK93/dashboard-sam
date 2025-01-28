@@ -31,12 +31,21 @@ export const Transports = defineStore("Transports", () => {
          }
       });
 
-      const withoutGM = data.filter((car) => car.name.includes('ГМ') == false)
-      waterTrucks.value = data.filter((car) => car.name.includes('ГМ'))
+      const excludedWords = ['гм', 'вод', "по"]
 
+      const withoutGM = data.filter(item => {
+         const lowerName = item.name.toLowerCase();
+         return !excludedWords.some(word => lowerName.includes(word));
+      });
+      // waterTrucks.value = data.filter((car) => car.name.includes('ГМ'))
       withoutGM.sort(
          (a, b) => +a.name.replace(/\D/g, "") - +b.name.replace(/\D/g, "")
       );
+
+      waterTrucks.value = data.filter(item => {
+         const lowerName = item.name.toLowerCase();
+         return excludedWords.some(word => lowerName.includes(word));
+      });
 
       cars.value = withoutGM;
    }

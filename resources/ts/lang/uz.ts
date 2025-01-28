@@ -6,6 +6,7 @@ export default {
    inatb: "ATB maydonida",
    inoil: "Yoqilg'i olish maydonida",
    inred: "Sababsiz to'xtaganlar",
+   ingusak: 'Suv olish maydonida',
    minute: "Minut",
    hour: "Soat",
    day: "Kun",

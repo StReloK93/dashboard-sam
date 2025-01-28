@@ -18,18 +18,17 @@ class TripsController extends Controller
 
     public function getSpeedsByHour(Request $request)
     {
+        $startDate = $request->startDate
+            ? Carbon::parse($request->startDate)->timezone('Asia/Tashkent')
+            : now()->subHours(12);
 
-        if ($request->startDate == null) {
-            $startDate = now()->copy()->addHours(-24);
-            $endDate = now();
-        } else {
-            $startDate = Carbon::parse($request->startDate)->timezone('Asia/Tashkent');
-            $endDate = Carbon::parse($request->endDate)->timezone('Asia/Tashkent');
-        }
+        $endDate = $request->endDate
+            ? Carbon::parse($request->endDate)->timezone('Asia/Tashkent')
+            : now();
 
         return Point::select(
             DB::raw('DATEADD(HOUR, DATEDIFF(HOUR, 0, time_message), 0) AS hour'),
-            DB::raw('ROUND(AVG(CASE WHEN Speed <> 0 THEN CAST(Speed AS DECIMAL(10, 2)) ELSE NULL END), 2) AS average_speed'),
+            DB::raw('ROUND(AVG(CASE WHEN Speed <> 0 THEN CAST(Speed AS DECIMAL(10, 2)) ELSE NULL END), 2) AS average_speed')
         )
             ->whereBetween('time_message', [$startDate, $endDate])
             ->groupBy(DB::raw('DATEADD(HOUR, DATEDIFF(HOUR, 0, time_message), 0)'))
@@ -96,10 +95,10 @@ class TripsController extends Controller
         $startOfMonth = Carbon::create($request->year, $request->month)->startOfMonth();
         $endOfMonth = Carbon::create($request->year, $request->month)->endOfMonth();
         return DB::table("WIALON.dbo.v_MechanismsGraphics")
-        ->where("idPodrazd", env("BASE_PARK"))
-        ->where("tip", 1)
-        ->whereBetween('date_of', [$startOfMonth, $endOfMonth])
-        ->orderBy('date_of','desc')->get();
+            ->where("idPodrazd", env("BASE_PARK"))
+            ->where("tip", 1)
+            ->whereBetween('date_of', [$startOfMonth, $endOfMonth])
+            ->orderBy('date_of', 'desc')->get();
 
     }
 
@@ -108,10 +107,10 @@ class TripsController extends Controller
         $startOfMonth = Carbon::create($request->year, $request->month)->startOfMonth();
         $endOfMonth = Carbon::create($request->year, $request->month)->endOfMonth();
         return DB::table("WIALON.dbo.v_MechanismsGraphics")
-        ->where("idPodrazd", env("BASE_PARK"))
-        ->where("tip", 2)
-        ->whereBetween('date_of', [$startOfMonth, $endOfMonth])
-        ->orderBy('date_of','desc')->get();
+            ->where("idPodrazd", env("BASE_PARK"))
+            ->where("tip", 2)
+            ->whereBetween('date_of', [$startOfMonth, $endOfMonth])
+            ->orderBy('date_of', 'desc')->get();
 
     }
 

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TripsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TransportStateController;
+use App\Http\Controllers\ExportController;
 use App\Services\WialonService;
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -19,7 +20,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 Route::apiResource('transportstates', TransportStateController::class)->only(['index', 'show', 'update']);
-Route::get('process/excavator', [TransportStateController::class, 'excavator']);
 Route::post('states/select_smena', [TransportStateController::class, 'selectSmena']);
 Route::post('states/peresmena-graphic', [TransportStateController::class, 'waitingInOilGraphic']);
 Route::post('information/get-park-information', [TransportStateController::class, 'getParkInformation']);
@@ -34,8 +34,8 @@ Route::post('get-to-excavators', [TripsController::class, 'getToExcavators']);
 Route::post('get-to-drillings', [TripsController::class, 'getToDrillings']);
 
 
-Route::post('export-table-pdf', [TransportStateController::class, 'exportTablePdf']);
-Route::get('export/report/{date}/{weekCount}', [TransportStateController::class, 'exportReport']);
+Route::post('export-table-pdf', [ExportController::class, 'exportTablePdf']);
+Route::get('export/report/{date}/{weekCount}', [ExportController::class, 'exportReport']);
 
 
 
