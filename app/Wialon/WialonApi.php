@@ -3,8 +3,6 @@
 namespace App\Wialon;
 use App\Wialon\WialonAuth;
 use Carbon\Carbon;
-use Log;
-
 
 class WialonApi
 {
@@ -52,7 +50,6 @@ class WialonApi
             'to' => 0,
          ]),
       ]);
-      Log::info('items', ['rep' => $units]);
       return $units['items'];
    }
 

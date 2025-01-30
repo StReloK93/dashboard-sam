@@ -3,31 +3,35 @@
 namespace App\Wialon;
 use Session;
 use Http;
-
+use Log;
+use Cache;
 class WialonAuth
 {
-    
+
     private static $instance;
     private $baseUrl = 'http://wl.ngmk.uz/wialon/ajax.html';
 
     function __construct()
     {
-        if (Session::get('eid') == null) $this->login();
+        if (Cache::get('wialon_sid') == null)
+            $this->login();
     }
 
     public static function getInstance()
     {
-        if (!self::$instance) self::$instance = new self();
+        if (!self::$instance)
+            self::$instance = new self();
 
         return self::$instance;
     }
 
     public function sid()
     {
-        return Session::get('eid');
+        return Cache::get('wialon_sid');
     }
 
-    public function get($object){
+    public function get($object)
+    {
 
         $resdata = $this->quest($object);
         if (isset($resdata['error']) && $object['svc'] != 'token/login') {
@@ -38,21 +42,22 @@ class WialonAuth
         return $resdata;
     }
 
-    function quest($object){
-        $response = Http::get($this->baseUrl, [...$object,'sid' => $this->sid()]);
+    function quest($object)
+    {
+        $response = Http::get($this->baseUrl, [...$object, 'sid' => $this->sid()]);
         return $response->json();
     }
 
-    private function login(){
+    private function login()
+    {
         $data = $this->get([
             'svc' => 'token/login',
             'params' => json_encode([
                 "token" => env('WIALON_TOKEN'),
             ]),
         ]);
-        if(isset($data['eid'])){
-            Session::put('eid', $data['eid']);
-            Session::save();
+        if (isset($data['eid'])) {
+            Cache::put('wialon_sid', $data['eid'], now()->addMinutes(20));
         }
     }
 
