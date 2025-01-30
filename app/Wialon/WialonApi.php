@@ -52,6 +52,7 @@ class WialonApi
             'to' => 0,
          ]),
       ]);
+      Log::info('items', ['rep' => $units]);
       return $units['items'];
    }
 
