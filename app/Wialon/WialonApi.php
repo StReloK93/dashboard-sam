@@ -3,15 +3,20 @@
 namespace App\Wialon;
 use App\Wialon\WialonAuth;
 use Carbon\Carbon;
+use Log;
 
 
 class WialonApi
 {
-   protected $wialon;
+   protected $wialon, $allUnits, $getGroups, $account;
 
    function __construct()
    {
       $this->wialon = WialonAuth::getInstance();
+
+      $this->allUnits = $this->getAllUnits();
+      $this->getGroups = $this->getGroups();
+      $this->account = $this->getAccount();
    }
 
    public function lastMessage($transport_id, $time)
@@ -31,7 +36,7 @@ class WialonApi
 
    public function getAllUnits()
    {
-      return $this->wialon->get([
+      $units = $this->wialon->get([
          'svc' => 'core/search_items',
          'params' => json_encode([
             'spec' => [
@@ -47,6 +52,7 @@ class WialonApi
             'to' => 0,
          ]),
       ]);
+      return $units['items'];
    }
 
    public function getAccount()
@@ -111,7 +117,7 @@ class WialonApi
             'from' => 0,
             'to' => 0,
          ]),
-      ]);
+      ])['items'];
    }
 
    public function getMessagesInterval($transport_id, $from, $to)
@@ -201,8 +207,8 @@ class WialonApi
       if ($wialonGroupID == 0) return [];
 
 
-      $allUnits = collect($this->getAllUnits()['items']);
-      $groups = collect($this->getGroups()['items']);
+      $allUnits = collect($this->allUnits);
+      $groups = collect($this->getGroups);
 
       $transportIds = $groups->firstWhere('id', $wialonGroupID)['u'] ?? [];
       $groupUnits = array_map(fn($id) => $allUnits->first(fn($unit) => $unit['id'] == $id), $transportIds);
@@ -232,29 +238,11 @@ class WialonApi
    {
       if ($groupIndex == 0) return [];
 
-      $account = $this->getAccount();
+      $account = $this->account;
       $zones_ids = $account['zg'][$groupIndex]['zns'];
 
       return $this->getAccountGeozones($account['id'], $zones_ids);
    }
-
-
-   public function groupUnitsWithName($group_id)
-   {
-      if ($group_id == 0) return [];
-
-      $groups = $this->getGroupById($group_id);
-      $units = $this->getAllUnits();
-
-      return collect($units['items'])->whereIn('id', $groups['items'][0]['u'])->values()->all();
-   }
-
-
-
-
-
-
-
 
 
 

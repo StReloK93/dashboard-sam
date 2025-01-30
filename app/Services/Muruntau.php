@@ -11,7 +11,6 @@ class Muruntau
 
    public function writeDb($transports, $tablename)
    {
-      if(empty(env('DB_DATABASE_ONLINE'))) return;
       // ReportStaysMekhanizmsLastCordinate
       $models = $this->modelFormatter($transports);
 

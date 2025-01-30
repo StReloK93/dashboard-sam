@@ -8,13 +8,10 @@ class WialonAuth
 {
     
     private static $instance;
-    private $token;
     private $baseUrl = 'http://wl.ngmk.uz/wialon/ajax.html';
-
 
     function __construct()
     {
-        $this->token = env('WIALON_TOKEN');
         if (Session::get('eid') == null) $this->login();
     }
 
@@ -50,7 +47,7 @@ class WialonAuth
         $data = $this->get([
             'svc' => 'token/login',
             'params' => json_encode([
-                "token" => $this->token,
+                "token" => env('WIALON_TOKEN'),
             ]),
         ]);
         if(isset($data['eid'])){

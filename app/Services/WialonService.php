@@ -7,6 +7,7 @@ use App\Models\TransportState;
 use App\Services\Muruntau;
 use App\Wialon\WialonApi;
 use DB;
+use Log;
 class WialonService
 {
     protected $wialonApi, $geoService;
@@ -81,7 +82,8 @@ class WialonService
 
     public function writeToDB()
     {
-        $transports = collect($this->dumpTrucksPosition(41))->merge($this->waterTrucksPosition())->all();
+        Log::info('items', ['rep' => 'writeToDB']);
+        $transports = collect($this->dumpTrucksPosition(55))->merge($this->waterTrucksPosition())->all();
         $time = now();
         $lastPositions = $this->truckLastPositions();
 
@@ -138,6 +140,7 @@ class WialonService
 
     private function muruntauBase()
     {
+        if(empty(env('DB_DATABASE_ONLINE'))) return;
         $service = new Muruntau();
         $service->writeDb($this->dumpTrucksPosition(75), 'ReportStaysMekhanizmsLastCordinate');
         $service->writeDb($this->dumpTrucksPosition(100), 'ReportStaysMekhanizmsLastCordinate50');
