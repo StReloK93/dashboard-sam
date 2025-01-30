@@ -53,8 +53,10 @@ class WialonAuth
                 "token" => $this->token,
             ]),
         ]);
-        Session::put('eid', $data['eid']);
-        Session::save();
+        if(isset($data['eid'])){
+            Session::put('eid', $data['eid']);
+            Session::save();
+        }
     }
 
 }

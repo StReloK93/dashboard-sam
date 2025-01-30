@@ -164,7 +164,7 @@ class WialonApi
                'sortType' => 'unit_sensors',
             ],
             'force' => 1,
-            'flags' => 4097, // Базовые данные
+            'flags' => 4097,
             'from' => 0,
             'to' => 0,
          ]),
@@ -172,22 +172,6 @@ class WialonApi
    }
 
 
-   public function importGeozonesKML()
-   {
-      return $this->wialon->get([
-         'svc' => 'exchange/export_zones',
-         'params' => json_encode([
-            'fileName' => 'asasd',
-            'zones' => [
-               [
-                  'itemId' => 1,
-                  'id' => 1,
-               ],
-            ],
-            'compress' => 1,
-         ]),
-      ]);
-   }
 
 
    public function getGroupById($group_id)
@@ -204,7 +188,7 @@ class WialonApi
                'or_logic' => 0
             ],
             'force' => 1,
-            'flags' => 1033, // Базовые данные
+            'flags' => 1033,
             'from' => 0,
             'to' => 0,
          ]),
@@ -214,8 +198,7 @@ class WialonApi
 
    public function groupTransportWithLastMessage($wialonGroupID)
    {
-      if ($wialonGroupID == 0)
-         return [];
+      if ($wialonGroupID == 0) return [];
 
 
       $allUnits = collect($this->getAllUnits()['items']);
@@ -247,8 +230,7 @@ class WialonApi
 
    public function getGeozonesGroup($groupIndex)
    {
-      if ($groupIndex == 0)
-         return [];
+      if ($groupIndex == 0) return [];
 
       $account = $this->getAccount();
       $zones_ids = $account['zg'][$groupIndex]['zns'];
@@ -257,10 +239,9 @@ class WialonApi
    }
 
 
-   public function getGroupUnitsWithName($group_id)
+   public function groupUnitsWithName($group_id)
    {
-      if ($group_id == null || $group_id == 0)
-         return [];
+      if ($group_id == 0) return [];
 
       $groups = $this->getGroupById($group_id);
       $units = $this->getAllUnits();
@@ -270,47 +251,88 @@ class WialonApi
 
 
 
-   public function messagesFormatter($messages, $transport_id)
-   {
-      $array = [];
-      $sensor = $this->getSensors($transport_id);
-      foreach ($messages as $message) {
-         $sensor_value = $sensor && isset($message['p'][$sensor]) ? $message['p'][$sensor] : null;
-         $cuzov_value = null;
-         if ($sensor_value) {
-            if ($sensor_value > 10000 && $sensor_value < 20000) {
-               $cuzov_value = 1;
-            }
-            if ($sensor_value > 20000) {
-               $cuzov_value = 2;
-            }
-         }
 
-         $array[] = [
-            'speed' => $message['pos']['s'],
-            'y' => $message['pos']['y'],
-            'x' => $message['pos']['x'],
-            'time' => $message['t'],
-            'cuzov' => $cuzov_value,
-            'sensor_name' => $sensor,
-            'geozone' => null,
-         ];
 
-      }
-      return $array;
-   }
 
-   public function getSensors($transport_id)
-   {
-      $response = $this->getTransportSensors($transport_id);
 
-      if (isset($response['items'][0]['sens'])) {
-         $select = collect($response['items'][0]['sens'])->firstWhere('n', 'Датчик подъема Кузова');
-         if (isset($select)) {
-            return explode('/', $select['p'])[0] ?? $select['p'];
-         } else
-            return null;
-      } else
-         return null;
-   }
+
+
+
+
+
+
+   
+
+   // public function messagesFormatter($messages, $transport_id)
+   // {
+   //    $array = [];
+   //    $sensor = $this->getSensors($transport_id);
+   //    foreach ($messages as $message) {
+   //       $sensor_value = $sensor && isset($message['p'][$sensor]) ? $message['p'][$sensor] : null;
+   //       $cuzov_value = null;
+   //       if ($sensor_value) {
+   //          if ($sensor_value > 10000 && $sensor_value < 20000) {
+   //             $cuzov_value = 1;
+   //          }
+   //          if ($sensor_value > 20000) {
+   //             $cuzov_value = 2;
+   //          }
+   //       }
+
+   //       $array[] = [
+   //          'speed' => $message['pos']['s'],
+   //          'y' => $message['pos']['y'],
+   //          'x' => $message['pos']['x'],
+   //          'time' => $message['t'],
+   //          'cuzov' => $cuzov_value,
+   //          'sensor_name' => $sensor,
+   //          'geozone' => null,
+   //       ];
+
+   //    }
+   //    return $array;
+   // }
+
+   // public function getSensors($transport_id)
+   // {
+   //    $response = $this->getTransportSensors($transport_id);
+
+   //    if (isset($response['items'][0]['sens'])) {
+   //       $select = collect($response['items'][0]['sens'])->firstWhere('n', 'Датчик подъема Кузова');
+   //       if (isset($select)) {
+   //          return explode('/', $select['p'])[0] ?? $select['p'];
+   //       } else
+   //          return null;
+   //    } else
+   //       return null;
+   // }
+
+
+
+
+
+
+
+
+
+
+
+
+      // public function importGeozonesKML()
+   // {
+   //    return $this->wialon->get([
+   //       'svc' => 'exchange/export_zones',
+   //       'params' => json_encode([
+   //          'fileName' => 'asasd',
+   //          'zones' => [
+   //             [
+   //                'itemId' => 1,
+   //                'id' => 1,
+   //             ],
+   //          ],
+   //          'compress' => 1,
+   //       ]),
+   //    ]);
+   // }
+
 }
