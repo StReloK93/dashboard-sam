@@ -55,11 +55,9 @@ class WialonService
         $gusakZones = $this->wialonApi->getGeozonesGroup((int) env('BASE_GUSAKS_GROUP_ID'));
 
         foreach ($waterTrucks as $key => $car) {
-            $pointCar = ['x' => $car['x'], 'y' => $car['y']];
-
-            $geozoneName = $this->geoService->findZone($pointCar, $gusakZones);
+            $geozoneName = $this->geoService->findZone($car, $gusakZones);
             $waterTrucks[$key]['distance_ex'] = null;
-            $waterTrucks[$key]['geozone'] = $geozoneName == null ? null : $geozoneName;
+            $waterTrucks[$key]['geozone'] = $geozoneName;
         }
 
         return $waterTrucks;
@@ -91,7 +89,7 @@ class WialonService
         foreach ($transports as $car) {
             $transport = $lastPositions->where('transport_id', $car['transport_id'])->first();
 
-            if ($transport?->geozone == $car['geozone']) {
+            if (isset($transport) && $transport->geozone == $car['geozone']) {
                 $transport->geozone_out = $time->format('Y-m-d H:i:s');
                 $transport->save();
             } else {
