@@ -5,9 +5,9 @@
 			class="2xl:pl-1 xl:pl-0.5 font-semibold 2xl:text-[14px] xl:text-[11px] text-[10px]  leading-[10px] text-left">
 			<span class="leading-none" v-if="props.color == 'sky'">ГМ{{ props.name?.replace(/\D/g, "") }}</span>
 			<span class="leading-none" v-else-if="timePistali">{{ pistaliName(props.name) }}</span>
-			<span class="leading-none" v-else>C{{ props.name?.replace(/\D/g, "") }}</span>
+			<span class="leading-none" v-else>C{{ props.type?.garage }}</span>
 			<div class="text-gray-500 2xl:text-[10px] xl:text-[9px] text-[8px] leading-none">
-				{{ props.type?.type }}
+				{{ props.type?.tonnage }}
 			</div>
 		</div>
 		<span v-if="props.timer_type" :class="colorLine" class="absolute lg:w-2 w-[6px] h-[calc(100%+1px)] 2xl:right-[14px] xl:right-[11px] right-[10px] -top-px z-10"></span>
@@ -81,7 +81,6 @@ const props = defineProps({
 	timer_type: { type: Number },
 	type: { type: Object },
 })
-
 
 const colorLine = computed(() => props.timer_type == 2 ? 'bg-gray-400' : 'bg-yellow-400')
 

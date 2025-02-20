@@ -19,7 +19,7 @@ class TransportState extends Model
 
     public function truck()
     {
-        return $this->hasOne(Car::class, 'name', 'name');
+        return $this->hasOne(Car::class, 'objectID', 'transport_id')->select(['QT as tonnage', 'n_garaj as garage', 'objectID']);
     }
 
     public function causes()

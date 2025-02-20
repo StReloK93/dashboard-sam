@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Truck extends Model
 {
     use HasFactory;
-
+    protected $connection = 'trucks';
+    protected $table = 'sprACPark';
 
     public $timestamps = false;
 
