@@ -215,6 +215,7 @@ class WialonApi
       $transports = [];
 
       foreach ($groupUnits as $key => $unit) {
+         if(!isset($unit)) continue;
          $point = $this->lastMessage($unit['id'], now()->timestamp);
 
          if (count($point['messages']) != 0) {
