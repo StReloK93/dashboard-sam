@@ -12,6 +12,7 @@
             'oil': @json($oil),
             'smena': @json($smena),
             'uat': @json($uat),
+            'active': @json($active),
             'day_smena': @json($day_smena),
             'day_smena_job': @json($day_smena_job),
             'night_smena': @json($night_smena),

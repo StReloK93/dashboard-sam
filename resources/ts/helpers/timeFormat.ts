@@ -14,7 +14,7 @@ export function inZone(car, zone) {
    } else return false;
 }
 
-export function inZones(car, zones: []) {
+export function inZones(car, zones: string[]) {
    const array = zones.map((zone) => inZone(car, zone));
    return array.some((elem) => elem == true);
 }

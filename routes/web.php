@@ -19,6 +19,7 @@ Route::get('/{path}', function () {
         'oil' => explode(',', env('BASE_OIL')),
         'smena' => explode(',', env('BASE_SMENA')),
         'uat' => explode(',', env('BASE_UAT')),
+        'active' => explode(',', env('BASE_ACTIVE')),
         'day_smena' => env('BASE_SMENA_DAY'),
         'day_smena_job' => env('BASE_SMENA_DAY_JOB'),
         'night_smena' => env('BASE_SMENA_NIGHT'),

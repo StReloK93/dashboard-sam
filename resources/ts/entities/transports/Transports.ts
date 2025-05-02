@@ -81,7 +81,7 @@ export const Transports = defineStore("Transports", () => {
    const inProcess = computed(() => {
       const process = cars.value?.filter((transport) => {
          const distance = calculatePathLength(transport.tracks);
-         return distance >= 30 && transport.geozone == null;
+         return distance >= 30 && transport.geozone == null || inZones(transport, settings.active);
       });
 
       process?.forEach((item) => {
