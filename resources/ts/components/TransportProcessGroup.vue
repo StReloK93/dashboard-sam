@@ -25,7 +25,7 @@
 			</button>
 			<TransitionGroup tag="main" name="fade" :class="props.gridCols" class="grid gap-1.5 py-3">
 				<TransportButton @click="$emit('openModal', transport)" v-for="(transport, index) in group.cars"
-					:name="transport.name" :color="props.color" :type="transport.truck"
+					:name="transport.name" :color="props.color" :type="transport.truck" :reyslar="transport.reyslar"
 					:timer="transport.timer ? transport.timer : 0" :timer_type="transport.timer_type" :key="index" />
 				<TransportButton v-if="group.cars.length == 0" :color="props.color" />
 			</TransitionGroup>

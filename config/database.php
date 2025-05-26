@@ -102,6 +102,7 @@ return [
         'wialon' => createConfigDB('DB_DATABASE2'),
         'ueb' => createConfigDB('DB_DATABASE3'),
         'trucks' => createConfigDB('DB_DATABASE4'),
+        'wialonapi' => createConfigDB('DB_DATABASE5'),
 
         'muruntau' => [
             'driver' => 'sqlsrv',
