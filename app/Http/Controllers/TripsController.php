@@ -84,9 +84,11 @@ class TripsController extends Controller
 
     public function getCauseList()
     {
-        return DB::connection('wialon')->select("
-            SELECT Detail.id , Detail.name , Main.name as main  FROM SprPrichinaOstanovkiDetail Detail INNER JOIN SprPrichinaOstanovkiMain Main ON Detail.idMain = Main.id
-        ");
+        return DB::connection('wialon')
+        ->select("SELECT Detail.id , Detail.name , Main.name as main 
+        FROM SprPrichinaOstanovkiDetail Detail 
+        INNER JOIN SprPrichinaOstanovkiMain Main 
+        ON Detail.idMain = Main.id");
     }
 
 

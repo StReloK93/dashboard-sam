@@ -42,7 +42,7 @@ class TransportStateController extends Controller
 			$query->whereNot('name', 'like', '%MAN%');
 		}
 
-		$transports =  $query->whereIn('transport_states.transport_id', $list->tranports)
+		$transports = $query->whereIn('transport_states.transport_id', $list->tranports)
 			->join(
 				DB::raw('(SELECT transport_id, MAX(id) AS max_id FROM transport_states GROUP BY transport_id) as latest_transports'),
 				function ($join) {
@@ -166,8 +166,8 @@ class TransportStateController extends Controller
 	{
 		$start = $period['start'];
 		$end = $period['end'];
-
-		return DB::select("SELECT transport_id
+		try {
+			return DB::select("SELECT transport_id
 		,Davomiyligi 
 		,datediff(second, getdate(), ?)/DavomiyligiUrtacha QolganReyslar
 		FROM
@@ -198,6 +198,11 @@ class TransportStateController extends Controller
 		)R1
 		WHERE RN<=2 and ReysTugashi is not null
  	 	order by geozone_in desc",
-		[$end, $start, $end]);
+				[$end, $start, $end]
+			);
+		} catch (\Throwable $th) {
+			return [];
+		}
+
 	}
 }
