@@ -34,9 +34,9 @@ class TransportStateController extends Controller
 			},
 			'truck',
 			'causes',
-			'tracks' => function ($query) {
-				$query->where('created_at', '>=', now()->subMinutes(10));
-			},
+			// 'tracks' => function ($query) {
+			// 	$query->where('created_at', '>=', now()->subMinutes(10));
+			// },
 		]);
 		if (env('BASE_SMENA_DAY' != "07:50")) {
 			$query->whereNot('name', 'like', '%MAN%');
