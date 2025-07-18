@@ -1,4 +1,5 @@
 export default {
+   mainpage: 'Главная',
    appname: 'Единое окно автосамосвалов',
    inprocess: "В процессе",
    inexcavator: "В ожидании",

@@ -27,6 +27,7 @@
             'gusaks': @json($gusaks),
             'user_ip': @json($user_ip),
             'only_myip': @json($only_myip),
+            'excavator_page': @json(env('EXCAVATORPAGE')),
         }
     </script>
     @vite('resources/ts/app.ts')

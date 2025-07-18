@@ -1,4 +1,5 @@
 export default {
+   mainpage: 'Bosh sahifa',
    appname: "Avtoag'dargichlarni yagona oynasi",
    inprocess: "Ish jarayonida",
    inexcavator: "Kutish jarayonida",

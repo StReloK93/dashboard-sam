@@ -8,6 +8,10 @@
          </a>
       </div>
       <div class="flex">
+         <a :href="urlExcavator" class="px-2 py-0.5 text-teal-400 uppercase inline-flex items-center mr-4 xl:text-sm text-xs">
+            <i class="fa-solid fa-house mr-2"></i>
+            {{t('mainpage')}}
+         </a>
          <button :class="{ 'bg-zinc-800 grayscale-0': $i18n.locale == 'uz' }"
             class="px-2 py-0.5 grayscale transition-all uppercase inline-flex items-center mr-4 xl:text-base text-xs"
             @click="$i18n.locale = 'uz'">
@@ -24,9 +28,12 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+
+
 const hostname = ref(window.location.host)
 
-const { locale } = useI18n({ useScope: 'global' })
+const urlExcavator = settings.excavator_page
+const { locale, t } = useI18n({ useScope: 'global' })
 
 const dashboardLinks = ref([
    { url: '192.168.14.23:3017', name: 'sharqiy' },

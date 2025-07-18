@@ -22,10 +22,15 @@ class TransportStateController extends Controller
 
 	public function index()
 	{
+		// $ehtimol = $this->lastDayRepuclic($period);
+		// foreach ($transports as $key => $state) {
+		// 	$selected = collect($ehtimol)->where('transport_id', $state->transport_id)->first();
+		// 	$transports[$key]->reyslar = $selected ? $selected->QolganReyslar : "0";
+		// }
 
+		
 		$list = TransportList::latest('id')->first();
 		$period = $this->time->getPeriod(now());
-		$ehtimol = $this->lastDayRepuclic($period);
 
 
 		$query = TransportState::with([
@@ -60,10 +65,6 @@ class TransportStateController extends Controller
 			)
 			->get();
 
-		foreach ($transports as $key => $state) {
-			$selected = collect($ehtimol)->where('transport_id', $state->transport_id)->first();
-			$transports[$key]->reyslar = $selected ? $selected->QolganReyslar : "0";
-		}
 		return $transports;
 	}
 

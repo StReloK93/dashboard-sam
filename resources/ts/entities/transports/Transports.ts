@@ -79,22 +79,22 @@ export const Transports = defineStore("Transports", () => {
    });
 
    const inProcess = computed(() => {
-      return cars.value?.filter((transport) => {
+      const process = cars.value?.filter((transport) => {
          // const distance = calculatePathLength(transport.tracks);
          // return distance >= 30 && transport.geozone == null || inZones(transport, settings.active);
          return transport.geozone == null;
       });
 
-      // process?.forEach((item) => {
-      //    item.timer_type = 0;
-      //    const filtered = item.in_smena.filter((transport) => {
-      //       if (timeDiff(transport, "seconds") < 120) return false;
-      //       return inExcavatorHelper(transport)
-      //    });
-      //    item.reys = filtered.length;
-      // });
+      process?.forEach((item) => {
+         item.timer_type = 0;
+         const filtered = item.in_smena.filter((transport) => {
+            if (timeDiff(transport, "seconds") < 120) return false;
+            return inExcavatorHelper(transport)
+         });
+         item.reys = filtered.length;
+      });
 
-      // return process;
+      return process;
    });
 
    const isUnknown = computed(() => {

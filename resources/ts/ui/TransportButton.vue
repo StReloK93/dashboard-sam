@@ -11,9 +11,6 @@
 					{{ props.type?.tonnage }}
 				</span>
 			</div>
-			<span v-if="+props?.reyslar" :class="[buttonColor.text]" class="2xl:text-[11px] xl:text-[9px] text-[8px] font-bold  w-5 h-5 text-center content-center rounded-full absolute -left-1.5 -bottom-1.5 bg-zinc-950">
-				{{ props?.reyslar }}
-			</span> 
 		</div>
 		<span v-if="props.timer_type" :class="colorLine" class="absolute lg:w-2 w-[6px] h-[calc(100%+1px)] 2xl:right-[14px] xl:right-[11px] right-[10px] -top-px z-10"></span>
 		<time :class="[getManName(props.name) ? 'bg-sky-400' :`${buttonColor.bg}`]"
