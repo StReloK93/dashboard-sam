@@ -18,7 +18,8 @@
             </div>
             <main class="flex h-full">
                <div class="w-1/2 h-full relative">
-                  <div class="flex flex-wrap gap-2 absolute inset-0 p-2 overflow-x-hidden overflow-y-auto scroll indigo-scroll items-start content-start">
+                  <div
+                     class="flex flex-wrap gap-2 absolute inset-0 p-2 overflow-x-hidden overflow-y-auto scroll indigo-scroll items-start content-start">
                      <div v-for="option in selectedOptions"
                         class="bg-indigo-600 pl-2 py-1 text-sm rounded inline-flex items-center">
                         <span>
@@ -60,6 +61,7 @@
 import BaseSelect from '@/components/BaseSelect.vue'
 import { ref, computed } from 'vue'
 import { AuthStore } from '@/app/auth'
+import TruckStateRepository from '@/entities/transports/truckstate/TruckStateRepository'
 const props = defineProps(['transport', 'causes', 'type'])
 const auth = AuthStore()
 
@@ -90,13 +92,14 @@ const menu = ref(false)
 function openModal() {
    selectModel.value = props.transport.causes.map((cause) => cause.cause_id)
 }
-async function saveCause(transport) {
+async function saveCause(transport_state) {
    buttonLoader.value = true
-   await axios.patch(`api/transportstates/${props.transport.id}`, { ...transport, causes: selectModel.value })
-      .then(({ data }) => props.transport.causes = data)
-      .catch(() => buttonLoader.value = false)
-   menu.value = false
-   buttonLoader.value = false
+
+   TruckStateRepository.updateCause({ id: transport_state.id, causes: selectModel.value }, ({ data }) => {
+      props.transport.causes = data
+      menu.value = false
+      buttonLoader.value = false
+   })
 }
 
 

@@ -9,8 +9,8 @@ class Smena
    public function getPeriod($currentTime)
    {
 
-      $DaySmena = env('BASE_SMENA_DAY');
-      $NightSmena = env('BASE_SMENA_NIGHT');
+      $DaySmena = env('SMENA_DAY_JOB');
+      $NightSmena = env('SMENA_NIGHT_JOB');
 
       $current = $currentTime->copy()->startOfDay()->format('Y-m-d');
       $daySmenaStart = Carbon::parse("$current $DaySmena");
@@ -45,8 +45,8 @@ class Smena
    public function getSmena($date, $smena)
    {
 
-      $DaySmena = env('BASE_SMENA_DAY');
-      $NightSmena = env('BASE_SMENA_NIGHT');
+      $DaySmena = env('SMENA_DAY_JOB');
+      $NightSmena = env('SMENA_NIGHT_JOB');
 
       $current = Carbon::parse($date)->copy()->startOfDay()->format('Y-m-d');
 
@@ -84,10 +84,10 @@ class Smena
    {
 
       $DaySmena = env('BASE_SMENA_DAY');
-      $DaySmenaJob = env('BASE_SMENA_DAY_JOB');
+      $DaySmenaJob = env('SMENA_DAY_JOB');
 
       $NightSmena = env('BASE_SMENA_NIGHT');
-      $NightSmenaJob = env('BASE_SMENA_NIGHT_JOB');
+      $NightSmenaJob = env('SMENA_NIGHT_JOB');
 
 
       $date1 = strtotime($firstDate);
@@ -126,8 +126,8 @@ class Smena
    
 
    public function currentDaySmena($currentTime){
-      $DaySmena = env('BASE_SMENA_DAY');
-      $NightSmena = env('BASE_SMENA_NIGHT');
+      $DaySmena = env('SMENA_DAY_JOB');
+      $NightSmena = env('SMENA_NIGHT_JOB');
 
       $currentDay = $currentTime->copy()->startOfDay()->format('Y-m-d');
       $daySmenaStart = Carbon::parse("$currentDay $DaySmena");

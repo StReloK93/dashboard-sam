@@ -3,7 +3,7 @@
 		<TransitionGroup name="fade">
 			<TransportProcessGroupModal :color="props.color" v-if="timeLine && color != 'gray'" @close="timeLine = null" :group="timeLine" />
 		</TransitionGroup>
-		<h3 class="text-zinc-500 uppercase text-center mb-2 sticky 2xl:text-base xl:text-sm  lg:text-xs text-[10px] top-0">
+		<h3 class="text-zinc-500 uppercase text-center sticky 2xl:text-base xl:text-sm  lg:text-xs text-[10px] top-0">
 			{{ props.title }}
 		</h3>
 		<main v-for="(group, key) of data">
@@ -23,9 +23,9 @@
 					</span>
 				</div>
 			</button>
-			<TransitionGroup tag="main" name="fade" :class="props.gridCols" class="grid gap-1.5 py-3">
+			<TransitionGroup tag="main" name="fade" :class="props.gridCols" class="grid gap-1.5 py-1.5">
 				<TransportButton @click="$emit('openModal', transport)" v-for="(transport, index) in group.cars"
-					:name="transport.name" :color="props.color" :type="transport.truck" :reyslar="transport.reyslar"
+					:name="transport.transport.name" :color="props.color" :type="transport.transport" :reyslar="transport.reyslar"
 					:timer="transport.timer ? transport.timer : 0" :timer_type="transport.timer_type" :key="index" />
 				<TransportButton v-if="group.cars.length == 0" :color="props.color" />
 			</TransitionGroup>

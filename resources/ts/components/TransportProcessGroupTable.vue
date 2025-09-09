@@ -12,7 +12,7 @@
          </tr>
          <tr v-for="(transport, index) in selectedCars" class="bg-zinc-800 border-y-4 border-zinc-900">
             <td class="py-1 px-2 w-8">{{ index + 1 }}</td>
-            <td class="py-1 w-40">{{ transport.name }}</td>
+            <td class="py-1 w-40">{{ transport.transport.name }}</td>
             <td class="py-1 w-40">{{ moment(transport.geozone_in).format('YYYY-MM-DD HH:mm') }}</td>
             <td class="py-1 w-40">{{ moment(transport.geozone_out).format('YYYY-MM-DD HH:mm') }}</td>
             <td class="py-1 w-24">{{ getDifference(transport) }}</td>

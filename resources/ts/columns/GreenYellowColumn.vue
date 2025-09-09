@@ -5,11 +5,11 @@
          <ColumnTopSlider :slides="yellowSlides" />
       </div>
       <aside class="green-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative grid-col">
-         <TransportProcess counter="reys" :data="[]" :grid-cols="`xl:grid-cols-4 grid-cols-3`" color="yellow" class="opacity-0" />
+         <TransportProcess counter="reys" :data="[]" :grid-cols="`xl:grid-cols-5 grid-cols-3`" color="yellow" class="opacity-0" />
          <main class="absolute inset-0">
-            <TransportProcess counter="reys" :data="transportStore.inProcess" :grid-cols="`xl:grid-cols-4 grid-cols-3`"
+            <TransportProcess counter="reys" :data="transportStore.inProcess" :grid-cols="`xl:grid-cols-5 grid-cols-3`"
                @openModal="(transport) => store.openModal(0, transport)" :title="$t('inprocess')" color="green" />
-            <TransportProcess counter="timer" :data="transportStore.inExcavator" :grid-cols="`xl:grid-cols-4 grid-cols-3`"
+            <TransportProcess counter="timer" :data="transportStore.inExcavator" :grid-cols="`xl:grid-cols-5 grid-cols-3`"
                @openModal="(transport) => store.openModal(1, transport)" :title="$t('inexcavator')" color="yellow" />
          </main>
       </aside>
@@ -22,6 +22,9 @@ import TransportProcess from '@/components/TransportProcess.vue'
 import { Transports, TransportModal } from '@/entities/transports'
 import { Excavators } from '@/entities/transports/Excavators'
 import { reactive, computed } from 'vue'
+import { useTruckState } from '@/entities/transports/truckstate/TruckStateStore'
+
+const truckStateStore = useTruckState()
 const store = TransportModal()
 const transportStore = Transports()
 const excavatorStore = Excavators()
@@ -29,13 +32,13 @@ const pageSettings = settings
 const greenSlides = reactive([
    {
       onStart: () => {
-         transportStore.getTransports()
+         if(truckStateStore.isFirstLoading == false) truckStateStore.fetchData()
          if (pageSettings.excavators) excavatorStore.getExcavatorStates()
       },
       bgColor: 'stroke-green-600',
       textColor: 'text-green-400',
       timer: 30,
-      value: computed(() => transportStore.inProcess.length),
+      value: computed(() => transportStore.inProcess?.length),
       component: 'TruckIcon',
       componentParams: { width: 22, color: "fill-green-500", colorSecond: "fill-green-900" },
    },

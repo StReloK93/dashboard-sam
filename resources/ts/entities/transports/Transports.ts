@@ -1,54 +1,17 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { inZones, timeDiff, inExcavatorHelper, inSmenaTime, calculatePathLength } from "@/helpers/timeFormat";
-import axios from "axios";
+import { inZones, timeDiff, inSmenaTime } from "@/helpers/timeFormat";
 import moment from "moment";
-
+import { useTruckState } from "./truckstate/TruckStateStore";
 export const Transports = defineStore("Transports", () => {
-
-   const cars = ref([]);
    const summaSmenaCars = ref(0);
    const summaOilCars = ref(0);
-   const waterTrucks = ref()
+
+   const useTrucks = useTruckState()
 
 
-   async function getTransports() {
-      const { data } = await axios.get("/api/transportstates");
-
-      data.forEach((item) => {
-         const time = moment();
-         const diffMinutes = time.diff(item.geozone_in, "minutes");
-
-         if (diffMinutes > 1439) {
-            item.timer = time.diff(item.geozone_in, "days");
-            item.timer_type = 2;
-         } else if (diffMinutes > 59) {
-            item.timer = time.diff(item.geozone_in, "hours");
-            item.timer_type = 1;
-         } else {
-            item.timer = diffMinutes;
-            item.timer_type = 0;
-         }
-      });
-
-      const excludedWords = ['гм', 'вод', "по"]
-
-      const withoutGM = data.filter(item => {
-         const lowerName = item.name.toLowerCase();
-         return !excludedWords.some(word => lowerName.includes(word));
-      });
-      // waterTrucks.value = data.filter((car) => car.name.includes('ГМ'))
-      withoutGM.sort(
-         (a, b) => +a.name.replace(/\D/g, "") - +b.name.replace(/\D/g, "")
-      );
-
-      waterTrucks.value = data.filter(item => {
-         const lowerName = item.name.toLowerCase();
-         return excludedWords.some(word => lowerName.includes(word));
-      });
-
-      cars.value = withoutGM;
-   }
+   const DumpTrucks = computed(() => useTrucks.truckStates ? useTrucks.truckStates.filter((truckState) => truckState.transport.group_id == settings.DUMPTRUCKS) : [])
+   const waterTrucks = computed(() => useTrucks.truckStates ? useTrucks.truckStates.filter((truckState) => truckState.transport.group_id == settings.WATERTRUCKS) : [])
 
    const statesSumm = computed(() => {
       var reysCount = 0;
@@ -56,7 +19,7 @@ export const Transports = defineStore("Transports", () => {
       var summOilTime = 0;
       var summExcavatorTime = 0;
 
-      cars.value?.forEach((item) => {
+      useTrucks.truckStates?.forEach((item) => {
          const filtered = item.in_smena.filter((transport) => {
             if (timeDiff(transport, "seconds") < 120) return false;
             const diffMinutes = timeDiff(transport, "minutes");
@@ -67,9 +30,9 @@ export const Transports = defineStore("Transports", () => {
             )
                summSmenaTime += diffMinutes;
             if (inZones(transport, settings.oil)) summOilTime += diffMinutes;
-            if (inExcavatorHelper(transport)) summExcavatorTime += diffMinutes;
+            if (transport.geozone_type == 2) summExcavatorTime += diffMinutes;
 
-            return inExcavatorHelper(transport)
+            return transport.geozone_type == 2
          });
 
          reysCount += filtered.length;
@@ -79,59 +42,21 @@ export const Transports = defineStore("Transports", () => {
    });
 
    const inProcess = computed(() => {
-      const process = cars.value?.filter((transport) => {
-         // const distance = calculatePathLength(transport.tracks);
-         // return distance >= 30 && transport.geozone == null || inZones(transport, settings.active);
-         return transport.geozone == null;
-      });
-
+      const process = DumpTrucks.value?.filter((transport) => transport.geozone == null);
+      
       process?.forEach((item) => {
          item.timer_type = 0;
-         const filtered = item.in_smena.filter((transport) => {
-            if (timeDiff(transport, "seconds") < 120) return false;
-            return inExcavatorHelper(transport)
-         });
-         item.reys = filtered.length;
+         item.reys = item.in_smena.filter((transport) => transport.geozone_type == 2).length
       });
-
+      
       return process;
    });
 
-   const isUnknown = computed(() => {
-      // return cars.value?.filter((car) => calculatePathLength(car.tracks) < 30 && car.geozone == null);
-      return [];
-   });
-
-   const inATB = computed(() => cars.value?.filter((car) => inZones(car, settings.uat)));
-
-   const inOilAll = computed(() =>
-      cars.value?.filter((car) => inZones(car, settings.oil))
-   );
-   const inSmenaAll = computed(() =>
-      cars.value?.filter((car) => inZones(car, settings.smena))
-   );
-   const inExcavator = computed(() =>
-      cars.value?.filter((car) => inExcavatorHelper(car))
-   );
-
-   const inOilConflict = computed(() => {
-      const allCars = [];
-      cars.value?.forEach((car) => {
-         car.in_smena.forEach((truck) => {
-            if (
-               (inZones(truck, settings.oil.concat(settings.smena))) && timeDiff(truck, "minutes") > 0
-            )
-               allCars.push(truck);
-         });
-      });
-
-      // @ts-ignore
-      allCars.sort((a, b) => new Date(a.geozone_in) - new Date(b.geozone_in));
-      return allCars;
-   });
+   const isUnknown = computed(() => DumpTrucks.value?.filter((car) => car.geozone == "stopped"));
+   const inExcavator = computed(() => DumpTrucks.value?.filter((car) => car.geozone_type == 2))
 
    const inOIL = computed(() => {
-      const oil = cars.value?.filter((car) => inZones(car, settings.oil));
+      const oil = DumpTrucks.value?.filter((car) => inZones(car, settings.oil));
       const group: any = {};
       oil?.forEach((item) => {
          const zone = item.geozone;
@@ -140,7 +65,7 @@ export const Transports = defineStore("Transports", () => {
          else group[zone] = { cars: [item], summTime: 0, counter: 0 };
       });
 
-      cars.value?.forEach((car) => {
+      DumpTrucks.value?.forEach((car) => {
          car.in_smena.forEach((truck) => {
             if (inZones(truck, settings.oil)) {
                const diff = timeDiff(truck, "minutes");
@@ -171,25 +96,22 @@ export const Transports = defineStore("Transports", () => {
 
    const inATBGroup = computed(() => {
       const time = moment();
-      const carsATB = cars.value?.filter((car) => inZones(car, settings.uat))
-      carsATB.sort(
-         (a, b) => time.diff(a.geozone_in, "minutes") - time.diff(b.geozone_in, "minutes")
-      );
+      const carsATB = DumpTrucks.value?.filter((car) => inZones(car, settings.uat))
+      carsATB?.sort((a, b) => time.diff(a.geozone_in, "minutes") - time.diff(b.geozone_in, "minutes"))
 
       const group: any = {};
-
+      
       carsATB?.forEach((car) => {
-         const zone = car.truck != null ? car.truck?.tonnage : '90';
-
+         const zone = car.transport?.tonnage != null ? car.transport?.tonnage : '90';
          if (group[zone]) group[zone].cars.push(car);
          else group[zone] = { cars: [car], summTime: 0, counter: 0 };
       });
 
-      cars.value?.forEach((car) => {
+      DumpTrucks.value?.forEach((car) => {
          car.in_smena.forEach((truck) => {
             if (inZones(truck, settings.uat)) {
                const diff = timeDiff(truck, "minutes");
-               const geozone = car.truck != null ? car.truck?.tonnage : '90';
+               const geozone = car.transport?.tonnage != null ? car.transport?.tonnage : '90';
                if (group[geozone]) {
                   group[geozone].summTime += diff;
                   if (diff > 0) group[geozone].counter++;
@@ -213,7 +135,7 @@ export const Transports = defineStore("Transports", () => {
    });
 
    const inSMENA = computed(() => {
-      const smena = cars.value?.filter((car) => inZones(car, settings.smena));
+      const smena = DumpTrucks.value?.filter((car) => inZones(car, settings.smena));
 
       const group: any = {};
       smena?.forEach((item) => {
@@ -222,7 +144,7 @@ export const Transports = defineStore("Transports", () => {
          else group[zone] = { cars: [item], summTime: 0, counter: 0 };
       });
 
-      cars.value?.forEach((car) => {
+      DumpTrucks.value?.forEach((car) => {
          car.in_smena.forEach((truck) => {
             if (inZones(truck, settings.smena) && inSmenaTime(truck) == false) {
                const diff = timeDiff(truck, "minutes");
@@ -252,7 +174,7 @@ export const Transports = defineStore("Transports", () => {
 
    function getFilterGroup(key, type) {
       const group: any = [];
-      cars.value?.forEach((car) => {
+      DumpTrucks.value?.forEach((car) => {
          car.in_smena.forEach((truck) => {
             if (truck.geozone == key && timeDiff(truck, "minutes") > 0) {
                if (type == "indigo" && inSmenaTime(truck)) return;
@@ -264,32 +186,31 @@ export const Transports = defineStore("Transports", () => {
    }
 
    const summaTransports = computed(() => {
+      const inOilAll = DumpTrucks.value?.filter((car) => inZones(car, settings.oil))
       if (settings.pistali_mans) {
-         const onlyTrucks = cars.value?.filter((car) => car.name.toLowerCase().indexOf("man") > 0 == false)
-
+         const onlyTrucks = DumpTrucks.value?.filter((car) => car.name.toLowerCase().indexOf("man") > 0 == false)
          const onlyProcess = inProcess.value?.filter((car) => car.name.toLowerCase().indexOf("man") > 0 == false)
          const onlyExcavator = inExcavator.value?.filter((car) => car.name.toLowerCase().indexOf("man") > 0 == false)
-         const onlyOil = inOilAll.value?.filter((car) => car.name.toLowerCase().indexOf("man") > 0 == false)
+         const onlyOil = inOilAll.filter((car) => car.name.toLowerCase().indexOf("man") > 0 == false)
 
          const activeCars = onlyProcess?.length + onlyExcavator?.length + onlyOil?.length
 
          return { prosent: Math.round((activeCars / onlyTrucks?.length) * 100), max: onlyTrucks?.length, current: activeCars }
       }
       else {
-         const activeCars =
-            inProcess.value?.length +
-            inExcavator.value?.length +
-            inOilAll.value?.length;
-         return { prosent: Math.round((activeCars / cars.value?.length) * 100), max: cars.value?.length, current: activeCars }
+         const activeCars = inProcess.value?.length + inExcavator.value?.length + inOilAll.length;
+
+         return { prosent: Math.round((activeCars / DumpTrucks.value?.length) * 100), max: DumpTrucks.value?.length, current: activeCars }
       }
    });
 
    const summaMans = computed(() => {
-      const onlyTrucks = cars.value?.filter((car) => car.name.toLowerCase().indexOf("man") > 0)
+      const inOilAll = DumpTrucks.value?.filter((car) => inZones(car, settings.oil))
+      const onlyTrucks = DumpTrucks.value?.filter((car) => car.name.toLowerCase().indexOf("man") > 0)
 
       const onlyProcess = inProcess.value?.filter((car) => car.name.toLowerCase().indexOf("man") > 0)
       const onlyExcavator = inExcavator.value?.filter((car) => car.name.toLowerCase().indexOf("man") > 0)
-      const onlyOil = inOilAll.value?.filter((car) => car.name.toLowerCase().indexOf("man") > 0)
+      const onlyOil = inOilAll.filter((car) => car.name.toLowerCase().indexOf("man") > 0)
 
       const activeCars = onlyProcess?.length + onlyExcavator?.length + onlyOil?.length
 
@@ -298,22 +219,17 @@ export const Transports = defineStore("Transports", () => {
 
 
    return {
-      getTransports,
       getFilterGroup,
       summaTransports,
       summaMans,
-      inOilConflict,
       waterTrucks,
-      inATB,
       inOIL,
-      inOilAll,
       inSMENA,
       inExcavator,
       isUnknown,
-      inSmenaAll,
       inProcess,
       statesSumm,
-      cars,
+      DumpTrucks,
       summaSmenaCars,
       summaOilCars,
       inATBGroup

@@ -3,7 +3,7 @@
       <div class="relative xl:top-0 -top-px">
          <a v-for="(dashboard, index) in links" :href="`http://${dashboard.url}`"
             :class="[{ 'neomorph !bg-orange-600': hostname == dashboard.url }]"
-            class="inline-block content-center bg-zinc-800 mr-1 2xl:w-40 xl:w-28 lg:w-24 w-20 py-1 2xl:text-base xl:text-sm text-xs rounded text-center">
+            class="inline-block content-center bg-zinc-800 mr-1 2xl:w-40 xl:w-28 lg:w-24 w-20 py-0.5 2xl:text-base xl:text-sm text-xs rounded text-center">
             {{ $t(dashboard.name) }}
          </a>
       </div>
@@ -41,7 +41,7 @@ const dashboardLinks = ref([
    { url: '192.168.14.23:3016', name: 'amantay' },
    { url: '192.168.14.23:3018', name: 'turbay',  },
    { url: '192.168.48.7:3001', name: 'muruntau' },
-   { url: '172.17.6.15:8000', name: 'pistali' },
+   { url: '172.17.12.12:8000', name: 'pistali' },
 ])
 
 const links = computed(() => {

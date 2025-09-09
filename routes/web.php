@@ -21,7 +21,7 @@ Route::get('/{path}', function () {
         'uat' => explode(',', env('BASE_UAT')),
         'active' => explode(',', env('BASE_ACTIVE')),
         'day_smena' => env('BASE_SMENA_DAY'),
-        'day_smena_job' => env('BASE_SMENA_DAY_JOB'),
+        'SMENA_DAY_JOB' => env('BASE_SMENA_DAY_JOB'),
         'night_smena' => env('BASE_SMENA_NIGHT'),
         'night_smena_job' => env('BASE_SMENA_NIGHT_JOB'),
         'table_link' => env('BASE_TABLE_LINK'),
@@ -32,7 +32,7 @@ Route::get('/{path}', function () {
         'pistali_mans' => env('PISTALI_MANS'),
         'frontend_mans' => explode(',', env('FRONTEND_PISTALI_MANS')),
         'frontend_frontals' => explode(',', env('FRONTEND_PISTALI_FRONTALS')),
-        'gusaks' => env('BASE_GUSAKS_GROUP_ID'),
+        'gusaks' => env('GUSAKS_GROUPID'),
         'user_ip' => request()->ip(),
         'only_myip' => explode(',', env('BASE_ONLY_MYIP')) ,
     ]);

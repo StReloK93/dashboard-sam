@@ -16,7 +16,7 @@ watch(() => props.selectedCars,() => {
 })
 
 function updateChart() {
-   const sett = new Set(props.selectedCars.map((car) => car.name))
+   const sett = new Set(props.selectedCars.map((car) => car.transport.name))
    const carNames = [...sett]
 
 
@@ -24,7 +24,7 @@ function updateChart() {
       return {
          start: UTCTime(car.geozone_in),
          end: UTCTime(car.geozone_out),
-         y: carNames.findIndex((search) => search == car.name),
+         y: carNames.findIndex((search) => search == car.transport.name),
          carName: car.name,
       }
    })

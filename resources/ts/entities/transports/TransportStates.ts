@@ -2,29 +2,33 @@ import { defineStore } from 'pinia'
 import { computed, ref, Ref } from 'vue'
 import axios from 'axios'
 import { inZones, timeDiff, inExcavatorHelper } from '@/helpers/timeFormat'
-
+import TruckStateRepository from './truckstate/TruckStateRepository'
 
 export const TransportStates = defineStore('TransportStates', () => {
     const transports: Ref = ref(null)
     const transportsAll: Ref = ref(null)
 
     async function getTransportState(transport_id) {
-        const { data } = await axios.get(`/api/transportstates/${transport_id}`)
-        transportsAll.value = data
-        const filtered = data.filter((item) => {
-            return timeDiff(item, 'seconds') > 10
+        TruckStateRepository.show(transport_id, ({data}) => {
+            transportsAll.value = data
+            transports.value = data
         })
-        transports.value = filtered
+        // const { data } = await axios.get(`/api/transportstates/${transport_id}`)
+        // transportsAll.value = data
+        // const filtered = data.filter((item) => {
+        //     return timeDiff(item, 'seconds') > 10
+        // })
+        // transports.value = filtered
 
 
     }
     const isUnknown = computed(() => {
-        return transports.value?.filter((transport) => transport.geozone == null)
+        return transports.value?.filter((transport) => transport.geozone == 'stopped')
     })
 
     const inATB = computed(() => {
         const filtered = transports.value?.filter((transport) => inZones(transport, settings.uat))
-        
+
         filtered?.forEach((item) => item.bool = true)
         return filtered
     })
@@ -52,14 +56,10 @@ export const TransportStates = defineStore('TransportStates', () => {
     })
 
     const inExcavator = computed(() => {
-        return transports.value?.filter((transport) => {
-            if (timeDiff(transport, 'seconds') < 120) return false
-            
-            return inExcavatorHelper(transport)
-        })
+        return transports.value?.filter((transport) => inExcavatorHelper(transport))
     })
 
-    return { transports,transportsAll, getTransportState, inATB, inOIL, inSMENA, inExcavator, isUnknown , inSmenaAll }
+    return { transports, transportsAll, getTransportState, inATB, inOIL, inSMENA, inExcavator, isUnknown, inSmenaAll }
 })
 
 

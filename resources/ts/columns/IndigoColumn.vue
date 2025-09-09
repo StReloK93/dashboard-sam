@@ -4,7 +4,7 @@
          <ColumnTopSlider :slides="indigoSlides" />
       </div>
       <aside class="indigo-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative">
-         <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-3" color="yellow" class="opacity-0"/>
+         <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-3" color="yellow" class="opacity-0" />
          <main class="absolute inset-0">
             <TransportProcessGroup grid-cols="grid-cols-3" @openModal="(transport) => store.openModal(3, transport)"
                :title="$t('inchange')" color="indigo" scroll-color="indigo-scroll" :data="transportStore.inSMENA" />
@@ -28,7 +28,13 @@ const indigoSlides = reactive([
       bgColor: 'stroke-indigo-500',
       textColor: 'text-indigo-400',
       timer: 30,
-      value: computed(() => transportStore.inSmenaAll?.length),
+      value: computed(() => {
+         var summa = 0
+         for (const key in transportStore.inSMENA) {
+            summa += transportStore.inSMENA[key].cars.length
+         }
+         return summa
+      }),
       component: 'TruckIcon',
       componentParams: { width: 22, color: "fill-indigo-400", colorSecond: "fill-indigo-900" },
    },

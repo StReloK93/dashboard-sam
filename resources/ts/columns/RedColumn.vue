@@ -4,13 +4,13 @@
          <ColumnTopSlider :slides="redSlides" />
       </div>
       <aside class="red-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative">
-         <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-2" color="yellow" class="opacity-0"/>
+         <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-3" color="yellow" class="opacity-0"/>
          <main class="absolute inset-0">
-            <TransportProcess counter="timer" grid-cols="grid-cols-2"
+            <TransportProcess counter="timer" grid-cols="grid-cols-3"
                @openModal="(transport) => store.openModal(4, transport)" :title="$t('inred')" color="red"
                :data="transportStore.isUnknown" />
-            <hr class="my-4 border-zinc-800">
-            <TransportProcessGroup v-if="envSettings.gusaks" grid-cols="grid-cols-2" :title="$t('ingusak')" color="sky" scroll-color="sky-scroll" :data="waterTrucks.inGUSAK" />
+            <hr class="my-2 border-zinc-800">
+            <TransportProcessGroup v-if="envSettings.gusaks" grid-cols="grid-cols-3" :title="$t('ingusak')" color="sky" scroll-color="sky-scroll" :data="waterTrucksStore.inGUSAK" />
          </main>
       </aside>
    </main>
@@ -19,14 +19,14 @@
 <script setup lang="ts">
 import { reactive, computed } from 'vue'
 import ColumnTopSlider from '@/components/ColumnTopSlider.vue'
-import { Transports, TransportModal, WaterTrucks } from '@/entities/transports'
+import { Transports, TransportModal, useWaterTrucks } from '@/entities/transports'
 import TransportProcess from '@/components/TransportProcess.vue'
 import TransportProcessGroup from '@/components/TransportProcessGroup.vue'
 
 const store = TransportModal()
 const transportStore = Transports()
 
-const waterTrucks = WaterTrucks()
+const waterTrucksStore = useWaterTrucks()
 
 const envSettings = settings
 

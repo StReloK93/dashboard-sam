@@ -2,7 +2,7 @@
 	<main ref="chartColumn" class="inner-shadow-second flex-grow relative min-w-60">
 		<div class="absolute inset-0 overflow-y-auto scroll indigo-scroll overflow-hidden pt-8">
 			<ChartLine :label="true"/>
-			<ChartCircle v-if="transportState.cars.length != 0" chartname="activeTrucks" :startcolor="'#01b0b0'"
+			<ChartCircle v-if="transportState.DumpTrucks.length != 0" chartname="activeTrucks" :startcolor="'#01b0b0'"
 				:endcolor="'#0198f7'" v-model="transportState.summaTransports" />
 			<template v-if="settingCurrent.excavators">
 				<ChartCircle v-if="excavatorState.ExcavatorList.length != 0" chartname="activeExcavators"

@@ -3,9 +3,11 @@ import { computed } from "vue";
 import { Transports } from "@/entities/transports";
 import { inZone, timeDiff } from "@/helpers/timeFormat";
 
-export const WaterTrucks = defineStore("waterTrucks", () => {
+export const useWaterTrucks = defineStore("waterTrucks", () => {
    const transports = Transports();
    const inGUSAK = computed(() => {
+      console.log(transports.waterTrucks);
+      
       const smena = transports.waterTrucks?.filter((car) => inZone(car, "гусак"));
 
       const group: any = {};

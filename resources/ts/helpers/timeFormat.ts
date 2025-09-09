@@ -95,7 +95,7 @@ export function getDateAndSmena(time = undefined) {
 export function inSmenaTime(transport) {
    const dayStart = moment(moment().format(`YYYY-MM-DD ${settings.day_smena}`));
    const dayEnd = moment(
-      moment().format(`YYYY-MM-DD ${settings.day_smena_job}`)
+      moment().format(`YYYY-MM-DD ${settings.SMENA_DAY_JOB}`)
    );
    const oneFirst = moment(transport.geozone_in).isBetween(dayStart, dayEnd);
    const twoFirst = moment(transport.geozone_out).isBetween(dayStart, dayEnd);
@@ -104,7 +104,7 @@ export function inSmenaTime(transport) {
       moment().format(`YYYY-MM-DD ${settings.night_smena}`)
    );
    const nightEnd = moment(
-      moment().format(`YYYY-MM-DD ${settings.night_smena_job}`)
+      moment().format(`YYYY-MM-DD ${settings.SMENA_NIGHT_JOB}`)
    );
    const oneSecond = moment(transport.geozone_in).isBetween(
       nightStart,

@@ -3,10 +3,11 @@
         <aside @mouseup.stop class="xl:w-[992px] xl:h-[540px] w-[768px] h-[490px] relative">
             <main :class="{ '!opacity-100': mounted }"
                 class="absolute xl:-top-24 -top-[75px] opacity-0 left-1/2 -translate-x-1/2 transition-all duration-200">
-                <CircleUI class="text-sm text-center" :bgColor="carColor.stroke" :textColor="carColor.text" :summa="store.transport.name" />
+                <CircleUI class="text-sm text-center" :bgColor="carColor.stroke" :textColor="carColor.text"
+                    :summa="store.transport.transport.name" />
             </main>
-            <Swiper @init="initial" @slide-change="slideChange" :initial-slide="store.mode" :effect="'cards'" class="h-full"
-                :slides-per-view="1" :modules="[EffectCards]">
+            <Swiper @init="initial" @slide-change="slideChange" :initial-slide="store.mode" :effect="'cards'"
+                class="h-full" :slides-per-view="1" :modules="[EffectCards]">
                 <SwiperSlide class="slider-item neomorph border-t-2 border-t-green-600">
                     <TransfromModalItem type="inExcavator" headerColor="bg-green-800" class="scroll green-scroll" />
                 </SwiperSlide>
@@ -19,9 +20,8 @@
                 <SwiperSlide class="slider-item neomorph border-t-2 border-t-indigo-600">
                     <TransfromModalItem type="inSmenaAll" header-color="bg-indigo-600" class="scroll indigo-scroll" />
                 </SwiperSlide>
-                <SwiperSlide v-slot="{ isActive }" class="slider-item neomorph border-t-2 border-t-red-600">
-                    <RedSlider v-if="isActive" header-color="bg-red-600" :transport_id="store.transport.transport_id"
-                        class="scroll red-scroll" />
+                <SwiperSlide class="slider-item neomorph border-t-2 border-t-red-600">
+                    <TransfromModalItem type="isUnknown" header-color="bg-red-600" class="scroll red-scroll" />
                 </SwiperSlide>
                 <SwiperSlide class="slider-item neomorph border-t-2 border-t-gray-600">
                     <TransfromModalItem type="inATB" header-color="bg-gray-600" class="scroll gray-scroll" />
@@ -33,13 +33,12 @@
 
 <script setup lang="ts">
 import TransfromModalItem from './TransfromModalItem.vue'
-import RedSlider from './RedSlider.vue'
 import { TransportStates, TransportModal } from '@/entities/transports'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { EffectCards } from 'swiper/modules'
 import CircleUI from '@/ui/CircleUI.vue'
 import { ref, computed, onMounted, provide } from 'vue'
-
+import { useFetch } from '@/helpers/useFetchWialon'
 
 const causes = ref([])
 const store = TransportModal()
@@ -67,9 +66,12 @@ const transport = TransportStates()
 transport.getTransportState(store.transport.transport_id)
 provide('causes', causes)
 onMounted(() => {
-    axios.get(`api/get-cause-list`).then(({ data }) => {
-        causes.value = data
+    useFetch({
+        url: 'cause', onLoad: ({ data }) => {
+            causes.value = data
+        }
     })
+
     setTimeout(() => mounted.value = true, 200);
 })
 </script>

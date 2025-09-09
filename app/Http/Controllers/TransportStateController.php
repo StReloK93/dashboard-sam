@@ -22,12 +22,6 @@ class TransportStateController extends Controller
 
 	public function index()
 	{
-		// $ehtimol = $this->lastDayRepuclic($period);
-		// foreach ($transports as $key => $state) {
-		// 	$selected = collect($ehtimol)->where('transport_id', $state->transport_id)->first();
-		// 	$transports[$key]->reyslar = $selected ? $selected->QolganReyslar : "0";
-		// }
-
 		
 		$list = TransportList::latest('id')->first();
 		$period = $this->time->getPeriod(now());
@@ -39,9 +33,6 @@ class TransportStateController extends Controller
 			},
 			'truck',
 			'causes',
-			// 'tracks' => function ($query) {
-			// 	$query->where('created_at', '>=', now()->subMinutes(10));
-			// },
 		]);
 		if (env('BASE_SMENA_DAY' != "07:50")) {
 			$query->whereNot('name', 'like', '%MAN%');
@@ -70,6 +61,7 @@ class TransportStateController extends Controller
 
 	public function selectSmena(Request $request)
 	{
+
 
 		if ($request->date) {
 			$period = $this->time->getSmena($request->date, $request->smena);

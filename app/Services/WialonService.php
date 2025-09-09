@@ -20,7 +20,7 @@ class WialonService
 
     public function dumpTrucksPosition($radius)
     {
-        $dumpTrucks = $this->wialonApi->groupTransportWithLastMessage((int) env('BASE_GROUP_ALL_DUMPTRUCKS'));
+        $dumpTrucks = $this->wialonApi->groupTransportWithLastMessage((int) env('DUMPTRUCKS'));
         $mainZones = $this->wialonApi->getGeozonesGroup((int) env('BASE_GEOZONES_GROUP_ID'));
 
         $excavators = collect($this->wialonApi->groupTransportWithLastMessage((int) env('BASE_GROUP_FRONTAL')))
@@ -51,8 +51,8 @@ class WialonService
 
     public function waterTrucksPosition()
     {
-        $waterTrucks = $this->wialonApi->groupTransportWithLastMessage((int) env('BASE_GROUP_ALL_WATERTRUCKS'));
-        $gusakZones = $this->wialonApi->getGeozonesGroup((int) env('BASE_GUSAKS_GROUP_ID'));
+        $waterTrucks = $this->wialonApi->groupTransportWithLastMessage((int) env('WATERTRUCKS'));
+        $gusakZones = $this->wialonApi->getGeozonesGroup((int) env('GUSAKS_GROUPID'));
 
         foreach ($waterTrucks as $key => $car) {
             $geozoneName = $this->geoService->findZone($car, $gusakZones);

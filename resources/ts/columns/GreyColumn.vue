@@ -51,6 +51,8 @@ const parkDrillingModal = ref(false);
 const store = TransportModal();
 const transportStore = Transports();
 
+
+
 const setting = settings
 
 const reportModal = ref(false);
@@ -59,7 +61,13 @@ const greySlides: any = reactive([
       bgColor: "stroke-gray-400",
       textColor: "text-gray-400",
       timer: 30,
-      value: computed(() => transportStore.inATB?.length),
+      value: computed(() => {
+         var summa = 0
+         for (const key in transportStore.inATBGroup) {
+            summa  += transportStore.inATBGroup[key].cars.length
+         }
+         return summa
+      }),
       component: "TruckIcon",
       componentParams: {
          width: 22,

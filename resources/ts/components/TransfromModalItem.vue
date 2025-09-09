@@ -15,7 +15,7 @@
          </tr>
          <tr v-for="(transport, index) in states[props.type]" class="bg-zinc-800 border-y-4 border-zinc-900">
             <td class="py-1 px-2 w-10">{{ index + 1 }}</td>
-            <td class="py-1 w-40">{{ transport.geozone ? transport.geozone : "---" }}</td>
+            <td class="py-1 w-40">{{ transport.geozone != 'stopped' ? transport.geozone : "---" }}</td>
             <td class="py-1 w-36">{{ moment(transport.geozone_in).format('YYYY-MM-DD HH:mm') }}</td>
             <td class="py-1 w-36">{{ moment(transport.geozone_out).format('YYYY-MM-DD HH:mm') }}</td>
             <td class="py-1 w-20">{{ getDifference(transport) }}</td>
