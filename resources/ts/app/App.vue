@@ -1,5 +1,5 @@
 <template>
-    <section :class="[setting.excavators ? 'xl:grid-rows-[36px,35px,1fr,52px] lg:grid-rows-[31px,30px,1fr,135px,70px] grid-rows-[31px,30px,1fr,135px,80px]' : 'xl:grid-rows-[38px,35px,1fr] grid-rows-[31px,30px,1fr]']"
+    <section :class="[setting.excavators ? 'xl:grid-rows-[36px,30px,1fr,52px] lg:grid-rows-[31px,30px,1fr,135px,68px] grid-rows-[31px,30px,1fr,135px,68px]' : 'xl:grid-rows-[38px,35px,1fr] grid-rows-[31px,30px,1fr]']"
         class="bg-zinc-900 h-screen grid  overflow-hidden overflow-y-auto scroll indigo-scroll">
         <AppNavigator />
         <AppHeader />

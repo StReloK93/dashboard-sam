@@ -6,9 +6,9 @@
          <ParkTableExcavatorModal @close="parkExcavatorModal = false" v-if="parkExcavatorModal" />
          <ParkTableDrillingModal @close="parkDrillingModal = false" v-if="parkDrillingModal" />
       </TransitionGroup>
-      <div class="xl:h-28 h-24 px-2 flex items-center justify-around relative">
+      <div class="xl:h-24 h-[72px] flex items-center justify-around relative">
          <ColumnTopSlider :slides="greySlides" />
-         <main v-if="setting.tos" class="absolute top-1 right-1 flex flex-col gap-y-1 content-start justify-start">
+         <!-- <main v-if="setting.tos" class="absolute top-1 right-1 flex flex-col gap-y-1 content-start justify-start">
             <button @click="parkModal = true"
                class="technical">
                TXK <TruckIcon color="fill-orange-400" width="20" colorSecond="fill-orange-700" class="-scale-x-100 ml-1.5 xl:w-[18px] w-[14px]"/>
@@ -21,7 +21,7 @@
                class="technical">
                TXK <img src="/images/drilling-rig.png" class="xl:w-4 w-[14px] xl:ml-2 ml-1">
             </button>
-         </main>
+         </main> -->
       </div>
       <aside class="gray-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative">
          <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-3" color="yellow" class="opacity-0" />

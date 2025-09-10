@@ -7,7 +7,7 @@
 			{{ props.title }}
 		</h3>
 		<main v-for="(group, key) of data">
-			<button @click="timeLine = key" class="text-gray-500 xl:text-xs text-[10px] flex lg:flex-row flex-col justify-between lg:items-center items-start capitalize w-full hover:opacity-70 active:opacity-90"
+			<button @click="timeLine = key" class="text-gray-500 xl:text-xs text-[10px] flex lg:flex-row justify-between lg:items-center items-start capitalize w-full hover:opacity-70 active:opacity-90"
 				:key="key">
 				<span :class="`text-${color}-500 active:bg-${color}-500`">
 					{{ replace(key) }}
@@ -15,11 +15,10 @@
 				<div v-if="color != 'gray'" :class="`text-${color}-500`" class="flex items-center">
 					{{ minuteFormat(group.summTime) }}
 					<span :class="`bg-${color}-400 bg-${color}-500`"
-						class="xl:w-11 lg:w-9 w-8 lg:h-6 h-5 ml-1 text-base justify-between xl:px-1.5 px-1 inline-flex items-center text-zinc-950 rounded-sm">
-						<span class="xl:text-sm lg:text-xs text-[10px] font-semibold">
+						class="w-4 h-4 lg:ml-1 ml-0.5 text-base justify-center inline-flex items-center text-zinc-950 rounded-sm">
+						<span class="lg:text-xs text-[10px] font-semibold">
 							{{ group.counter }}
 						</span>
-						<i class="fa-solid fa-watch-smart"></i>
 					</span>
 				</div>
 			</button>

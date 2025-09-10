@@ -1,5 +1,5 @@
 <template>
-   <Swiper :loop="true" effect="cards" class="xl:w-[78px] xl:h-[78px] w-[64px] h-[64px]" :slides-per-view="1" :slides-per-group="1"
+   <Swiper :loop="true" effect="cards" class="xl:w-[78px] xl:h-[78px] w-[56px] h-[56px]" :slides-per-view="1" :slides-per-group="1"
       :modules="[EffectCards]">
       <SwiperSlide v-for="slide in props.slides" >
          <CircleUI @start="slide.onStart" @click="slide.onClick" :timer="slide.timer" :type="slide.type" :bgColor="slide.bgColor"

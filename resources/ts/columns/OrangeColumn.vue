@@ -3,7 +3,7 @@
       <!-- <Transition name="fade">
          <PricingMasters @close="pricingModal = false" color="orange" v-if="pricingModal" />
       </Transition> -->
-      <div class="xl:h-28 h-24 px-2 flex items-center justify-around">
+      <div class="xl:h-24 h-[72px] flex items-center justify-around">
          <ColumnTopSlider :slides="orangeSlides" />
       </div>
       <aside class="orange-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative">

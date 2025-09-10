@@ -1,8 +1,8 @@
 <template>
     <aside :class="props.textColor"
-        class="xl:w-[78px] xl:h-[78px] lg:w-[64px] lg:h-[64px] w-[58px] h-[58px] bg-zinc-900 text-base neomorph rounded-full border-2 border-transparent relative flex justify-center items-center flex-col">
+        class="xl:w-[70px] xl:h-[70px] w-[56px] h-[56px] bg-zinc-900 text-base neomorph rounded-full border-2 border-transparent relative flex justify-center items-center flex-col">
         <slot></slot>
-        <span v-if="props.type != 'time'" class="font-semibold xl:text-base lg:text-xs text-[10px]">
+        <span v-if="props.type != 'time'" class="font-semibold text-xs">
             {{ props.summa }}
         </span>
         <span v-else class="font-semibold xl:text-base text-xs">
@@ -25,13 +25,11 @@ const radius = ref(null)
 
 
 if (window.innerWidth >= 1440) {
-    radius.value = 38
+    radius.value = 34
 }
-else if (window.innerWidth >= 1024) {
-    radius.value = 30
-}
+
 else{
-    radius.value = 28
+    radius.value = 27
 }
 
 

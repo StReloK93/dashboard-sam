@@ -1,7 +1,7 @@
 <template>
    <main class="bg-zinc-800 py-1 px-1 shadow text-white flex items-center justify-between">
       <div class="xl:w-96"></div>
-      <span class="2xl:text-xl xl:text-base text-xs uppercase font-semibold tracking-widest text-stone-200">
+      <span class="2xl:text-base xl:text-base text-xs uppercase font-semibold tracking-widest text-stone-200">
          {{ $t('appname') }}
       </span>
       <div class="flex items-center">
@@ -20,7 +20,7 @@
             <span class="xl:mx-4 mx-3 2xl:text-base xl:text-sm text-[13px]">
                {{ $t('hour') }}
             </span>
-            <aside class="w-2 xl:h-9 h-[30px] bg-yellow-400 relative flex justify-center items-center text-xs">
+            <aside class="w-2 h-8 bg-yellow-400 relative flex justify-center items-center text-xs">
                <span
                   class="xl:w-6 xl:h-6 w-[22px] h-[22px] bg-gray-400 rounded-full flex-shrink-0 text-gray-900 flex justify-center items-center font-bold">
                   1
@@ -31,7 +31,7 @@
             <span class="xl:mx-4 mx-3 2xl:text-base xl:text-sm text-[13px]">
                {{ $t('day') }}
             </span>
-            <aside class="w-2 xl:h-9 h-[30px] bg-gray-300 relative flex justify-center items-center text-xs">
+            <aside class="w-2 h-8 bg-gray-300 relative flex justify-center items-center text-xs">
                <span
                   class="xl:w-6 xl:h-6 w-[22px] h-[22px] bg-gray-400 rounded-full flex-shrink-0 text-gray-900 flex justify-center items-center font-bold">
                   1
