@@ -6,7 +6,7 @@
          <main class="text-teal-400 xl:text-base font-semibold">
             {{ car.number }}
          </main>
-         <tippy v-if="car.cause_old && car.status_of != 'Ishda'" target="_parent">
+         <tippy v-if="(car.cause_old && car.status_of != 'Ishda') ||  (car.cause && car.status_of != 'Ishda')" target="_parent">
             <div class="font-semibold" v-if="car.cause_old">{{car.cause_old}}</div>
             <div class="font-semibold" v-if="car.cause">{{car.cause}}</div>
          </tippy>
