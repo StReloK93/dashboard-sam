@@ -1,6 +1,12 @@
 <template>
 	<main ref="chartColumn" class="inner-shadow-second flex-grow relative min-w-60">
-		<div class="absolute inset-0 overflow-y-auto scroll indigo-scroll overflow-hidden pt-8">
+		<div class="absolute inset-0 overflow-y-auto scroll indigo-scroll overflow-hidden">
+			<header class="border-y border-zinc-700  bg-zinc-800 flex justify-end">
+				<a v-if="settingCurrent.TRUCK_GRAPHIC" :href="settingCurrent.TRUCK_GRAPHIC"
+					class="text-teal-500 text-sm bg-zinc-950 px-4 py-1 hover:border-teal-500 border border-zinc-950 hover:text-teal-300">
+					<i class="fa-duotone fa-solid fa-arrow-right-arrow-left "></i>
+				</a>
+			</header>
 			<ChartLine :label="true"/>
 			<ChartCircle v-if="transportState.DumpTrucks.length != 0" chartname="activeTrucks" :startcolor="'#01b0b0'"
 				:endcolor="'#0198f7'" v-model="transportState.summaTransports" />

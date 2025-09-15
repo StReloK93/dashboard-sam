@@ -32,6 +32,7 @@
             'WATERTRUCKS': @json(env('WATERTRUCKS')),
             'API_LINK': @json(env('API_LINK')),
             'CAREER_ID': @json(env('CAREER_ID')),
+            'TRUCK_GRAPHIC': @json(env('TRUCK_GRAPHIC')),
         }
     </script>
     @vite('resources/ts/app.ts')
