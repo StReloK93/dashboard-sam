@@ -39,5 +39,3 @@ onMounted(() => {
    updateChart()
 })
 </script>
-
-<!-- select * from wialon.dbo.ex_status('2024-07-08', 1) -->

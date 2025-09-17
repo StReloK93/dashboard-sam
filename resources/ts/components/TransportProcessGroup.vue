@@ -36,7 +36,7 @@
 import TransportButton from '@/ui/TransportButton.vue'
 import { minuteFormat } from '@/helpers/timeFormat'
 import TransportProcessGroupModal from './TransportProcessGroupModal.vue'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 const props = defineProps(['color', 'title', 'count', 'data', 'gridCols', 'scrollColor'])
 
 const timeLine = ref(null)
@@ -44,14 +44,4 @@ const timeLine = ref(null)
 function replace(str) {
 	return str.replace('Пересменка', '').replace('Заправочный', '').replace('РВ', '')
 }
-
-
-watch(() => props.data, () => {
-	for (const key in props.data) {
-		if (props.color == 'orange' && props.data[key].cars.length > 1) {
-			let mySound = new Audio('/sound/signal.mp3')
-			mySound.play()
-		}
-	}
-})
 </script>

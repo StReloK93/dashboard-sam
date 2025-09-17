@@ -15,18 +15,15 @@ export const useTruckState = defineStore('counter', () => {
    const { data, isLoading, fetchData, isFirstLoading } = TruckStateRepository.index(formData, () => firstLoadPage.value = false)
 
 
+   const groups = computed(() => data.value?.groups)
 
    const truckStates = computed(() => {
-      
-      const copyArray = JSON.parse(JSON.stringify(data.value))
-      console.log(copyArray);
+      if(data.value == undefined) return []
+      const copyArray = JSON.parse(JSON.stringify(data.value?.states))
       
       copyArray?.forEach((item: any) => {
-         console.log(item);
-         
          const time = moment();
          const diffMinutes = time.diff(item.geozone_in, "minutes");
-         console.log(diffMinutes);
          if (diffMinutes > 1439) {
             item.timer = time.diff(item.geozone_in, "days");
             item.timer_type = 2;
@@ -34,8 +31,6 @@ export const useTruckState = defineStore('counter', () => {
             item.timer = time.diff(item.geozone_in, "hours");
             item.timer_type = 1;
          } else {
-            
-            
             item.timer = diffMinutes;
             item.timer_type = 0;
          }
@@ -44,5 +39,5 @@ export const useTruckState = defineStore('counter', () => {
       return copyArray
    })
 
-   return { firstLoadPage, truckStates, isLoading, isFirstLoading, fetchData: () =>  fetchData(formData)  }
+   return { firstLoadPage, truckStates, isLoading, isFirstLoading, fetchData: () =>  fetchData(formData) , groups }
 })

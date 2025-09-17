@@ -9,9 +9,8 @@ export const Transports = defineStore("Transports", () => {
 
    const useTrucks = useTruckState()
 
-
-   const DumpTrucks = computed(() => useTrucks.truckStates ? useTrucks.truckStates.filter((truckState) => truckState.transport.group_id == settings.DUMPTRUCKS) : [])
-   const waterTrucks = computed(() => useTrucks.truckStates ? useTrucks.truckStates.filter((truckState) => truckState.transport.group_id == settings.WATERTRUCKS) : [])
+   const DumpTrucks = computed(() => (useTrucks.truckStates.filter((truckState) => useTrucks.groups[settings.DUMPTRUCKS]?.includes(truckState.transport_id)) || []))
+   const waterTrucks = computed(() => (useTrucks.truckStates.filter((truckState) => useTrucks.groups[settings.WATERTRUCKS]?.includes(truckState.transport_id)) || []))
 
    const statesSumm = computed(() => {
       var reysCount = 0;
@@ -21,7 +20,6 @@ export const Transports = defineStore("Transports", () => {
 
       useTrucks.truckStates?.forEach((item) => {
          const filtered = item.in_smena.filter((transport) => {
-            if (timeDiff(transport, "seconds") < 120) return false;
             const diffMinutes = timeDiff(transport, "minutes");
 
             if (
@@ -42,7 +40,7 @@ export const Transports = defineStore("Transports", () => {
    });
 
    const inProcess = computed(() => {
-      const process = DumpTrucks.value?.filter((transport) => transport.geozone == null);
+      const process = DumpTrucks.value?.filter((transport) => transport.geozone == null || transport.geozone_type == 4);
       
       process?.forEach((item) => {
          item.timer_type = 0;
@@ -53,7 +51,7 @@ export const Transports = defineStore("Transports", () => {
    });
 
    const isUnknown = computed(() => DumpTrucks.value?.filter((car) => car.geozone == "stopped"));
-   const inExcavator = computed(() => DumpTrucks.value?.filter((car) => car.geozone_type == 2))
+   const inExcavator = computed(() => DumpTrucks.value?.filter((car) => car.geozone_type == 2 || car.geozone_type == 3))
 
    const inOIL = computed(() => {
       const oil = DumpTrucks.value?.filter((car) => inZones(car, settings.oil));

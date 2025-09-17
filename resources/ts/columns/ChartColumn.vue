@@ -7,7 +7,7 @@
 					<i class="fa-duotone fa-solid fa-arrow-right-arrow-left "></i>
 				</a>
 			</header>
-			<ChartLine :label="true"/>
+			<!-- <ChartLine :label="true"/> -->
 			<ChartCircle v-if="transportState.DumpTrucks.length != 0" chartname="activeTrucks" :startcolor="'#01b0b0'"
 				:endcolor="'#0198f7'" v-model="transportState.summaTransports" />
 			<template v-if="settingCurrent.excavators">

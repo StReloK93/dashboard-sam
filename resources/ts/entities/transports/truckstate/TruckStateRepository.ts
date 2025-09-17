@@ -5,7 +5,7 @@ const baseUrl = 'truck-states'
 
 
 function index(params: any, onload?: Function) {
-   return useFetch<ITruckState[]>({
+   return useFetch<{states: ITruckState[], groups: object}>({
       url: `${baseUrl}/last-states-group`,
       method: 'post',
       formData: params,
@@ -38,7 +38,7 @@ function selectSmena(date: any, onload?: Function) {
    return useFetch<any[]>({
       url: `${baseUrl}/select-smena`,
       method: 'post',
-      formData: { ...date, group_ids: [settings.DUMPTRUCKS] },
+      formData: date,
       onLoad: onload
    })
 }

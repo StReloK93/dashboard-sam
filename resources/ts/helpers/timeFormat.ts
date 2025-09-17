@@ -28,18 +28,6 @@ export function getDifference(car) {
    return secondsToFormatTime(seconds);
 }
 
-export function inExcavatorHelper(transport) {
-   return (
-      inZone(transport, "экг") ||
-      inZone(transport, "ex") ||
-      inZone(transport, "эг") ||
-      inZone(transport, "фп") ||
-      inZone(transport, "фрп") ||
-      inZone(transport, "liebherr") || 
-      inZone(transport, "ф.п")
-   );
-}
-
 export function secondsToFormatTime(seconds) {
    var houre, minute, second;
    houre = Math.floor(seconds / 3600);
@@ -76,19 +64,19 @@ export function secondTimer() {
 export function getDateAndSmena(time = undefined) {
    const current = moment(time);
    const startToday = moment(
-      moment().format(`YYYY-MM-DD ${settings.day_smena}`)
+      moment().format(`YYYY-MM-DD ${settings.SMENA_DAY_JOB}`)
    );
    const endToday = moment(
-      moment().format(`YYYY-MM-DD ${settings.night_smena}`)
+      moment().format(`YYYY-MM-DD ${settings.SMENA_NIGHT_JOB}`)
    );
 
    if (startToday < current && endToday > current) {
-      return { date: current.toDate(), smena: 1 };
+      return { date: current.format(`YYYY-MM-DD`), smena: 1 };
    } else if (endToday < current) {
-      return { date: current.toDate(), smena: 2 };
+      return { date: current.format(`YYYY-MM-DD`), smena: 2 };
    } else {
       const currentClone = current.clone();
-      return { date: currentClone.subtract(1, "day").toDate(), smena: 2 };
+      return { date: currentClone.subtract(1, "day").format(`YYYY-MM-DD`), smena: 2 };
    }
 }
 

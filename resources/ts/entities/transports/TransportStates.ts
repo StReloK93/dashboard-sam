@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, ref, Ref } from 'vue'
-import axios from 'axios'
-import { inZones, timeDiff, inExcavatorHelper } from '@/helpers/timeFormat'
+import { inZones } from '@/helpers/timeFormat'
 import TruckStateRepository from './truckstate/TruckStateRepository'
 
 export const TransportStates = defineStore('TransportStates', () => {
@@ -13,13 +12,6 @@ export const TransportStates = defineStore('TransportStates', () => {
             transportsAll.value = data
             transports.value = data
         })
-        // const { data } = await axios.get(`/api/transportstates/${transport_id}`)
-        // transportsAll.value = data
-        // const filtered = data.filter((item) => {
-        //     return timeDiff(item, 'seconds') > 10
-        // })
-        // transports.value = filtered
-
 
     }
     const isUnknown = computed(() => {
@@ -56,7 +48,7 @@ export const TransportStates = defineStore('TransportStates', () => {
     })
 
     const inExcavator = computed(() => {
-        return transports.value?.filter((transport) => inExcavatorHelper(transport))
+        return transports.value?.filter((transport) => transport.geozone_type == 2)
     })
 
     return { transports, transportsAll, getTransportState, inATB, inOIL, inSMENA, inExcavator, isUnknown, inSmenaAll }

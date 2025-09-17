@@ -72,7 +72,6 @@ import TransportProcessGroupCauses from './TransportProcessGroupCauses.vue'
 import { ref, onMounted, reactive, computed } from 'vue'
 import TruckStateRepository from '@/entities/transports/truckstate/TruckStateRepository'
 import { timeDiff, formatDate, getDateAndSmena, secondsToFormatTime, inSmenaTime } from '@/helpers/timeFormat'
-
 const props = defineProps(['group', 'color'])
 
 const tab = ref(2)
@@ -92,6 +91,7 @@ const fullWaitTime = computed(() => {
    return tableData.value?.reduce((summ, car) => summ + car.difference, 0)
 })
 const pickers = reactive(getDateAndSmena())
+console.log(pickers);
 
 const handleDate = (modelData) => {
    pickers.date = modelData;
@@ -104,11 +104,12 @@ function changeSmena(smena) {
 }
 
 
+const group_id = props.color  == 'sky' ?  settings.WATERTRUCKS : settings.DUMPTRUCKS
 
 const selectedCars = ref([])
 async function getDiagramDate() {
    loader.value = true
-   TruckStateRepository.selectSmena({ date: pickers.date, smena: pickers.smena }, ({ data }) => {
+   TruckStateRepository.selectSmena({ date: pickers.date, smena: pickers.smena, group_ids: [group_id]  }, ({ data }) => {
       dataSmena.value = data.smena
       selectedCars.value = data.states.filter((car) => (car.geozone == props.group) && (timeDiff(car, 'seconds') > 59) && (inSmenaTime(car) == false))
       loader.value = false

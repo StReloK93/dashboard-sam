@@ -5,11 +5,12 @@ import { inZone, timeDiff } from "@/helpers/timeFormat";
 
 export const useWaterTrucks = defineStore("waterTrucks", () => {
    const transports = Transports();
-   const inGUSAK = computed(() => {
-      console.log(transports.waterTrucks);
-      
-      const smena = transports.waterTrucks?.filter((car) => inZone(car, "гусак"));
 
+
+
+   const inGUSAK = computed(() => {
+      const smena = transports.waterTrucks?.filter((state) => state.geozone_type == 8);
+      
       const group: any = {};
       smena?.forEach((item) => {
          const zone = item.geozone;
@@ -17,9 +18,10 @@ export const useWaterTrucks = defineStore("waterTrucks", () => {
          else group[zone] = { cars: [item], summTime: 0, counter: 0 };
       });
 
+      
       transports.waterTrucks?.forEach((car) => {
          car.in_smena.forEach((truck) => {
-            if (inZone(truck, "гусак")) {
+            if (truck.geozone_type == 8) {
                const diff = timeDiff(truck, "minutes");
                const geozone = truck.geozone;
 
@@ -37,11 +39,6 @@ export const useWaterTrucks = defineStore("waterTrucks", () => {
          });
       });
 
-      var summa = 0;
-      for (const iterator in group) {
-         summa += group[iterator].counter;
-      }
-      // summaSmenaCars.value = summa;
       return group;
    });
 
