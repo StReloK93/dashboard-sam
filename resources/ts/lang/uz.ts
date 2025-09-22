@@ -6,6 +6,7 @@ export default {
    inchange: "Smena almashish maydonida",
    inremont: "Tamirlash maydonida",
    inatb: "ATB maydonida",
+   inspt: "DOT",
    inoil: "Yoqilg'i olish maydonida",
    inred: "Sababsiz to'xtaganlar",
    ingusak: 'Suv olish maydonida',

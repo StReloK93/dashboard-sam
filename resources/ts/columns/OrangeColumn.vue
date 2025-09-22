@@ -13,7 +13,7 @@
                :title="$t('inoil')" color="orange" scroll-color="orange-scroll" :data="transportStore.inOIL" />
                <hr v-if="setting.BASE_DPP?.length" class="my-2 border-zinc-800">
             <TransportProcessGroup v-if="setting.BASE_DPP?.length" :grid-cols="`lg:grid-cols-3 grid-cols-2`" @openModal="(transport) => store.openModal(2, transport)"
-               :title="''" color="orange" scroll-color="orange-scroll" :data="transportStore.inDPP" />
+               :title="$t('inspt')" color="orange" scroll-color="orange-scroll" :data="transportStore.inDPP" />
          </main>
       </aside>
    </main>
@@ -43,6 +43,9 @@ const orangeSlides = reactive([
          var summa = 0
          for (const key in transportStore.inOIL) {
             summa += transportStore.inOIL[key].cars.length
+         }
+         for (const key in transportStore.inDPP) {
+            summa += transportStore.inDPP[key].cars.length
          }
          return summa
       }),

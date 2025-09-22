@@ -6,11 +6,11 @@
       <aside class="indigo-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative">
          <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-3" color="yellow" class="opacity-0" />
          <main class="absolute inset-0">
+            <TransportProcessGroup v-if="setting.BASE_REMONT?.length" grid-cols="grid-cols-3" @openModal="(transport) => store.openModal(3, transport)"
+               :title="$t('inremont')" color="indigo" scroll-color="indigo-scroll" :data="transportStore.inREMONT" />
+               <hr v-if="setting.BASE_REMONT?.length" class="my-2 border-zinc-800">
             <TransportProcessGroup grid-cols="grid-cols-3" @openModal="(transport) => store.openModal(3, transport)"
                :title="$t('inchange')" color="indigo" scroll-color="indigo-scroll" :data="transportStore.inSMENA" />
-               <hr v-if="setting.BASE_REMONT?.length" class="my-2 border-zinc-800">
-            <TransportProcessGroup v-if="setting.BASE_REMONT?.length" grid-cols="grid-cols-3" @openModal="(transport) => store.openModal(3, transport)"
-               :title="''" color="indigo" scroll-color="indigo-scroll" :data="transportStore.inREMONT" />
          </main>
       </aside>
    </main>
@@ -38,6 +38,10 @@ const indigoSlides = reactive([
          var summa = 0
          for (const key in transportStore.inSMENA) {
             summa += transportStore.inSMENA[key].cars.length
+         }
+
+         for (const key in transportStore.inREMONT) {
+            summa += transportStore.inREMONT[key].cars.length
          }
          return summa
       }),
