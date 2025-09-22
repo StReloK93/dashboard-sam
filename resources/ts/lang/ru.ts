@@ -7,7 +7,7 @@ export default {
    inchange: "В пересменке",
    inremont: "Мелкий ремонт",
    inatb: "В площадке УАТ",
-   inspt: "СПТ",
+   inspt: "ЦПТ",
    inred: "Простои без причин",
    ingusak: 'Гусак',
    minute: "Минут",
