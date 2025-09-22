@@ -8,6 +8,9 @@
          <main class="absolute inset-0">
             <TransportProcessGroup grid-cols="grid-cols-3" @openModal="(transport) => store.openModal(3, transport)"
                :title="$t('inchange')" color="indigo" scroll-color="indigo-scroll" :data="transportStore.inSMENA" />
+               <hr v-if="setting.BASE_REMONT?.length" class="my-2 border-zinc-800">
+            <TransportProcessGroup v-if="setting.BASE_REMONT?.length" grid-cols="grid-cols-3" @openModal="(transport) => store.openModal(3, transport)"
+               :title="''" color="indigo" scroll-color="indigo-scroll" :data="transportStore.inREMONT" />
          </main>
       </aside>
    </main>
@@ -19,6 +22,9 @@ import ColumnTopSlider from '@/components/ColumnTopSlider.vue'
 import TransportProcess from '@/components/TransportProcess.vue'
 import { reactive, computed } from 'vue'
 import TransportProcessGroup from '@/components/TransportProcessGroup.vue'
+
+
+const setting = settings;
 const store = TransportModal()
 const transportStore = Transports()
 

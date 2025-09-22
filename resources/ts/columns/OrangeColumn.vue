@@ -11,6 +11,9 @@
          <main class="absolute inset-0">
             <TransportProcessGroup :grid-cols="`lg:grid-cols-3 grid-cols-2`" @openModal="(transport) => store.openModal(2, transport)"
                :title="$t('inoil')" color="orange" scroll-color="orange-scroll" :data="transportStore.inOIL" />
+               <hr v-if="setting.BASE_DPP?.length" class="my-2 border-zinc-800">
+            <TransportProcessGroup v-if="setting.BASE_DPP?.length" :grid-cols="`lg:grid-cols-3 grid-cols-2`" @openModal="(transport) => store.openModal(2, transport)"
+               :title="''" color="orange" scroll-color="orange-scroll" :data="transportStore.inDPP" />
          </main>
       </aside>
    </main>
@@ -27,9 +30,9 @@ import TransportProcess from '@/components/TransportProcess.vue'
 const store = TransportModal()
 const transportStore = Transports()
 
-
 // const pricingModal = ref(false)
 
+const setting = settings
 
 const orangeSlides = reactive([
    {

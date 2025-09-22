@@ -1,3 +1,12 @@
+<?php 
+function safe_explode(string $delimiter, ?string $string): array
+{
+    return ($string === null || $string === '')
+        ? []
+        : explode($delimiter, $string);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +23,7 @@
             'uat': @json($uat),
             'active': @json($active),
             'day_smena': @json($day_smena),
-            'SMENA_DAY_JOB': @json(env('SMENA_DAY_JOB')), 
+            'SMENA_DAY_JOB': @json(env('SMENA_DAY_JOB')),
             'night_smena': @json($night_smena),
             'SMENA_NIGHT_JOB': @json(env('SMENA_NIGHT_JOB')),
             'table_link': @json($table_link),
@@ -27,16 +36,20 @@
             'gusaks': @json(env('GUSAKS_GROUPID')),
             'user_ip': @json($user_ip),
             'only_myip': @json($only_myip),
-            'excavator_page': @json( env('EXCAVATORPAGE')),
+            'excavator_page': @json(env('EXCAVATORPAGE')),
             'DUMPTRUCKS': @json(env('DUMPTRUCKS')),
             'WATERTRUCKS': @json(env('WATERTRUCKS')),
             'API_LINK': @json(env('API_LINK')),
             'CAREER_ID': @json(env('CAREER_ID')),
             'TRUCK_GRAPHIC': @json(env('TRUCK_GRAPHIC')),
+            'BASE_REMONT': @json(safe_explode(',', env('BASE_REMONT'))),
+            'BASE_DPP': @json(safe_explode(',', env('BASE_DPP'))),
+
         }
     </script>
     @vite('resources/ts/app.ts')
 </head>
 
 <body id="app"></body>
+
 </html>

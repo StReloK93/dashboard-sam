@@ -4,6 +4,7 @@ export default {
    inprocess: "Ish jarayonida",
    inexcavator: "Kutish jarayonida",
    inchange: "Smena almashish maydonida",
+   inremont: "Tamirlash maydonida",
    inatb: "ATB maydonida",
    inoil: "Yoqilg'i olish maydonida",
    inred: "Sababsiz to'xtaganlar",

@@ -41,12 +41,12 @@ export const Transports = defineStore("Transports", () => {
 
    const inProcess = computed(() => {
       const process = DumpTrucks.value?.filter((transport) => transport.geozone == null || transport.geozone_type == 4);
-      
+
       process?.forEach((item) => {
          item.timer_type = 0;
          item.reys = item.in_smena.filter((transport) => transport.geozone_type == 2).length
       });
-      
+
       return process;
    });
 
@@ -92,13 +92,14 @@ export const Transports = defineStore("Transports", () => {
    });
 
 
+
    const inATBGroup = computed(() => {
       const time = moment();
       const carsATB = DumpTrucks.value?.filter((car) => inZones(car, settings.uat))
       carsATB?.sort((a, b) => time.diff(a.geozone_in, "minutes") - time.diff(b.geozone_in, "minutes"))
 
       const group: any = {};
-      
+
       carsATB?.forEach((car) => {
          const zone = car.transport?.tonnage != null ? car.transport?.tonnage : '90';
          if (group[zone]) group[zone].cars.push(car);
@@ -145,6 +146,86 @@ export const Transports = defineStore("Transports", () => {
       DumpTrucks.value?.forEach((car) => {
          car.in_smena.forEach((truck) => {
             if (inZones(truck, settings.smena) && inSmenaTime(truck) == false) {
+               const diff = timeDiff(truck, "minutes");
+               const geozone = truck.geozone;
+
+               if (group[geozone]) {
+                  group[geozone].summTime += diff;
+                  if (diff > 0) group[geozone].counter++;
+               } else {
+                  group[geozone] = {
+                     cars: [],
+                     summTime: diff,
+                     counter: diff > 0 ? 1 : 0,
+                  };
+               }
+            }
+         });
+      });
+
+      var summa = 0;
+      for (const iterator in group) {
+         summa += group[iterator].counter;
+      }
+      summaSmenaCars.value = summa;
+      return group;
+   });
+
+
+   const inDPP = computed(() => {
+      const smena = DumpTrucks.value?.filter((car) => {
+         return inZones(car, settings.BASE_DPP)
+      });
+
+      const group: any = {};
+      smena?.forEach((item) => {
+         const zone = item.geozone;
+         if (group[zone]) group[zone].cars.push(item);
+         else group[zone] = { cars: [item], summTime: 0, counter: 0 };
+      });
+
+      DumpTrucks.value?.forEach((car) => {
+         car.in_smena.forEach((truck) => {
+            if (inZones(truck, settings.BASE_DPP) && inSmenaTime(truck) == false) {
+               const diff = timeDiff(truck, "minutes");
+               const geozone = truck.geozone;
+
+               if (group[geozone]) {
+                  group[geozone].summTime += diff;
+                  if (diff > 0) group[geozone].counter++;
+               } else {
+                  group[geozone] = {
+                     cars: [],
+                     summTime: diff,
+                     counter: diff > 0 ? 1 : 0,
+                  };
+               }
+            }
+         });
+      });
+
+      var summa = 0;
+      for (const iterator in group) {
+         summa += group[iterator].counter;
+      }
+      summaSmenaCars.value = summa;
+      return group;
+   });
+
+
+   const inREMONT = computed(() => {
+      const smena = DumpTrucks.value?.filter((car) => inZones(car, settings.BASE_REMONT));
+
+      const group: any = {};
+      smena?.forEach((item) => {
+         const zone = item.geozone;
+         if (group[zone]) group[zone].cars.push(item);
+         else group[zone] = { cars: [item], summTime: 0, counter: 0 };
+      });
+
+      DumpTrucks.value?.forEach((car) => {
+         car.in_smena.forEach((truck) => {
+            if (inZones(truck, settings.BASE_REMONT) && inSmenaTime(truck) == false) {
                const diff = timeDiff(truck, "minutes");
                const geozone = truck.geozone;
 
@@ -230,7 +311,9 @@ export const Transports = defineStore("Transports", () => {
       DumpTrucks,
       summaSmenaCars,
       summaOilCars,
-      inATBGroup
+      inATBGroup,
+      inREMONT,
+      inDPP
    };
 });
 

@@ -9,6 +9,7 @@ export function minuteFormat(minutes) {
 }
 
 export function inZone(car, zone) {
+   if(zone.trim() == "") return false
    if (car?.geozone) {
       return car?.geozone?.toLowerCase().includes(zone.toLowerCase());
    } else return false;

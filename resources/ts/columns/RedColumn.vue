@@ -6,11 +6,23 @@
       <aside class="red-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative">
          <TransportProcess counter="reys" :data="[]" grid-cols="lg:grid-cols-3 grid-cols-2" color="yellow" class="opacity-0"/>
          <main class="absolute inset-0">
-            <TransportProcess counter="timer" grid-cols="lg:grid-cols-3 grid-cols-2"
-               @openModal="(transport) => store.openModal(4, transport)" :title="$t('inred')" color="red"
-               :data="transportStore.isUnknown" />
-            <hr class="my-2 border-zinc-800">
-            <TransportProcessGroup v-if="envSettings.gusaks" grid-cols="lg:grid-cols-3 grid-cols-2" :title="$t('ingusak')" color="sky" scroll-color="sky-scroll" :data="waterTrucksStore.inGUSAK" />
+            <TransportProcess
+               counter="timer"
+               grid-cols="lg:grid-cols-3 grid-cols-2"
+               @openModal="(transport) => store.openModal(4, transport)"
+               :title="$t('inred')"
+               color="red"
+               :data="transportStore.isUnknown"
+            />
+            <hr v-if="envSettings.gusaks" class="my-2 border-zinc-800">
+            <TransportProcessGroup
+               v-if="envSettings.gusaks"
+               grid-cols="lg:grid-cols-3 grid-cols-2"
+               :title="$t('ingusak')"
+               scroll-color="sky-scroll"
+               color="sky"
+               :data="waterTrucksStore.inGUSAK"
+            />
          </main>
       </aside>
    </main>

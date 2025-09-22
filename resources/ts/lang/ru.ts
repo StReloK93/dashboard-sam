@@ -5,6 +5,7 @@ export default {
    inexcavator: "В ожидании",
    inoil: "В заправке",
    inchange: "В пересменке",
+   inremont: "В ремонте",
    inatb: "В площадке УАТ",
    inred: "Простои без причин",
    ingusak: 'Гусак',
