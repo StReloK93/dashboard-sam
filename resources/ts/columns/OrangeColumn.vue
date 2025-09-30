@@ -1,8 +1,8 @@
 <template>
    <main class="border-r border-zinc-800 flex flex-col">
-      <!-- <Transition name="fade">
+      <Transition name="fade">
          <PricingMasters @close="pricingModal = false" color="orange" v-if="pricingModal" />
-      </Transition> -->
+      </Transition>
       <div class="xl:h-24 h-[72px] flex items-center justify-around">
          <ColumnTopSlider :slides="orangeSlides" />
       </div>
@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
 import { Transports, TransportModal } from '@/entities/transports'
-// import PricingMasters from '@/components/PricingMasters.vue'
+import PricingMasters from '@/components/PricingMasters.vue'
 import ColumnTopSlider from '@/components/ColumnTopSlider.vue'
 import TransportProcessGroup from '@/components/TransportProcessGroup.vue'
 import TransportProcess from '@/components/TransportProcess.vue'
@@ -30,7 +30,7 @@ import TransportProcess from '@/components/TransportProcess.vue'
 const store = TransportModal()
 const transportStore = Transports()
 
-// const pricingModal = ref(false)
+const pricingModal = ref(false)
 
 const setting = settings
 
@@ -67,14 +67,14 @@ const orangeSlides = reactive([
       value: computed(() => transportStore.summaOilCars),
       icon: "fa-solid fa-layer-group"
    },
-   // {
-   //    onClick: () => pricingModal.value = true,
-   //    bgColor: 'stroke-orange-400',
-   //    textColor: 'text-orange-400',
-   //    timer: 30,
-   //    value: "Baholash",
-   //    icon: "fa-duotone fa-chart-simple",
-   //    class: "hover:bg-zinc-800 cursor-pointer active:bg-zinc-900"
-   // },
+   {
+      onClick: () => pricingModal.value = true,
+      bgColor: 'stroke-orange-400',
+      textColor: 'text-orange-400',
+      timer: 30,
+      value: "Baholash",
+      icon: "fa-duotone fa-chart-simple",
+      class: "hover:bg-zinc-800 cursor-pointer active:bg-zinc-900"
+   },
 ])
 </script>

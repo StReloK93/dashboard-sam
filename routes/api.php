@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::apiResource('transportstates', TransportStateController::class)->only(['index', 'show', 'update']);
 Route::post('states/select_smena', [TransportStateController::class, 'selectSmena']);
-// Route::post('states/peresmena-graphic', [TransportStateController::class, 'waitingInOilGraphic']);
+Route::post('states/peresmena-graphic', [TransportStateController::class, 'waitingInOilGraphic']);
 Route::post('information/get-park-information', [TransportStateController::class, 'getParkInformation']);
 
 
