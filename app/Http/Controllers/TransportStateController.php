@@ -22,7 +22,7 @@ class TransportStateController extends Controller
 
 	public function index()
 	{
-		
+
 		$list = TransportList::latest('id')->first();
 		$period = $this->time->getPeriod(now());
 

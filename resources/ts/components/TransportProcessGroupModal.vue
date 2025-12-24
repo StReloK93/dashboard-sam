@@ -112,6 +112,8 @@ async function getDiagramDate() {
    TruckStateRepository.selectSmena({ date: pickers.date, smena: pickers.smena, group_ids: [group_id]  }, ({ data }) => {
       dataSmena.value = data.smena
       selectedCars.value = data.states.filter((car) => (car.geozone == props.group) && (timeDiff(car, 'seconds') > 59) && (inSmenaTime(car) == false))
+      .sort((a, b) => a.id - b.id)
+      
       loader.value = false
    })
 
