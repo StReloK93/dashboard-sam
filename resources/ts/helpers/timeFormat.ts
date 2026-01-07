@@ -281,7 +281,7 @@ export function splitNumberAndText(str) {
    // Если число найдено, возвращаем его и остальной текст
    if (match) {
       return {
-         number: parseInt(match[1], 10),
+         number: match[1],
          text: match[2].trim().slice(1),
       };
    }
