@@ -5,10 +5,9 @@ import App from "@/app/App.vue";
 import TruckIcon from "@/ui/TruckIcon.vue";
 import "swiper/css";
 import "swiper/css/effect-cards";
-import "tippy.js/dist/tippy.css"
-import PreLoader from "@/components/PreLoader.vue";
-import MiniPreLoader from "@/components/MiniPreLoader.vue";
-import {TippyDirective, Tippy, TippySingleton} from 'tippy.vue';
+import "tippy.js/dist/tippy.css";
+import PreLoader from "@/ui/PreLoader.vue";
+import { TippyDirective, Tippy, TippySingleton } from "tippy.vue";
 import lang from "./lang";
 
 import { AuthStore } from "./app/auth";
@@ -26,22 +25,20 @@ HighchartsMore(Highcharts);
 HighchartsGantt(Highcharts);
 HighchartsSolidGauge(Highcharts);
 
-
-if(localStorage.getItem('locale')){
+if (localStorage.getItem("locale")) {
    //@ts-ignore
-   lang.global.locale = localStorage.getItem('locale')
+   lang.global.locale = localStorage.getItem("locale");
 }
 
 const app = createApp(App);
-app.use(lang)
+app.use(lang);
 app.use(createPinia());
-app.directive('tippy', TippyDirective);
-app.component('tippy', Tippy);
-app.component('tippy-singleton', TippySingleton);
+app.directive("tippy", TippyDirective);
+app.component("tippy", Tippy);
+app.component("tippy-singleton", TippySingleton);
 app.component("VueDatePicker", VueDatePicker);
 app.component("TruckIcon", TruckIcon);
 app.component("PreLoader", PreLoader);
-app.component("MiniPreLoader", MiniPreLoader);
 
 const store = AuthStore();
 async function init() {

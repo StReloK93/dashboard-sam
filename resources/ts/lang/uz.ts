@@ -1,5 +1,5 @@
 export default {
-   mainpage: 'Bosh sahifa',
+   mainpage: "Bosh sahifa",
    appname: "Avtoag'dargichlarni yagona oynasi",
    inprocess: "Ish jarayonida",
    inexcavator: "Kutish jarayonida",
@@ -9,7 +9,7 @@ export default {
    inspt: "DOT",
    inoil: "Yoqilg'i olish maydonida",
    inred: "Sababsiz to'xtaganlar",
-   ingusak: 'Suv olish maydonida',
+   ingusak: "Suv olish maydonida",
    minute: "Minut",
    hour: "Soat",
    day: "Kun",
@@ -29,10 +29,12 @@ export default {
    pistali: "Pistali",
 
    transports: "Transportlar",
+   transport: "Transport",
    geozone: "Geozona",
    timein: "Kirgan vaqti",
    timeout: "Chiqgan vaqti",
    timeall: "Umumiy",
+   time: "Vaqt",
    cause: "Sababi",
 
    change: "Smena",
@@ -40,5 +42,4 @@ export default {
    table: "Jadval",
    inremontcause: "Bir xil sabab bilan bir vaqtda tamirlashda",
    waitinginoil: "Yoqilg'i olishda kutib qolish",
-
-}
+};

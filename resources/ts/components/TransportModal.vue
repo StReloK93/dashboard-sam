@@ -1,77 +1,149 @@
 <template>
-    <section @mouseup="store.close" class="fixed inset-0 bg-zinc-950/70 flex justify-center items-center">
-        <aside @mouseup.stop class="xl:w-[992px] xl:h-[540px] w-[768px] h-[490px] relative">
-            <main :class="{ '!opacity-100': mounted }"
-                class="absolute xl:-top-24 -top-[75px] opacity-0 left-1/2 -translate-x-1/2 transition-all duration-200">
-                <CircleUI class="text-sm text-center" :bgColor="carColor.stroke" :textColor="carColor.text"
-                    :summa="store.transport.transport.name" />
-            </main>
-            <Swiper @init="initial" @slide-change="slideChange" :initial-slide="store.mode" :effect="'cards'"
-                class="h-full" :slides-per-view="1" :modules="[EffectCards]">
-                <SwiperSlide class="slider-item neomorph border-t-2 border-t-green-600">
-                    <TransfromModalItem type="inExcavator" headerColor="bg-green-800" class="scroll green-scroll" />
-                </SwiperSlide>
-                <SwiperSlide class="slider-item neomorph border-t-2 border-t-yellow-600">
-                    <TransfromModalItem type="inExcavator" header-color="bg-yellow-600" class="scroll yellow-scroll" />
-                </SwiperSlide>
-                <SwiperSlide class="slider-item neomorph border-t-2 border-t-orange-600">
-                    <TransfromModalItem type="inOIL" header-color="bg-orange-600" class="scroll orange-scroll" />
-                </SwiperSlide>
-                <SwiperSlide class="slider-item neomorph border-t-2 border-t-indigo-600">
-                    <TransfromModalItem type="inSmenaAll" header-color="bg-indigo-600" class="scroll indigo-scroll" />
-                </SwiperSlide>
-                <SwiperSlide class="slider-item neomorph border-t-2 border-t-red-600">
-                    <TransfromModalItem type="isUnknown" header-color="bg-red-600" class="scroll red-scroll" />
-                </SwiperSlide>
-                <SwiperSlide class="slider-item neomorph border-t-2 border-t-gray-600">
-                    <TransfromModalItem type="inATB" header-color="bg-gray-600" class="scroll gray-scroll" />
-                </SwiperSlide>
-            </Swiper>
-        </aside>
-    </section>
+   <section
+      @mouseup="store.close"
+      class="fixed inset-0 bg-zinc-950/70 flex justify-center items-center"
+   >
+      <aside
+         @mouseup.stop
+         class="xl:w-[1280px] xl:h-[540px] w-[768px] h-[490px] relative"
+      >
+         <h3 class="flex gap-1 px-1.5 font-semibold xl:h-9 h-7 mb-2">
+            <div class="w-40 xl:h-9 h-7">
+               <VueDatePicker
+                  @update:model-value="handleDate"
+                  v-model="pickers.date"
+                  :format="formatDate"
+                  auto-apply
+                  placeholder="Kunni tanlang"
+               />
+            </div>
+            <div class="flex gap-1">
+               <button
+                  @click="changeSmena(1)"
+                  :class="setColor(pickers.smena == 1)"
+                  class="xl:w-24 w-20 rounded shadow xl:text-base text-xs"
+               >
+                  1 - {{ $t("change") }}
+               </button>
+               <button
+                  @click="changeSmena(2)"
+                  :class="setColor(pickers.smena == 2)"
+                  class="xl:w-24 w-20 rounded shadow xl:text-base text-xs"
+               >
+                  2 - {{ $t("change") }}
+               </button>
+            </div>
+         </h3>
+         <PreLoader v-if="loading" class="neomorph bg-zinc-900 rounded-sm" />
+         <Swiper
+            v-else
+            :initial-slide="store.mode"
+            :effect="'cards'"
+            class="h-full"
+            :slides-per-view="1"
+            :modules="[EffectCards]"
+         >
+            <SwiperSlide class="slider-item neomorph">
+               <TableStates
+                  :states="transport['inExcavator']"
+                  headerColor="bg-green-800"
+                  class="green-scroll"
+               />
+            </SwiperSlide>
+            <SwiperSlide class="slider-item neomorph">
+               <TableStates
+                  :states="transport['inExcavator']"
+                  headerColor="bg-yellow-600"
+                  class="yellow-scroll"
+               />
+            </SwiperSlide>
+            <SwiperSlide class="slider-item neomorph">
+               <TableStates
+                  :states="transport['inOIL']"
+                  headerColor="bg-orange-600"
+                  class="orange-scroll"
+               />
+            </SwiperSlide>
+            <SwiperSlide class="slider-item neomorph">
+               <TableStates
+                  :states="transport['inSmenaAll']"
+                  headerColor="bg-indigo-600"
+                  class="indigo-scroll"
+                  edit="smena"
+               />
+            </SwiperSlide>
+            <SwiperSlide class="slider-item neomorph">
+               <TableStates
+                  :states="transport['isUnknown']"
+                  headerColor="bg-red-600"
+                  class="red-scroll"
+               />
+            </SwiperSlide>
+            <SwiperSlide class="slider-item neomorph">
+               <TableStates
+                  :states="transport['inATB']"
+                  headerColor="bg-gray-600"
+                  class="gray-scroll"
+                  edit="atb"
+               />
+            </SwiperSlide>
+         </Swiper>
+      </aside>
+   </section>
 </template>
 
 <script setup lang="ts">
-import TransfromModalItem from './TransfromModalItem.vue'
-import { TransportStates, TransportModal } from '@/entities/transports'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import { EffectCards } from 'swiper/modules'
-import CircleUI from '@/ui/CircleUI.vue'
-import { ref, computed, onMounted, provide } from 'vue'
-import { useFetch } from '@/helpers/useFetchWialon'
+import TableStates from "./TableStates.vue";
+import { TransportStates, TransportModal } from "@/entities/transports";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { EffectCards } from "swiper/modules";
+import { ref, onMounted, provide, reactive } from "vue";
+import { useFetch } from "@/helpers/useFetchWialon";
+import PreLoader from "@/ui/PreLoader.vue";
+import { formatDate, getDateAndSmena } from "@/helpers/timeFormat";
+import moment from "moment";
+const transport = TransportStates();
+const causes = ref([]);
+const store = TransportModal();
 
-const causes = ref([])
-const store = TransportModal()
-const activeSlide = ref(0)
-const mounted = ref(false)
+const loading = ref(true);
 
-function slideChange(swiper) {
-    activeSlide.value = swiper.activeIndex
+function setColor(boolean) {
+   if (boolean) return `bg-teal-600 text-white`;
+   else return "bg-white text-gray-600";
 }
 
-function initial(swiper) {
-    activeSlide.value = swiper.activeIndex
+const pickers = reactive(getDateAndSmena());
+
+function changeSmena(smena) {
+   pickers.smena = smena;
+   getData(pickers);
 }
 
-const carColor = computed(() => {
-    if (activeSlide.value == 0) return { stroke: 'stroke-green-500', text: 'text-green-500' }
-    if (activeSlide.value == 1) return { stroke: 'stroke-yellow-500', text: 'text-yellow-500' }
-    if (activeSlide.value == 2) return { stroke: 'stroke-orange-500', text: 'text-orange-500' }
-    if (activeSlide.value == 3) return { stroke: 'stroke-indigo-500', text: 'text-indigo-500' }
-    if (activeSlide.value == 4) return { stroke: 'stroke-red-500', text: 'text-red-500' }
-    if (activeSlide.value == 5) return { stroke: 'stroke-gray-500', text: 'text-gray-500' }
-})
+const handleDate = (modelData) => {
+   pickers.date = moment(modelData).format(`YYYY-MM-DD`);
+   getData(pickers);
+};
 
-const transport = TransportStates()
-transport.getTransportState(store.transport.transport_id)
-provide('causes', causes)
-onMounted(() => {
-    useFetch({
-        url: 'cause', onLoad: ({ data }) => {
-            causes.value = data
-        }
-    })
+function getData(formdata?) {
+   loading.value = true;
+   transport.getTransportState(
+      store.transport.transport_id,
+      function () {
+         loading.value = false;
+      },
+      formdata,
+   );
+}
 
-    setTimeout(() => mounted.value = true, 200);
-})
+provide("causes", causes);
+onMounted(async () => {
+   getData();
+   useFetch({
+      url: "cause",
+      onLoad: ({ data }) => {
+         causes.value = data;
+      },
+   });
+});
 </script>

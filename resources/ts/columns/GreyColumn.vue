@@ -1,11 +1,11 @@
 <template>
    <main class="border-r border-zinc-800 flex flex-col">
-      <TransitionGroup name="fade">
+      <!-- <TransitionGroup name="fade">
          <ReportModal @close="reportModal = false" v-if="reportModal" />
          <ParkTableModal @close="parkModal = false" v-if="parkModal" />
          <ParkTableExcavatorModal @close="parkExcavatorModal = false" v-if="parkExcavatorModal" />
          <ParkTableDrillingModal @close="parkDrillingModal = false" v-if="parkDrillingModal" />
-      </TransitionGroup>
+      </TransitionGroup> -->
       <div class="xl:h-24 h-[72px] flex items-center justify-around relative">
          <ColumnTopSlider :slides="greySlides" />
          <!-- <main v-if="setting.tos" class="absolute top-1 right-1 flex flex-col gap-y-1 content-start justify-start">
@@ -23,11 +23,25 @@
             </button>
          </main> -->
       </div>
-      <aside class="gray-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative">
-         <TransportProcess counter="reys" :data="[]" grid-cols="grid-cols-3" color="yellow" class="opacity-0" />
+      <aside
+         class="gray-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative"
+      >
+         <TransportProcess
+            counter="reys"
+            :data="[]"
+            grid-cols="grid-cols-3"
+            color="yellow"
+            class="opacity-0"
+         />
          <main class="absolute inset-0">
-            <TransportProcessGroup @openModal="(transport) => store.openModal(5, transport)" grid-cols="grid-cols-3" :title="$t('inatb')" color="gray"
-               scroll-color="gray-scroll" :data="transportStore.inATBGroup" />
+            <TransportProcessGroup
+               @openModal="(transport) => store.openModal(5, transport)"
+               grid-cols="grid-cols-3"
+               :title="$t('inatb')"
+               color="gray"
+               scroll-color="gray-scroll"
+               :data="transportStore.inATBGroup"
+            />
          </main>
       </aside>
    </main>
@@ -35,25 +49,22 @@
 
 <script setup lang="ts">
 import { reactive, computed, ref } from "vue";
-import ParkTableModal from "@/components/ParkTableModal.vue";
-import ParkTableExcavatorModal from "@/components/ParkTableExcavatorModal.vue";
-import ParkTableDrillingModal from "@/components/ParkTableDrillingModal.vue";
+// import ParkTableModal from "@/components/ParkTableModal.vue";
+// import ParkTableExcavatorModal from "@/components/ParkTableExcavatorModal.vue";
+// import ParkTableDrillingModal from "@/components/ParkTableDrillingModal.vue";
 import ColumnTopSlider from "@/components/ColumnTopSlider.vue";
 import { Transports, TransportModal } from "@/entities/transports";
 import TransportProcess from "@/components/TransportProcess.vue";
-import ReportModal from "@/components/ReportModal.vue";
-import TransportProcessGroup from '@/components/TransportProcessGroup.vue'
+// import ReportModal from "@/components/ReportModal.vue";
+import TransportProcessGroup from "@/components/TransportProcessGroup.vue";
 
-const parkModal = ref(false);
-const parkExcavatorModal = ref(false);
-const parkDrillingModal = ref(false);
+// const parkModal = ref(false);
+// const parkExcavatorModal = ref(false);
+// const parkDrillingModal = ref(false);
+// const setting = settings
 
 const store = TransportModal();
 const transportStore = Transports();
-
-
-
-const setting = settings
 
 const reportModal = ref(false);
 const greySlides: any = reactive([
@@ -62,11 +73,11 @@ const greySlides: any = reactive([
       textColor: "text-gray-400",
       timer: 30,
       value: computed(() => {
-         var summa = 0
+         var summa = 0;
          for (const key in transportStore.inATBGroup) {
-            summa  += transportStore.inATBGroup[key].cars.length
+            summa += transportStore.inATBGroup[key].cars.length;
          }
-         return summa
+         return summa;
       }),
       component: "TruckIcon",
       componentParams: {

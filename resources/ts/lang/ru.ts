@@ -1,6 +1,6 @@
 export default {
-   mainpage: 'Главная',
-   appname: 'Единое окно автосамосвалов',
+   mainpage: "Главная",
+   appname: "Единое окно автосамосвалов",
    inprocess: "В процессе",
    inexcavator: "В ожидании",
    inoil: "В заправке",
@@ -9,7 +9,7 @@ export default {
    inatb: "В площадке УАТ",
    inspt: "ЦПТ",
    inred: "Простои без причин",
-   ingusak: 'Гусак',
+   ingusak: "Гусак",
    minute: "Минут",
    hour: "Час",
    day: "День",
@@ -28,12 +28,13 @@ export default {
    turbay: "Турбай",
    pistali: "Пистали",
 
-
    transports: "Транспорты",
+   transport: "Транспорт",
    geozone: "Геозона",
    timein: "Время входа",
    timeout: "Время выхода",
    timeall: "Общий",
+   time: "Время",
    cause: "Причина",
 
    change: "Смена",
@@ -41,4 +42,4 @@ export default {
    table: "Таблица",
    inremontcause: "В ремонте по одинаковый причины",
    waitinginoil: "Ожидания в заправке",
-}
+};
