@@ -77,28 +77,9 @@
    background: transparent;
 }
 
-.indigo-scroll::-webkit-scrollbar-thumb {
-   background-color: #6366f1;
-}
-
-.red-scroll::-webkit-scrollbar-thumb {
-   background-color: #ef4444;
-}
-
-.green-scroll::-webkit-scrollbar-thumb {
-   background-color: #22c55e;
-}
-
-.yellow-scroll::-webkit-scrollbar-thumb {
-   background-color: #eab308;
-}
-
-.orange-scroll::-webkit-scrollbar-thumb {
-   background-color: #f97316;
-}
-
-.gray-scroll::-webkit-scrollbar-thumb {
-   background-color: #9ca3af;
+.scroll::-webkit-scrollbar-thumb {
+   background-color: #333;
+   border-radius: 10px;
 }
 
 :root {

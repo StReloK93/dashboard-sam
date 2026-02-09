@@ -2,7 +2,7 @@
    <section
       :class="[
          setting.excavators
-            ? 'xl:grid-rows-[36px,30px,1fr,52px] lg:grid-rows-[31px,30px,1fr,135px,68px] grid-rows-[31px,30px,1fr,135px,68px]'
+            ? 'xl:grid-rows-[36px,30px,1fr,auto] lg:grid-rows-[31px,30px,1fr,135px,68px] grid-rows-[31px,30px,1fr,135px,68px]'
             : 'xl:grid-rows-[38px,35px,1fr] grid-rows-[31px,30px,1fr]',
       ]"
       class="bg-zinc-900 h-screen grid overflow-hidden overflow-y-auto scroll indigo-scroll"
@@ -96,9 +96,9 @@
             :class="[
                car.status_of == 'Ishda'
                   ? '!border-teal-400 neomorph bg-zinc-800'
-                  : '!border-zinc-950 inner-shadow-second',
+                  : '!border-zinc-900 bg-zinc-950 shadow-inner',
             ]"
-            class="text-xs xl:w-10 xl:h-10 w-7 h-7 rounded-full text-center inline-flex items-center justify-center flex-col border-2"
+            class="text-xs xl:w-10 xl:h-10 w-7 h-7 rounded-full text-center inline-flex items-center justify-center flex-col border"
          >
             <main class="text-teal-400 xl:text-base font-semibold">
                {{ car.number }}

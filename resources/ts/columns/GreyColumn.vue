@@ -35,7 +35,7 @@
          />
          <main class="absolute inset-0">
             <TransportProcessGroup
-               @openModal="(transport) => store.openModal(5, transport)"
+               @openModal="(transport: any) => store.openModal(5, transport)"
                grid-cols="grid-cols-3"
                :title="$t('inatb')"
                color="gray"
@@ -66,7 +66,7 @@ import TransportProcessGroup from "@/components/TransportProcessGroup.vue";
 const store = TransportModal();
 const transportStore = Transports();
 
-const reportModal = ref(false);
+// const reportModal = ref(false);
 const greySlides: any = reactive([
    {
       bgColor: "stroke-gray-400",
@@ -86,14 +86,14 @@ const greySlides: any = reactive([
          colorSecond: "fill-gray-700",
       },
    },
-   {
-      onClick: () => (reportModal.value = true),
-      bgColor: "stroke-gray-400",
-      textColor: "text-gray-400",
-      class: "hover:bg-zinc-800 cursor-pointer active:bg-zinc-900",
-      timer: 30,
-      value: "Hisobot",
-      icon: "fa-duotone fa-scroll",
-   },
+   // {
+   //    onClick: () => (reportModal.value = true),
+   //    bgColor: "stroke-gray-400",
+   //    textColor: "text-gray-400",
+   //    class: "hover:bg-zinc-800 cursor-pointer active:bg-zinc-900",
+   //    timer: 30,
+   //    value: "Hisobot",
+   //    icon: "fa-duotone fa-scroll",
+   // },
 ]);
 </script>

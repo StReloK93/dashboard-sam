@@ -4,7 +4,7 @@ import { inZones } from "@/helpers/timeFormat";
 import TruckStateRepository from "./truckstate/TruckStateRepository";
 
 export const TransportStates = defineStore("TransportStates", () => {
-   const transports: Ref = ref(null);
+   const transports: Ref<any[] | null> = ref(null);
 
    async function getTransportState(
       transport_id,
@@ -83,7 +83,7 @@ export const TransportStates = defineStore("TransportStates", () => {
 export const TransportModal = defineStore("TransportModal", () => {
    const transportStates = TransportStates();
    const mode = ref(null);
-   const transport = ref(null);
+   const transport = ref<any | null>(null);
 
    function close() {
       mode.value = null;
