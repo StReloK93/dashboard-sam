@@ -89,7 +89,7 @@
       <MobileChartColumn class="xl:hidden" />
       <footer
          v-if="setting.excavators"
-         class="bg-zinc-900 xl:px-3 px-1.5 shadow flex flex-wrap content-center xl:gap-1 gap-0.5 justify-between neomorph relative"
+         class="bg-zinc-900 xl:px-3 p-1.5 shadow flex flex-wrap content-center xl:gap-1 gap-0.5 justify-between neomorph relative"
       >
          <div
             v-for="car in store.ExcavatorList"
