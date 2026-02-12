@@ -47,6 +47,7 @@
                <TableStates
                   :states="transport[slide.name]"
                   :headerColor="slide.color"
+                  :edit="slide.name"
                />
             </SwiperSlide>
          </Swiper>
@@ -99,7 +100,8 @@ function getData(formdata?: any) {
 }
 
 const slides = [
-   { name: "inExcavator", color: "bg-teal-600" },
+   { name: "inExcavator", color: "bg-green-700" },
+   { name: "inExcavator", color: "bg-yellow-600" },
    { name: "inOIL", color: "bg-orange-600" },
    { name: "inSmenaAll", color: "bg-indigo-600" },
    { name: "isUnknown", color: "bg-red-600" },

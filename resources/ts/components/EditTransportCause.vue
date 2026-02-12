@@ -72,8 +72,8 @@
 
       <template
          v-if="
-            (auth.user?.level == 1 && props.type == 'smena') ||
-            (auth.user?.level == 0 && props.type == 'atb')
+            (auth.user?.level == 1 && props.type == 'inSmenaAll') ||
+            (auth.user?.level == 0 && props.type == 'inATB')
          "
       >
          <button
@@ -98,21 +98,22 @@ const auth = AuthStore();
 const buttonLoader = ref(false);
 const selectModel = ref([]);
 
-function select(option: any) {
-   if (selectModel.value.includes(option.id))
-      selectModel.value = selectModel.value.filter((v) => v != option.id);
-   else selectModel.value.push(option.id);
+function select(option: { id: number }) {
+   const option_id = option.id as never;
+   if (selectModel.value.includes(option_id))
+      selectModel.value = selectModel.value.filter((v) => v != option_id);
+   else selectModel.value.push(option_id);
 }
 
 const selectedOptions = computed(() => {
-   return props.causes.filter((option) =>
+   return props.causes.filter((option: { id: never }) =>
       selectModel.value.includes(option.id),
    );
 });
 
 const selected = computed(() => {
-   return props.causes.filter((option) => {
-      const ids = props.transport.causes.map((cause) => cause.cause_id);
+   return props.causes.filter((option: any) => {
+      const ids = props.transport.causes.map((cause: any) => cause.cause_id);
       return ids.includes(option.id);
    });
 });
@@ -120,14 +121,16 @@ const selected = computed(() => {
 const menu = ref(false);
 
 function openModal() {
-   selectModel.value = props.transport.causes.map((cause) => cause.cause_id);
+   selectModel.value = props.transport.causes.map(
+      (cause: any) => cause.cause_id,
+   );
 }
-async function saveCause(transport_state) {
+async function saveCause(transport_state: any) {
    buttonLoader.value = true;
 
    TruckStateRepository.updateCause(
       { id: transport_state.id, causes: selectModel.value },
-      ({ data }) => {
+      ({ data }: any) => {
          props.transport.causes = data;
          menu.value = false;
          buttonLoader.value = false;

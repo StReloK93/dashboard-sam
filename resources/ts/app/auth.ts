@@ -4,15 +4,15 @@ import router from "@/app/router";
 import axios from "axios";
 
 export const AuthStore = defineStore("Auth", () => {
-   const user = ref(null);
+   const user = ref<any>(null);
 
-   async function login(data) {
+   async function login(data: any) {
       const result = await axios.post("api/login", data);
       if (result.status == 299) return result.data;
       else {
          localStorage.setItem(
             "token",
-            `${result.data.type} ${result.data.token}`
+            `${result.data.type} ${result.data.token}`,
          ); // local
          await getUser();
          router.push({ name: "home" });
@@ -20,7 +20,8 @@ export const AuthStore = defineStore("Auth", () => {
    }
 
    const userRoles = computed(() => {
-      if (user.value) return user.value?.roles?.map((role) => role.role_id);
+      if (user.value)
+         return user.value?.roles?.map((role: any) => role.role_id);
       else return [];
    });
 
@@ -37,12 +38,12 @@ export const AuthStore = defineStore("Auth", () => {
          });
    }
 
-   async function register(props) {
+   async function register(props: any) {
       try {
          const result = await axios.post("api/register", props);
          if (result.status == 200) login(props);
          else return result.data;
-      } catch (err) {
+      } catch (err: any) {
          return err.response.data;
       }
    }

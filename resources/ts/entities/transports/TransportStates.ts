@@ -7,13 +7,13 @@ export const TransportStates = defineStore("TransportStates", () => {
    const transports: Ref<any[] | null> = ref(null);
 
    async function getTransportState(
-      transport_id,
+      transport_id: number,
       onLoad?: Function,
       formData?: any,
    ) {
       TruckStateRepository.show(
          transport_id,
-         ({ data }) => {
+         ({ data }: any) => {
             transports.value = data;
             onLoad?.();
          },
@@ -82,7 +82,7 @@ export const TransportStates = defineStore("TransportStates", () => {
 
 export const TransportModal = defineStore("TransportModal", () => {
    const transportStates = TransportStates();
-   const mode = ref(null);
+   const mode = ref<number | null>(null);
    const transport = ref<any | null>(null);
 
    function close() {
@@ -91,7 +91,9 @@ export const TransportModal = defineStore("TransportModal", () => {
       transportStates.transports = null;
    }
 
-   function openModal(selectedMode, selectedTransport) {
+   function openModal(selectedMode: number, selectedTransport: number) {
+      console.log(selectedMode, selectedTransport);
+
       mode.value = selectedMode;
       transport.value = selectedTransport;
    }

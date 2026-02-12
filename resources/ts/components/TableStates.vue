@@ -22,7 +22,7 @@
             <td
                :class="props.headerColor"
                class="py-1 px-2 max-w-56 w-56"
-               v-if="props.edit"
+               v-if="['inSmenaAll', 'inATB'].includes(props.edit)"
             >
                {{ $t("cause") }}
             </td>
@@ -30,7 +30,7 @@
             <td
                :class="props.headerColor"
                class="py-1 px-2 max-w-56"
-               v-if="props.edit"
+               v-if="['inSmenaAll', 'inATB'].includes(props.edit)"
             >
                {{ $t("time") }}
             </td>
@@ -50,16 +50,24 @@
             <td class="py-1 px-2 w-36">
                {{ moment(transport.geozone_out).format("YYYY-MM-DD HH:mm") }}
             </td>
-            <td class="py-1 px-2 w-20">{{ getDifference(transport) }}</td>
+            <td class="py-1 px-2 w-20">
+               {{ getDifference(transport) }}
+            </td>
 
-            <td class="py-1 px-2 max-w-56 w-56" v-if="props.edit">
+            <td
+               class="py-1 px-2 max-w-56 w-56"
+               v-if="['inSmenaAll', 'inATB'].includes(props.edit)"
+            >
                <EditTransportCause
                   :transport="transport"
                   :causes="causes"
                   :type="props.edit"
                />
             </td>
-            <td class="py-1 px-2 max-w-56 w-56" v-if="props.edit">
+            <td
+               class="py-1 px-2 max-w-56 w-56"
+               v-if="['inSmenaAll', 'inATB'].includes(props.edit)"
+            >
                <form
                   @submit.prevent="timeChange($event, transport)"
                   class="flex items-center justify-between"
@@ -90,8 +98,8 @@
                   </main>
                   <button
                      v-else-if="
-                        (auth.user?.level == 1 && props.edit == 'smena') ||
-                        (auth.user?.level == 0 && props.edit == 'atb')
+                        (auth.user?.level == 1 && props.edit == 'inSmenaAll') ||
+                        (auth.user?.level == 0 && props.edit == 'inATB')
                      "
                      @click="transport.edit_time = true"
                      type="button"
@@ -121,7 +129,7 @@ const causes = inject("causes");
 
 const truckStateStore = useTruckState();
 
-function timeChange(event, transport_state) {
+function timeChange(event: Event, transport_state: any) {
    const form = event.target as HTMLFormElement;
    const formData = new FormData(form);
 
@@ -132,7 +140,7 @@ function timeChange(event, transport_state) {
       time: timeValue,
    });
 
-   const currentstate = truckStateStore.data.states.find(
+   const currentstate = truckStateStore.data?.states.find(
       (state) => state.id == transport_state.id,
    );
 

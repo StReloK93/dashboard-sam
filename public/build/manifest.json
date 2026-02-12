@@ -1,18 +1,18 @@
 {
   "resources/ts/app.ts": {
     "css": [
-      "assets/app-TzeqsACi.css"
+      "assets/app-iITKoGwC.css"
     ],
     "dynamicImports": [
       "resources/ts/pages/Home.vue",
       "resources/ts/pages/Login.vue"
     ],
-    "file": "assets/app-NemfiIt5.js",
+    "file": "assets/app-z8F0XzQt.js",
     "isEntry": true,
     "src": "resources/ts/app.ts"
   },
   "resources/ts/pages/Home.vue": {
-    "file": "assets/Home-aT1Sc2PV.js",
+    "file": "assets/Home-nHTzD10G.js",
     "imports": [
       "resources/ts/app.ts"
     ],
@@ -20,7 +20,7 @@
     "src": "resources/ts/pages/Home.vue"
   },
   "resources/ts/pages/Login.vue": {
-    "file": "assets/Login-ygXPAog1.js",
+    "file": "assets/Login-bWvLXj5J.js",
     "imports": [
       "resources/ts/app.ts"
     ],

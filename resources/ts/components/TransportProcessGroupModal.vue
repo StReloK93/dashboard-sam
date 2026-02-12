@@ -94,7 +94,7 @@
                :states="selectedCars"
                headerColor="bg-black"
                class="gray-scroll"
-               :edit="props.color == 'orange' ? null : 'smena'"
+               :edit="props.color == 'orange' ? null : 'inSmenaAll'"
             />
             <TransportProcessGroupOilTable
                v-if="selectedCars.length && props.color == 'orange'"
@@ -133,25 +133,28 @@ const props = defineProps(["group", "color"]);
 
 const tab = ref(2);
 
-function setColor(boolean) {
+function setColor(boolean: boolean) {
    if (boolean) return `bg-${props.color}-600 text-white`;
    else return "bg-white text-gray-600";
 }
 
-const tableData = ref(null);
+const tableData = ref<any[]>([]);
 const loader = ref(false);
 const dataSmena = ref(null);
 const fullWaitTime = computed(() => {
-   return tableData.value?.reduce((summ, car) => summ + car.difference, 0);
+   return tableData.value?.reduce(
+      (summ: any, car: any) => summ + car.difference,
+      0,
+   );
 });
 const pickers = reactive(getDateAndSmena());
 
-const handleDate = (modelData) => {
+const handleDate = (modelData: any) => {
    pickers.date = modelData;
    getDiagramDate();
 };
 
-function changeSmena(smena) {
+function changeSmena(smena: number) {
    pickers.smena = smena;
    getDiagramDate();
 }
@@ -164,16 +167,16 @@ async function getDiagramDate() {
    loader.value = true;
    TruckStateRepository.selectSmena(
       { date: pickers.date, smena: pickers.smena, group_ids: [group_id] },
-      ({ data }) => {
+      ({ data }: any) => {
          dataSmena.value = data.smena;
          selectedCars.value = data.states
             .filter(
-               (car) =>
+               (car: any) =>
                   car.geozone == props.group &&
                   timeDiff(car, "seconds") > 59 &&
                   inSmenaTime(car) == false,
             )
-            .sort((a, b) => a.id - b.id);
+            .sort((a: any, b: any) => a.id - b.id);
 
          loader.value = false;
       },
@@ -184,7 +187,7 @@ const causes = ref();
 provide("causes", causes);
 useFetch({
    url: "cause",
-   onLoad: ({ data }) => {
+   onLoad: ({ data }: any) => {
       causes.value = data;
    },
 });

@@ -46,7 +46,7 @@ const emit = defineEmits(["table-update"]);
 
 const causes = ref([]);
 
-const tableData = ref([]);
+const tableData = ref<any[]>([]);
 watch(
    () => props.selectedCars,
    () => updateChart(),
@@ -55,23 +55,23 @@ watch(
 function updateChart() {
    tableData.value = [];
    const issetCaueseCars = props.selectedCars.filter(
-      (car) => car.cause != null && car.cause != "113",
+      (car: any) => car.cause != null && car.cause != "113",
    );
 
-   issetCaueseCars.forEach((selected, index, same) => {
+   issetCaueseCars.forEach((selected: any, index: any, same: any) => {
       selected.bool = true;
 
       const startDate = moment(selected.geozone_in);
       const endDate = moment(selected.geozone_out);
 
       const conflicts = same.filter(
-         (car) =>
+         (car: any) =>
             moment(car.geozone_in).isBetween(startDate, endDate) &&
             car.cause == selected.cause,
       );
 
       if (conflicts.length > 0) {
-         conflicts.forEach((nagliCar) => {
+         conflicts.forEach((nagliCar: any) => {
             const endAlso = moment(nagliCar.geozone_out).isBetween(
                startDate,
                endDate,
