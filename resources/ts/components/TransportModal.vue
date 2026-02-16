@@ -5,7 +5,7 @@
    >
       <aside
          @mouseup.stop
-         class="xl:w-[1280px] xl:h-[540px] w-[768px] h-[490px] relative"
+         class="xl:w-[1340px] xl:h-[540px] w-[768px] h-[490px] relative"
       >
          <h3 class="flex gap-1 px-1.5 font-semibold xl:h-9 h-7 mb-2">
             <div class="w-40 xl:h-9 h-7">

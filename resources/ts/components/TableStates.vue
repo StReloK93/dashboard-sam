@@ -1,18 +1,24 @@
 <template>
    <section class="h-full w-full overflow-y-auto px-1.5 scroll">
-      <table class="w-full xl:text-base text-xs">
+      <table class="w-full table-fixed xl:text-base text-xs">
          <tr class="border-b-4 border-zinc-900">
             <td :class="props.headerColor" class="py-1 px-2 w-10">№</td>
-            <td :class="props.headerColor" class="py-1 px-2 w-28">
+            <td :class="props.headerColor" class="p-1 w-24">
                {{ $t("transport") }}
             </td>
-            <td :class="props.headerColor" class="py-1 px-2 max-w-60">
+            <td :class="props.headerColor" class="p-1 min-w-52 w-52">
                {{ $t("geozone") }}
             </td>
-            <td :class="props.headerColor" class="py-1 px-2 w-36">
+            <td
+               :class="props.headerColor"
+               class="py-1 px-2 min-w-32 w-32 max-w-32"
+            >
                {{ $t("timein") }}
             </td>
-            <td :class="props.headerColor" class="py-1 px-2 w-36">
+            <td
+               :class="props.headerColor"
+               class="py-1 px-2 min-w-32 w-32 max-w-32"
+            >
                {{ $t("timeout") }}
             </td>
             <td :class="props.headerColor" class="py-1 px-2 w-20">
@@ -21,7 +27,7 @@
 
             <td
                :class="props.headerColor"
-               class="py-1 px-2 max-w-56 w-56"
+               class="py-1 px-2"
                v-if="['inSmenaAll', 'inATB'].includes(props.edit)"
             >
                {{ $t("cause") }}
@@ -29,7 +35,7 @@
 
             <td
                :class="props.headerColor"
-               class="py-1 px-2 max-w-56"
+               class="py-1 px-2 max-w-56 w-56"
                v-if="['inSmenaAll', 'inATB'].includes(props.edit)"
             >
                {{ $t("time") }}
@@ -40,22 +46,22 @@
             class="bg-zinc-800 border-y-4 border-zinc-900"
          >
             <td class="py-1 px-2 w-10">{{ (index as number) + 1 }}</td>
-            <td class="py-1 px-2 w-28">{{ transport.transport.name }}</td>
-            <td class="py-1 px-2 max-w-60">
+            <td class="p-1 w-24">{{ transport.transport.name }}</td>
+            <td class="p-1 max-w-52 text-[14px]">
                {{ transport.geozone != "stopped" ? transport.geozone : "---" }}
             </td>
-            <td class="py-1 px-2 w-36">
-               {{ moment(transport.geozone_in).format("YYYY-MM-DD HH:mm") }}
+            <td class="py-1 px-2 min-w-32 w-32 max-w-32 text-[15px]">
+               {{ moment(transport.geozone_in).format("DD.MM.YYYY HH:mm") }}
             </td>
-            <td class="py-1 px-2 w-36">
-               {{ moment(transport.geozone_out).format("YYYY-MM-DD HH:mm") }}
+            <td class="py-1 px-2 min-w-32 w-32 max-w-32 text-[15px]">
+               {{ moment(transport.geozone_out).format("DD.MM.YYYY HH:mm") }}
             </td>
             <td class="py-1 px-2 w-20">
                {{ getDifference(transport) }}
             </td>
 
             <td
-               class="py-1 px-2 max-w-56 w-56"
+               class="py-1 px-2"
                v-if="['inSmenaAll', 'inATB'].includes(props.edit)"
             >
                <EditTransportCause
@@ -65,7 +71,7 @@
                />
             </td>
             <td
-               class="py-1 px-2 max-w-56 w-56"
+               class="py-1 px-2 w-60"
                v-if="['inSmenaAll', 'inATB'].includes(props.edit)"
             >
                <form

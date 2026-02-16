@@ -3,7 +3,7 @@
       @mousedown="$emit('close')"
       class="fixed inset-0 bg-zinc-950/70 backdrop-blur-[2px] flex justify-center items-center z-50"
    >
-      <aside @mousedown.stop class="w-[1280px] h-[600px] relative">
+      <aside @mousedown.stop class="xl:w-[1340px] h-[600px] relative">
          <PreLoader v-if="loader" />
          <div class="slider-item">
             <div class="mb-1.5">
