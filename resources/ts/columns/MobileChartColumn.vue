@@ -51,7 +51,6 @@
 </template>
 <script setup lang="ts">
 import ChartCircle from "@/components/ChartCircle.vue";
-import ChartLine from "@/components/ChartLine.vue";
 import { Transports } from "@/entities/transports";
 import { Excavators } from "@/entities/transports/Excavators";
 const transportState = Transports();

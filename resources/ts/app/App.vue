@@ -2,14 +2,14 @@
    <section
       :class="[
          setting.excavators
-            ? 'xl:grid-rows-[36px,30px,1fr,auto] lg:grid-rows-[31px,30px,1fr,150px,auto] grid-rows-[31px,30px,1fr,150px,auto]'
+            ? 'xl:grid-rows-[38px,32px,1fr,auto] lg:grid-rows-[31px,30px,1fr,150px,auto] grid-rows-[31px,30px,1fr,150px,auto]'
             : 'xl:grid-rows-[38px,35px,1fr] grid-rows-[31px,30px,1fr]',
       ]"
       class="bg-zinc-900 h-screen grid overflow-hidden overflow-y-auto scroll indigo-scroll"
    >
       <AppNavigator />
       <header
-         class="bg-zinc-800 py-1 px-1 shadow text-white flex items-center justify-between"
+         class="bg-zinc-950 py-1 px-1 shadow text-white flex items-center justify-between"
       >
          <div class="xl:w-96"></div>
          <span
@@ -89,27 +89,34 @@
       <MobileChartColumn class="xl:hidden" />
       <footer
          v-if="setting.excavators"
-         class="bg-zinc-900 xl:px-3 p-1.5 shadow flex flex-wrap content-center xl:gap-1 gap-0.5 justify-between neomorph relative"
+         class="bg-zinc-900 xl:px-3 p-1.5 shadow flex flex-wrap content-center xl:gap-1 gap-0.5 justify-between border-t border-zinc-800 relative"
       >
          <div
-            v-for="car in store.ExcavatorList"
+            v-for="car in excavatorStore.ExcavatorList"
             :class="[
                car.status_of == 'Ishda'
-                  ? '!border-teal-400 neomorph bg-zinc-800'
-                  : '!border-zinc-900 bg-zinc-950 shadow-inner',
+                  ? 'shadow bg-zinc-800'
+                  : ' bg-zinc-950 shadow-inner',
             ]"
-            class="text-xs xl:w-10 xl:h-10 w-7 h-7 rounded-full text-center inline-flex items-center justify-center flex-col border"
+            class="text-xs xl:w-10 xl:h-10 w-7 h-7 rounded-full text-center inline-flex items-center justify-center flex-col relative"
          >
-            <main class="text-teal-400 xl:text-base font-semibold">
+            <!--  Indicator -->
+            <span
+               v-if="car.cause_old && car.cause"
+               class="inline-block w-1.5 h-1.5 bg-teal-400 rounded-full top-0.5 right-1 absolute"
+            >
+            </span>
+            <!--  Indicator -->
+
+            <main
+               :class="[
+                  car.status_of == 'Ishda' ? 'text-teal-400' : 'text-slate-500',
+               ]"
+               class="xl:text-base font-semibold"
+            >
                {{ car.number }}
             </main>
-            <tippy
-               v-if="
-                  (car.cause_old && car.status_of != 'Ishda') ||
-                  (car.cause && car.status_of != 'Ishda')
-               "
-               target="_parent"
-            >
+            <tippy v-if="car.cause_old || car.cause" target="_parent">
                <div class="font-semibold" v-if="car.cause_old">
                   {{ car.cause_old }}
                </div>
@@ -125,7 +132,21 @@ import { AuthStore } from "@/app/auth";
 import { Excavators } from "@/entities/transports/Excavators";
 import AppNavigator from "@/components/AppNavigator.vue";
 import MobileChartColumn from "@/columns/MobileChartColumn.vue";
+import { useTruckState } from "@/entities/transports/truckstate/TruckStateStore";
+const truckStateStore = useTruckState();
+
 const auth = AuthStore();
-const store = Excavators();
+const excavatorStore = Excavators();
 const setting = settings;
+
+const start = async () => {
+   if (truckStateStore.isFirstLoading == false)
+      await truckStateStore.fetchData();
+   if (setting.excavators) await excavatorStore.getExcavatorStates();
+   setTimeout(() => {
+      start();
+   }, 10000);
+};
+
+start();
 </script>

@@ -44,7 +44,7 @@ export const useTruckState = defineStore("counter", () => {
       truckStates,
       isLoading,
       isFirstLoading,
-      fetchData: () => fetchData(formData),
+      fetchData: async () => await fetchData(formData),
       groups,
    };
 });

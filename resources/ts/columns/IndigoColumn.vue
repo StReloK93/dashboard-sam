@@ -1,7 +1,7 @@
 <template>
-   <main class="border-r border-zinc-800 flex flex-col">
-      <div class="xl:h-24 h-[72px] flex items-center justify-around">
-         <ColumnTopSlider :slides="indigoSlides" />
+   <main class="border-r border-zinc-950 flex flex-col">
+      <div class="flex items-center justify-center gap-3 p-3">
+         <IndicatorButton :slides="slides" />
       </div>
       <aside
          class="indigo-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative"
@@ -42,16 +42,17 @@
 
 <script setup lang="ts">
 import { Transports, TransportModal } from "@/entities/transports";
-import ColumnTopSlider from "@/components/ColumnTopSlider.vue";
+import IndicatorButton from "@/ui/IndicatorButton.vue";
 import TransportProcess from "@/components/TransportProcess.vue";
 import { reactive, computed } from "vue";
 import TransportProcessGroup from "@/components/TransportProcessGroup.vue";
+import { minuteFormat } from "@/helpers/timeFormat";
 
 const setting = settings;
 const store = TransportModal();
 const transportStore = Transports();
 
-const indigoSlides = reactive([
+const slides = reactive([
    {
       bgColor: "stroke-indigo-500",
       textColor: "text-indigo-400",
@@ -69,7 +70,7 @@ const indigoSlides = reactive([
       }),
       component: "TruckIcon",
       componentParams: {
-         width: 22,
+         width: 20,
          color: "fill-indigo-400",
          colorSecond: "fill-indigo-900",
       },
@@ -79,7 +80,9 @@ const indigoSlides = reactive([
       textColor: "text-indigo-400",
       timer: 30,
       type: "time",
-      value: computed(() => transportStore.statesSumm.summSmenaTime),
+      value: computed(() =>
+         minuteFormat(transportStore.statesSumm.summSmenaTime),
+      ),
       icon: "fa-duotone fa-hourglass-clock",
    },
    {

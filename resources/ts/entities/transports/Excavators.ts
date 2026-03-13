@@ -19,10 +19,14 @@ export const Excavators = defineStore("Excavators", () => {
          excavator.number = number;
          excavator.name = text;
       });
+      console.log(data, "s");
+
       const uniqueData = data.filter(
          (item: any, index: any, self: any[]) =>
             index === self.findIndex((t: any) => t.number === item.number),
       );
+
+      console.log(uniqueData);
 
       ExcavatorList.value = uniqueData;
    }

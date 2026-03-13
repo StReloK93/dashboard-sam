@@ -1,7 +1,7 @@
 <template>
    <section :class="scrollColor" class="xl:px-2 px-1">
       <h3
-         class="text-zinc-500 uppercase text-center 2xl:text-base xl:text-sm lg:text-xs text-[10px]"
+         class="text-zinc-400 2xl:text-base xl:text-sm lg:text-xs text-[10px] my-1.5"
       >
          {{ props.title }}
       </h3>

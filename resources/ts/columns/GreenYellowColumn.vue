@@ -1,11 +1,15 @@
 <template>
    <main
-      class="border-r border-zinc-800 flex flex-col xl:flex-grow-0 flex-grow"
+      class="border-r border-zinc-950 flex flex-col xl:flex-grow-0 flex-grow"
    >
-      <div class="xl:h-24 h-[72px] flex items-center justify-around">
-         <ColumnTopSlider :slides="greenSlides" />
-         <ColumnTopSlider :slides="yellowSlides" />
-      </div>
+      <aside class="flex justify-between">
+         <div class="flex gap-3 p-3 justify-center flex-wrap">
+            <IndicatorButton :slides="greenSlides" />
+         </div>
+         <div class="flex gap-3 p-3 justify-center flex-wrap">
+            <IndicatorButton :slides="yellowSlides" />
+         </div>
+      </aside>
       <aside
          class="green-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative grid-col"
       >
@@ -21,7 +25,7 @@
                counter="reys"
                :data="transportStore.inProcess"
                :grid-cols="`xl:grid-cols-5 lg:grid-cols-5 grid-cols-3`"
-               @openModal="(transport) => store.openModal(0, transport)"
+               @openModal="(transport: any) => store.openModal(0, transport)"
                :title="$t('inprocess')"
                color="green"
             />
@@ -29,7 +33,7 @@
                counter="timer"
                :data="transportStore.inExcavator"
                :grid-cols="`xl:grid-cols-5 lg:grid-cols-5 grid-cols-3`"
-               @openModal="(transport) => store.openModal(1, transport)"
+               @openModal="(transport: any) => store.openModal(1, transport)"
                :title="$t('inexcavator')"
                color="yellow"
             />
@@ -39,34 +43,26 @@
 </template>
 
 <script setup lang="ts">
-import ColumnTopSlider from "@/components/ColumnTopSlider.vue";
+import IndicatorButton from "@/ui/IndicatorButton.vue";
 import TransportProcess from "@/components/TransportProcess.vue";
 import { Transports, TransportModal } from "@/entities/transports";
-import { Excavators } from "@/entities/transports/Excavators";
 import { reactive, computed } from "vue";
-import { useTruckState } from "@/entities/transports/truckstate/TruckStateStore";
+import { minuteFormat } from "@/helpers/timeFormat";
 
-const truckStateStore = useTruckState();
 const store = TransportModal();
 const transportStore = Transports();
-const excavatorStore = Excavators();
-const pageSettings = settings;
+
 const greenSlides = reactive([
    {
-      onStart: () => {
-         if (truckStateStore.isFirstLoading == false)
-            truckStateStore.fetchData();
-         if (pageSettings.excavators) excavatorStore.getExcavatorStates();
-      },
       bgColor: "stroke-green-600",
       textColor: "text-green-400",
       timer: 30,
       value: computed(() => transportStore.inProcess?.length),
       component: "TruckIcon",
       componentParams: {
-         width: 22,
+         width: 20,
          color: "fill-green-500",
-         colorSecond: "fill-green-900",
+         colorSecond: "fill-green-600",
       },
    },
    {
@@ -80,24 +76,21 @@ const greenSlides = reactive([
 
 const yellowSlides = reactive([
    {
-      bgColor: "stroke-yellow-600",
       textColor: "text-yellow-400",
-      timer: 30,
       value: computed(() => transportStore.inExcavator?.length),
       component: "TruckIcon",
       componentParams: {
-         width: 22,
+         width: 20,
          color: "fill-yellow-500",
-         colorSecond: "fill-yellow-900",
+         colorSecond: "fill-yellow-600",
       },
    },
    {
-      bgColor: "stroke-yellow-400",
       textColor: "text-yellow-400",
-      timer: 30,
-      type: "time",
       icon: "fa-duotone fa-hourglass-clock",
-      value: computed(() => transportStore.statesSumm.summExcavatorTime),
+      value: computed(() =>
+         minuteFormat(transportStore.statesSumm.summExcavatorTime),
+      ),
    },
 ]);
 </script>

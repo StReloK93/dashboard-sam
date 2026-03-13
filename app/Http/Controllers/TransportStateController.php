@@ -123,7 +123,6 @@ class TransportStateController extends Controller
 		$startDate = Carbon::parse("$start $dayStart");
 		$endDate = Carbon::parse("$end $dayStart");
 
-
 		$allStates = DB::select("SELECT A.* ,B.smenaDate,B.smena,B.teamNum FROM transport_states A 
 			left join WIALON.dbo.ReportSmenaTeam B ON 
 			(case when cast(geozone_in as time) between '$dayStart' AND '$nightStart' then 1 else 2 end) = B.smena

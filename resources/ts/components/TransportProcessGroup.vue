@@ -12,7 +12,7 @@
          />
       </TransitionGroup>
       <h3
-         class="text-zinc-500 uppercase text-center sticky 2xl:text-base xl:text-sm lg:text-xs text-[10px] top-0"
+         class="text-zinc-400 2xl:text-base xl:text-sm lg:text-xs text-[10px] my-1.5"
       >
          {{ props.title }}
       </h3>
@@ -23,7 +23,7 @@
             :key="key"
          >
             <span :class="`text-${color}-500 active:bg-${color}-500`">
-               {{ replace(key) }}
+               {{ replace(key as string) }}
             </span>
             <div
                v-if="color != 'gray'"
@@ -78,9 +78,9 @@ const props = defineProps([
    "scrollColor",
 ]);
 
-const timeLine = ref(null);
+const timeLine = ref<any>(null);
 
-function replace(str) {
+function replace(str: string) {
    return str
       .replace("Пересменка", "")
       .replace("Заправочный", "")

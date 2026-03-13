@@ -1,5 +1,5 @@
 <template>
-   <main class="border-r border-zinc-800 flex flex-col">
+   <main class="border-r border-zinc-950 flex flex-col">
       <Transition name="fade">
          <PricingMasters
             @close="pricingModal = false"
@@ -7,8 +7,8 @@
             v-if="pricingModal"
          />
       </Transition>
-      <div class="xl:h-24 h-[72px] flex items-center justify-around">
-         <ColumnTopSlider :slides="orangeSlides" />
+      <div class="flex items-center justify-center gap-3 p-3">
+         <IndicatorButton :slides="slides" />
       </div>
       <aside
          class="orange-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative"
@@ -23,7 +23,7 @@
          <main class="absolute inset-0">
             <TransportProcessGroup
                :grid-cols="`lg:grid-cols-3 grid-cols-2`"
-               @openModal="(transport) => store.openModal(2, transport)"
+               @openModal="(transport: any) => store.openModal(2, transport)"
                :title="$t('inoil')"
                color="orange"
                scroll-color="orange-scroll"
@@ -33,7 +33,7 @@
             <TransportProcessGroup
                v-if="setting.BASE_DPP?.length"
                :grid-cols="`lg:grid-cols-3 grid-cols-2`"
-               @openModal="(transport) => store.openModal(2, transport)"
+               @openModal="(transport: any) => store.openModal(2, transport)"
                :title="$t('inspt')"
                color="orange"
                scroll-color="orange-scroll"
@@ -48,7 +48,7 @@
 import { ref, reactive, computed } from "vue";
 import { Transports, TransportModal } from "@/entities/transports";
 import PricingMasters from "@/components/PricingMasters.vue";
-import ColumnTopSlider from "@/components/ColumnTopSlider.vue";
+import IndicatorButton from "@/ui/IndicatorButton.vue";
 import TransportProcessGroup from "@/components/TransportProcessGroup.vue";
 import TransportProcess from "@/components/TransportProcess.vue";
 
@@ -59,11 +59,9 @@ const pricingModal = ref(false);
 
 const setting = settings;
 
-const orangeSlides = reactive([
+const slides = reactive([
    {
-      bgColor: "stroke-orange-500",
       textColor: "text-orange-400",
-      timer: 30,
       value: computed(() => {
          var summa = 0;
          for (const key in transportStore.inOIL) {
@@ -73,34 +71,25 @@ const orangeSlides = reactive([
       }),
       component: "TruckIcon",
       componentParams: {
-         width: 22,
+         width: 20,
          color: "fill-orange-500",
          colorSecond: "fill-orange-900",
       },
    },
    {
-      bgColor: "stroke-orange-400",
       textColor: "text-orange-400",
-      timer: 30,
-      type: "time",
       value: computed(() => transportStore.statesSumm.summOilTime),
       icon: "fa-duotone fa-hourglass-clock",
    },
    {
-      bgColor: "stroke-orange-400",
       textColor: "text-orange-400",
-      timer: 30,
       value: computed(() => transportStore.summaOilCars),
       icon: "fa-solid fa-layer-group",
    },
    {
       onClick: () => (pricingModal.value = true),
-      bgColor: "stroke-orange-400",
       textColor: "text-orange-400",
-      timer: 30,
-      value: "Baholash",
       icon: "fa-duotone fa-chart-simple",
-      class: "hover:bg-zinc-800 cursor-pointer active:bg-zinc-900",
    },
 ]);
 </script>

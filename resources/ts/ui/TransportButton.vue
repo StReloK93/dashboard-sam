@@ -4,23 +4,23 @@
          'inline-flex justify-between items-center rounded-2xl transition-all relative',
          '2xl:w-[80px] xl:w-[65px] w-[54px]',
          '2xl:px-1 xl:px-1 2xl:py-0.5 xl:py-0.5 px-1 py-0.5',
-         'neomorph bg-zinc-800 hover:bg-zinc-900 active:shadow-md',
+         'border border-t-zinc-700  border-zinc-800 bg-zinc-800 hover:bg-zinc-900',
          { 'opacity-0 cursor-default': !hasTransport },
       ]"
    >
       <div
          :class="[
-            'font-semibold text-left leading-[10px]',
-            '2xl:pl-1 xl:pl-0.5 2xl:text-[14px] xl:text-[11px] text-[10px]',
+            'font-semibold text-left leading-[8px]',
+            '2xl:pl-1 xl:pl-0.5 ',
             isMan ? 'text-sky-400' : buttonColor.text,
             { 'opacity-0': !hasTransport },
          ]"
       >
-         <span class="xl:leading-3 leading-[10px]">
+         <span class="xl:text-[12px] text-[10px]">
             {{ formattedName }}
          </span>
 
-         <div class="xl:leading-3 leading-[8px] xl:ml-0.5">
+         <div class="xl:leading-3 leading-[8px]">
             <span
                class="text-gray-500 2xl:text-[10px] xl:text-[9px] text-[8px]"
             >
@@ -35,13 +35,13 @@
             'absolute z-10',
             moment(state?.time) < moment() ? 'bg-rose-500' : '',
          ]"
-         class="lg:w-2 w-[6px] h-[calc(100%+1px)] 2xl:right-[12px] xl:right-[11px] right-[10px]"
+         class="lg:w-2 w-[6px] h-[calc(100%+1px)] 2xl:right-[11px] xl:right-[10px] right-[10px]"
       ></span>
       <time
          :class="[
             'inline-flex justify-center items-center z-20 rounded-full font-bold text-zinc-900',
-            '2xl:w-6 2xl:h-6 xl:w-[22px] xl:h-[22px] lg:w-[20px] lg:h-[20px] w-[17px] h-[17px]',
-            '2xl:text-xs xl:text-[11px] text-[10px]',
+            '2xl:w-[22px] 2xl:h-[22px] xl:w-[22px] xl:h-[22px] lg:w-[20px] lg:h-[20px] w-[17px] h-[17px]',
+            'text-xs',
             isMan ? 'bg-sky-400' : buttonColor.bg,
             moment(state?.time) < moment() ? 'bg-rose-500' : '',
          ]"
