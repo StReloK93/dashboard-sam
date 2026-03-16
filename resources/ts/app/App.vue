@@ -140,12 +140,10 @@ const excavatorStore = Excavators();
 const setting = settings;
 
 const start = async () => {
-   if (truckStateStore.isFirstLoading == false)
-      await truckStateStore.fetchData();
+   await truckStateStore.fetchData();
+
    if (setting.excavators) await excavatorStore.getExcavatorStates();
-   setTimeout(() => {
-      start();
-   }, 10000);
+   setTimeout(() => start(), 10000);
 };
 
 start();

@@ -3,7 +3,8 @@
 use Illuminate\Support\Str;
 
 
-function createConfigDB($database){
+function createConfigDB($database)
+{
     return [
         'driver' => 'sqlsrv',
         'url' => env('DATABASE_URL'),
@@ -98,28 +99,6 @@ return [
             'sslmode' => 'prefer',
         ],
 
-        'sqlsrv' => createConfigDB('DB_DATABASE'),
-        'wialon' => createConfigDB('DB_DATABASE2'),
-        'ueb' => createConfigDB('DB_DATABASE3'),
-        'trucks' => createConfigDB('DB_DATABASE4'),
-        'wialonapi' => createConfigDB('DB_DATABASE5'),
-
-        'muruntau' => [
-            'driver' => 'sqlsrv',
-            'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', '1433'),
-            'database' => env('DB_DATABASE_ONLINE', 'forge'),
-            'username' => env('DB_DATABASE_ONLINE_USER', 'forge'),
-            'password' => env('DB_DATABASE_ONLINE_PASSWORD', ''),
-            'charset' => 'utf8',
-            'prefix' => '',
-            'prefix_indexes' => true,
-            // 'encrypt' => env('DB_ENCRYPT', 'yes'),
-            'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'true'),
-        ],
-
-
     ],
 
     /*
@@ -152,7 +131,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [
