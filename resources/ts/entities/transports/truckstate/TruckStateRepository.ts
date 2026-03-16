@@ -8,6 +8,7 @@ function index(params: any, onload?: Function) {
       method: "post",
       formData: params,
       onLoad: onload,
+      autoStart: false,
    });
 }
 
