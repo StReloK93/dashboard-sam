@@ -2,12 +2,12 @@
    <main
       class="border-r border-zinc-950 flex flex-col xl:flex-grow-0 flex-grow"
    >
-      <aside class="flex justify-between">
+      <aside class="flex justify-around">
          <div class="flex gap-3 p-3 justify-center flex-wrap">
-            <IndicatorButton :slides="greenSlides" />
+            <ColumnTopSlider :slides="greenSlides" />
          </div>
          <div class="flex gap-3 p-3 justify-center flex-wrap">
-            <IndicatorButton :slides="yellowSlides" />
+            <ColumnTopSlider :slides="yellowSlides" />
          </div>
       </aside>
       <aside
@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import IndicatorButton from "@/ui/IndicatorButton.vue";
+import ColumnTopSlider from "@/components/ColumnTopSlider.vue";
 import TransportProcess from "@/components/TransportProcess.vue";
 import { Transports, TransportModal } from "@/entities/transports";
 import { reactive, computed } from "vue";
@@ -66,9 +66,7 @@ const greenSlides = reactive([
       },
    },
    {
-      bgColor: "stroke-green-400",
       textColor: "text-green-400",
-      timer: 30,
       icon: "fa-regular fa-sigma",
       value: computed(() => transportStore.statesSumm.reysCount),
    },
@@ -76,6 +74,8 @@ const greenSlides = reactive([
 
 const yellowSlides = reactive([
    {
+      bgColor: "stroke-yellow-600",
+      timer: 30,
       textColor: "text-yellow-400",
       value: computed(() => transportStore.inExcavator?.length),
       component: "TruckIcon",

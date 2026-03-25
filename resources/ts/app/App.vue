@@ -95,22 +95,14 @@
             v-for="car in excavatorStore.ExcavatorList"
             :class="[
                car.status_of == 'Ishda'
-                  ? 'shadow bg-zinc-800'
+                  ? 'shadow bg-zinc-800 border border-t-zinc-700 border-l-zinc-700  border-zinc-800'
                   : ' bg-zinc-950 shadow-inner',
             ]"
             class="text-xs xl:w-10 xl:h-10 w-7 h-7 rounded-full text-center inline-flex items-center justify-center flex-col relative"
          >
-            <!--  Indicator -->
-            <span
-               v-if="car.cause_old && car.cause"
-               class="inline-block w-1.5 h-1.5 bg-teal-400 rounded-full top-0.5 right-1 absolute"
-            >
-            </span>
-            <!--  Indicator -->
-
             <main
                :class="[
-                  car.status_of == 'Ishda' ? 'text-teal-400' : 'text-slate-500',
+                  car.status_of == 'Ishda' ? 'text-teal-400' : 'text-slate-400',
                ]"
                class="xl:text-base font-semibold"
             >

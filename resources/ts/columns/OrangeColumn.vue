@@ -8,7 +8,7 @@
          />
       </Transition>
       <div class="flex items-center justify-center gap-3 p-3">
-         <IndicatorButton :slides="slides" />
+         <ColumnTopSlider :slides="slides" />
       </div>
       <aside
          class="orange-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative"
@@ -51,6 +51,7 @@ import PricingMasters from "@/components/PricingMasters.vue";
 import IndicatorButton from "@/ui/IndicatorButton.vue";
 import TransportProcessGroup from "@/components/TransportProcessGroup.vue";
 import TransportProcess from "@/components/TransportProcess.vue";
+import ColumnTopSlider from "@/components/ColumnTopSlider.vue";
 
 const store = TransportModal();
 const transportStore = Transports();
@@ -62,6 +63,8 @@ const setting = settings;
 const slides = reactive([
    {
       textColor: "text-orange-400",
+      timer: 30,
+      bgColor: "stroke-orange-500",
       value: computed(() => {
          var summa = 0;
          for (const key in transportStore.inOIL) {

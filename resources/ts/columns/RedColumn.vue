@@ -1,7 +1,8 @@
 <template>
    <main class="border-r border-zinc-950 flex flex-col">
       <div class="flex items-center justify-center gap-3 p-3">
-         <IndicatorButton :slides="slides" />
+         <!-- <IndicatorButton :slides="slides" /> -->
+         <ColumnTopSlider :slides="slides" />
       </div>
       <aside
          class="red-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative"
@@ -46,6 +47,7 @@ import {
 } from "@/entities/transports";
 import TransportProcess from "@/components/TransportProcess.vue";
 import TransportProcessGroup from "@/components/TransportProcessGroup.vue";
+import ColumnTopSlider from "@/components/ColumnTopSlider.vue";
 
 const store = TransportModal();
 const transportStore = Transports();

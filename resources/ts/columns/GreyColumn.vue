@@ -1,7 +1,8 @@
 <template>
    <main class="border-r border-zinc-950 flex flex-col">
       <div class="flex items-center justify-center gap-3 p-3">
-         <IndicatorButton :slides="greySlides" />
+         <!-- <IndicatorButton :slides="greySlides" /> -->
+         <ColumnTopSlider :slides="greySlides" />
       </div>
       <aside
          class="gray-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative"
@@ -33,6 +34,7 @@ import { reactive, computed, ref } from "vue";
 import { Transports, TransportModal } from "@/entities/transports";
 import TransportProcess from "@/components/TransportProcess.vue";
 import TransportProcessGroup from "@/components/TransportProcessGroup.vue";
+import ColumnTopSlider from "@/components/ColumnTopSlider.vue";
 
 const store = TransportModal();
 const transportStore = Transports();
@@ -40,6 +42,8 @@ const transportStore = Transports();
 const greySlides: any = reactive([
    {
       textColor: "text-gray-300",
+      bgColor: "stroke-gray-400",
+      timer: 30,
       value: computed(() => {
          var summa = 0;
          for (const key in transportStore.inATBGroup) {

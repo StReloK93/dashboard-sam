@@ -1,7 +1,7 @@
 <template>
    <main class="border-r border-zinc-950 flex flex-col">
       <div class="flex items-center justify-center gap-3 p-3">
-         <IndicatorButton :slides="slides" />
+         <ColumnTopSlider :slides="slides" />
       </div>
       <aside
          class="indigo-scroll overflow-y-auto flex-grow scroll overflow-x-hidden relative"
@@ -47,6 +47,7 @@ import TransportProcess from "@/components/TransportProcess.vue";
 import { reactive, computed } from "vue";
 import TransportProcessGroup from "@/components/TransportProcessGroup.vue";
 import { minuteFormat } from "@/helpers/timeFormat";
+import ColumnTopSlider from "@/components/ColumnTopSlider.vue";
 
 const setting = settings;
 const store = TransportModal();
@@ -76,19 +77,14 @@ const slides = reactive([
       },
    },
    {
-      bgColor: "stroke-indigo-400",
       textColor: "text-indigo-400",
-      timer: 30,
-      type: "time",
       value: computed(() =>
          minuteFormat(transportStore.statesSumm.summSmenaTime),
       ),
       icon: "fa-duotone fa-hourglass-clock",
    },
    {
-      bgColor: "stroke-indigo-400",
       textColor: "text-indigo-400",
-      timer: 30,
       value: computed(() => transportStore.summaSmenaCars),
       icon: "fa-solid fa-layer-group",
    },
