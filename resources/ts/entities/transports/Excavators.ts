@@ -10,6 +10,14 @@ export const Excavators = defineStore("Excavators", () => {
          url: "data/excavators-state",
          method: "post",
          onLoad: async function ({ data }: any) {
+            const uniqueData = data.filter(
+               (item: any, index: any, self: any[]) =>
+                  index ===
+                  self.findIndex(
+                     (t: any) => t.mexanizm_nomi === item.mexanizm_nomi,
+                  ),
+            );
+
             data.forEach((excavator: any) => {
                const { number, text } = splitNumberAndText(
                   excavator.mexanizm_nomi,
@@ -17,13 +25,6 @@ export const Excavators = defineStore("Excavators", () => {
                excavator.number = number;
                excavator.name = text;
             });
-            console.log(data, "s");
-
-            const uniqueData = data.filter(
-               (item: any, index: any, self: any[]) =>
-                  index ===
-                  self.findIndex((t: any) => t.number === item.number),
-            );
 
             ExcavatorList.value = uniqueData;
          },
