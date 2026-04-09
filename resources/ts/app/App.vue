@@ -2,7 +2,7 @@
    <section
       :class="[
          setting.excavators
-            ? 'xl:grid-rows-[38px,32px,1fr,auto] lg:grid-rows-[31px,30px,1fr,150px,auto] grid-rows-[31px,30px,1fr,150px,auto]'
+            ? 'xl:grid-rows-[38px,40px,1fr,auto] lg:grid-rows-[31px,40px,1fr,150px,auto] grid-rows-[31px,40px,1fr,150px,auto]'
             : 'xl:grid-rows-[38px,35px,1fr] grid-rows-[31px,30px,1fr]',
       ]"
       class="bg-zinc-900 h-screen grid overflow-hidden overflow-y-auto scroll indigo-scroll"
@@ -13,9 +13,10 @@
       >
          <div class="xl:w-96"></div>
          <span
-            class="2xl:text-base xl:text-base text-xs uppercase font-semibold tracking-widest text-stone-200"
+            class="2xl:text-base xl:text-base text-xs uppercase font-semibold tracking-widest text-teal-400"
          >
             {{ $t("appname") }}
+            <img src="/images/aiicon.png" class="w-10 inline-block" />
          </span>
          <div class="flex items-center">
             <section class="flex items-center xl:mx-3 mx-2">
