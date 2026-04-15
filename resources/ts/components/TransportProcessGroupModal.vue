@@ -160,13 +160,14 @@ function changeSmena(smena: number) {
 }
 
 const group_id =
-   props.color == "sky" ? settings.WATERTRUCKS : settings.DUMPTRUCKS;
+   props.color == "sky" ? [settings.WATERTRUCKS] : settings.DUMPTRUCKS;
+console.log(group_id);
 
 const selectedCars = ref([]);
 async function getDiagramDate() {
    loader.value = true;
    TruckStateRepository.selectSmena(
-      { date: pickers.date, smena: pickers.smena, group_ids: [group_id] },
+      { date: pickers.date, smena: pickers.smena, group_ids: group_id },
       ({ data }: any) => {
          dataSmena.value = data.smena;
          selectedCars.value = data.states
