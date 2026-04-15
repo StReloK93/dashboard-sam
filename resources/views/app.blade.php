@@ -37,7 +37,7 @@ function safe_explode(string $delimiter, ?string $string): array
             'user_ip': @json($user_ip),
             'only_myip': @json($only_myip),
             'excavator_page': @json(env('EXCAVATORPAGE')),
-            'DUMPTRUCKS': @json(env('DUMPTRUCKS')),
+            'DUMPTRUCKS': @json($truck),
             'WATERTRUCKS': @json(env('WATERTRUCKS')),
             'API_LINK': @json(env('API_LINK')),
             'CAREER_ID': @json(env('CAREER_ID')),

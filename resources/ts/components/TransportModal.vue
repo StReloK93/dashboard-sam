@@ -7,33 +7,6 @@
          @mouseup.stop
          class="xl:w-[1340px] xl:h-[540px] w-[768px] h-[490px] relative"
       >
-         <h3 class="flex gap-1 px-1.5 font-semibold xl:h-9 h-7 mb-2">
-            <div class="w-40 xl:h-9 h-7">
-               <VueDatePicker
-                  @update:model-value="handleDate"
-                  v-model="pickers.date"
-                  :format="formatDate"
-                  auto-apply
-                  placeholder="Kunni tanlang"
-               />
-            </div>
-            <div class="flex gap-1">
-               <button
-                  @click="changeSmena(1)"
-                  :class="setColor(pickers.smena == 1)"
-                  class="xl:w-24 w-20 rounded shadow xl:text-base text-xs"
-               >
-                  1 - {{ $t("change") }}
-               </button>
-               <button
-                  @click="changeSmena(2)"
-                  :class="setColor(pickers.smena == 2)"
-                  class="xl:w-24 w-20 rounded shadow xl:text-base text-xs"
-               >
-                  2 - {{ $t("change") }}
-               </button>
-            </div>
-         </h3>
          <PreLoader v-if="loading" class="neomorph bg-zinc-900 rounded-sm" />
          <Swiper
             v-else
@@ -44,6 +17,24 @@
             :modules="[EffectCards]"
          >
             <SwiperSlide v-for="slide in slides" class="slider-item neomorph">
+               <main class="flex p-1.5 pt-0">
+                  <div
+                     class="relative group bg-white rounded-sm px-4 py-1 cursor-pointer"
+                  >
+                     <span class="text-black font-semibold">
+                        {{ transport.smena.day }} - {{ transport.smena.smena }}
+                     </span>
+                     <div
+                        class="absolute opacity-0 hidden group-hover:block group-hover:opacity-100 z-0 group-hover:z-50 transition-opacity duration-300 left-1 top-[98%]"
+                     >
+                        <SmenaPicker
+                           @change="changeSmena"
+                           :period="transport.smena"
+                        />
+                     </div>
+                  </div>
+               </main>
+
                <TableStates
                   :states="transport[slide.name]"
                   :headerColor="slide.color"
@@ -56,6 +47,7 @@
 </template>
 
 <script setup lang="ts">
+import SmenaPicker from "./SmenaPicker.vue";
 import TableStates from "./TableStates.vue";
 import { TransportStates, TransportModal } from "@/entities/transports";
 import { Swiper, SwiperSlide } from "swiper/vue";
@@ -71,16 +63,10 @@ const store = TransportModal();
 
 const loading = ref(true);
 
-function setColor(boolean: boolean) {
-   if (boolean) return `bg-teal-600 text-white`;
-   else return "bg-white text-gray-600";
-}
-
 const pickers = reactive(getDateAndSmena());
 
-function changeSmena(smena: number) {
-   pickers.smena = smena;
-   getData(pickers);
+function changeSmena(smena: { day: string; smena: number }) {
+   getData(smena);
 }
 
 const handleDate = (modelData: Date) => {

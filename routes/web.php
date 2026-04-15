@@ -27,6 +27,7 @@ Route::get('/{path}', function () {
         'table_link' => env('BASE_TABLE_LINK'),
         'excavators' => env('BASE_EXCAVATORS'),
         'tos' => env('BASE_TOS'),
+        'truck' => explode(',', env('DUMPTRUCKS')),
 
         'pistali_frontals' => env('PISTALI_FRONTALS'),
         'pistali_mans' => env('PISTALI_MANS'),
@@ -34,6 +35,6 @@ Route::get('/{path}', function () {
         'frontend_frontals' => explode(',', env('FRONTEND_PISTALI_FRONTALS')),
         'gusaks' => env('GUSAKS_GROUPID'),
         'user_ip' => request()->ip(),
-        'only_myip' => explode(',', env('BASE_ONLY_MYIP')) ,
+        'only_myip' => explode(',', env('BASE_ONLY_MYIP')),
     ]);
 })->where('path', '.*');

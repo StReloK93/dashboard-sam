@@ -11,11 +11,11 @@ export const Transports = defineStore("Transports", () => {
 
    const DumpTrucks = computed(
       () =>
-         useTrucks.truckStates.filter((truckState) =>
-            useTrucks.groups[settings.DUMPTRUCKS]?.includes(
-               truckState.transport_id,
-            ),
-         ) || [],
+         useTrucks.truckStates.filter((truckState) => {
+            return settings.DUMPTRUCKS.includes(
+               String(truckState.transport.group_id),
+            );
+         }) || [],
    );
    const waterTrucks = computed(
       () =>
@@ -54,6 +54,8 @@ export const Transports = defineStore("Transports", () => {
    });
 
    const inProcess = computed(() => {
+      console.log(DumpTrucks.value);
+
       const process = DumpTrucks.value?.filter(
          (transport) =>
             transport.geozone == null || transport.geozone_type == 4,

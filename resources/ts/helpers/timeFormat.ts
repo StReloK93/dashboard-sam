@@ -9,7 +9,7 @@ export function minuteFormat(minutes) {
 }
 
 export function inZone(car, zone) {
-   if(zone.trim() == "") return false
+   if (zone.trim() == "") return false;
    if (car?.geozone) {
       return car?.geozone?.toLowerCase().includes(zone.toLowerCase());
    } else return false;
@@ -65,10 +65,10 @@ export function secondTimer() {
 export function getDateAndSmena(time = undefined) {
    const current = moment(time);
    const startToday = moment(
-      moment().format(`YYYY-MM-DD ${settings.SMENA_DAY_JOB}`)
+      moment().format(`YYYY-MM-DD ${settings.SMENA_DAY_JOB}`),
    );
    const endToday = moment(
-      moment().format(`YYYY-MM-DD ${settings.SMENA_NIGHT_JOB}`)
+      moment().format(`YYYY-MM-DD ${settings.SMENA_NIGHT_JOB}`),
    );
 
    if (startToday < current && endToday > current) {
@@ -77,31 +77,34 @@ export function getDateAndSmena(time = undefined) {
       return { date: current.format(`YYYY-MM-DD`), smena: 2 };
    } else {
       const currentClone = current.clone();
-      return { date: currentClone.subtract(1, "day").format(`YYYY-MM-DD`), smena: 2 };
+      return {
+         date: currentClone.subtract(1, "day").format(`YYYY-MM-DD`),
+         smena: 2,
+      };
    }
 }
 
 export function inSmenaTime(transport) {
    const dayStart = moment(moment().format(`YYYY-MM-DD ${settings.day_smena}`));
    const dayEnd = moment(
-      moment().format(`YYYY-MM-DD ${settings.SMENA_DAY_JOB}`)
+      moment().format(`YYYY-MM-DD ${settings.SMENA_DAY_JOB}`),
    );
    const oneFirst = moment(transport.geozone_in).isBetween(dayStart, dayEnd);
    const twoFirst = moment(transport.geozone_out).isBetween(dayStart, dayEnd);
 
    const nightStart = moment(
-      moment().format(`YYYY-MM-DD ${settings.night_smena}`)
+      moment().format(`YYYY-MM-DD ${settings.night_smena}`),
    );
    const nightEnd = moment(
-      moment().format(`YYYY-MM-DD ${settings.SMENA_NIGHT_JOB}`)
+      moment().format(`YYYY-MM-DD ${settings.SMENA_NIGHT_JOB}`),
    );
    const oneSecond = moment(transport.geozone_in).isBetween(
       nightStart,
-      nightEnd
+      nightEnd,
    );
    const twoSecond = moment(transport.geozone_out).isBetween(
       nightStart,
-      nightEnd
+      nightEnd,
    );
 
    return (oneFirst && twoFirst) || (oneSecond && twoSecond);
@@ -137,7 +140,7 @@ export function calculatePathLength(points) {
          prevPoint.y,
          prevPoint.x,
          currentPoint.y,
-         currentPoint.x
+         currentPoint.x,
       );
       pathLength += distance;
    }
@@ -152,10 +155,9 @@ export function UTCTime<Number>(time: string) {
       date.getMonth(),
       date.getDate(),
       date.getHours(),
-      date.getMinutes()
+      date.getMinutes(),
    );
 }
-
 
 export function getDaysInMonth(year, month) {
    // Month is 0-based (0 is January, 11 is December)
@@ -176,12 +178,12 @@ export function extractYearAndMonth(dateString) {
       const [, year, month] = match;
       return { year, month };
    } else {
-      throw new Error('Invalid date format');
+      throw new Error("Invalid date format");
    }
 }
 
 export function getRandomArbitrary(min, max) {
-   return Math.ceil(Math.random() * (max - min) + min) ;
+   return Math.ceil(Math.random() * (max - min) + min);
 }
 
 export function formatDate(date: any) {
@@ -195,7 +197,7 @@ export function formatDate(date: any) {
       const yearEnd = date[1].getFullYear();
 
       return `${withZero(dayStart)}-${withZero(
-         monthStart
+         monthStart,
       )}-${yearStart} - ${withZero(dayEnd)}-${withZero(monthEnd)}-${yearEnd}`;
    } else {
       const day = date.getDate();
@@ -296,13 +298,13 @@ export function calculate(selectedCars) {
    const tableData = calculateConflictTime(selectedCars);
    const confictTime = tableData?.reduce(
       (summ, car) => summ + car.difference,
-      0
+      0,
    );
    const summaTrackStayTime = selectedCars.reduce(
       (summ, item) =>
          summ +
          Math.abs(moment(item.geozone_in).diff(item.geozone_out, "seconds")),
-      0
+      0,
    );
 
    const latest = selectedCars.reduce((latest, item) => {
@@ -318,7 +320,7 @@ export function calculate(selectedCars) {
    });
 
    const maxTime = Math.abs(
-      moment(first.geozone_in).diff(latest.geozone_out, "seconds")
+      moment(first.geozone_in).diff(latest.geozone_out, "seconds"),
    );
 
    return {
@@ -340,21 +342,21 @@ export function calculateConflictTime(selectedCars) {
       const endDate = moment(selected.geozone_out);
 
       const conflicts = same.filter((car) =>
-         moment(car.geozone_in).isBetween(startDate, endDate)
+         moment(car.geozone_in).isBetween(startDate, endDate),
       );
 
       if (conflicts.length > 0) {
          conflicts.forEach((nagliCar) => {
             const endAlso = moment(nagliCar.geozone_out).isBetween(
                startDate,
-               endDate
+               endDate,
             );
 
             const difference = endAlso
                ? moment(nagliCar.geozone_out).diff(
-                  nagliCar.geozone_in,
-                  "seconds"
-               )
+                    nagliCar.geozone_in,
+                    "seconds",
+                 )
                : endDate.diff(nagliCar.geozone_in, "seconds");
 
             tableData.push({
@@ -374,17 +376,25 @@ export function calculateChartDataPrices(array) {
       if (summator[detect.smena]) summator[detect.smena].push(detect);
       else summator[detect.smena] = [detect];
 
-      return summator
-   }, {})
+      return summator;
+   }, {});
 
-   const total = []
+   const total = [];
    for (const key in reduced) {
       const element = reduced[key];
 
-      const totalTime = element.reduce((summator, current) => summator + timeToSeconds(current.waitingTime), 0)
-      const days = new Set(element.map((current) => current.day))
+      const totalTime = element.reduce(
+         (summator, current) => summator + timeToSeconds(current.waitingTime),
+         0,
+      );
+      const days = new Set(element.map((current) => current.day));
 
-      total.push({ name: key, y: totalTime / days.size, totalTime: totalTime, days: days.size })
+      total.push({
+         name: key,
+         y: totalTime / days.size,
+         totalTime: totalTime,
+         days: days.size,
+      });
    }
 
    total.sort((a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0));
@@ -405,12 +415,12 @@ export function downloadExcel(array, filename) {
        <table>
            <tr><th>${header.join("</th><th>")}</th></tr>
            ${rows
-         .split("\n")
-         .map(
-            (row) =>
-               `<tr><td>${row.split("\t").join("</td><td>")}</td></tr>`
-         )
-         .join("")}
+              .split("\n")
+              .map(
+                 (row) =>
+                    `<tr><td>${row.split("\t").join("</td><td>")}</td></tr>`,
+              )
+              .join("")}
        </table>`;
 
    const excelFile = `
@@ -481,16 +491,41 @@ export function formatterToExcel(allData) {
    return totalArray;
 }
 
-
 export function timeToSeconds(timeStr) {
-   const parts = timeStr.split(':');
+   const parts = timeStr.split(":");
 
    const hours = parseInt(parts[0], 10);
    const minutes = parseInt(parts[1], 10);
    const seconds = parseInt(parts[2], 10);
 
-   const hourInSeconds = hours * 3600
-   const minuteInSeconds = minutes * 60
+   const hourInSeconds = hours * 3600;
+   const minuteInSeconds = minutes * 60;
 
    return minuteInSeconds + hourInSeconds + seconds;
+}
+
+export function getLastSmenas(
+   { day, smena }: { day: string; smena: number },
+   count = 10,
+) {
+   const result = [];
+   let currentDate = new Date(day);
+   let currentSmena = smena;
+
+   for (let i = 0; i < count; i++) {
+      result.unshift({
+         day: currentDate.toISOString().split("T")[0],
+         smena: currentSmena,
+      });
+
+      // oldingi smenaga o'tamiz
+      if (currentSmena === 1) {
+         currentSmena = 2;
+         currentDate.setDate(currentDate.getDate() - 1); // kundan 1 kun ayiramiz
+      } else {
+         currentSmena = 1;
+      }
+   }
+
+   return result;
 }

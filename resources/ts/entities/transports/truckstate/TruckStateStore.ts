@@ -5,7 +5,7 @@ import moment from "moment";
 
 export const useTruckState = defineStore("counter", () => {
    const trucks = [];
-   trucks.push(settings.DUMPTRUCKS);
+   trucks.push(...settings.DUMPTRUCKS);
    if (settings.WATERTRUCKS) trucks.push(settings.WATERTRUCKS);
    const formData = { group_ids: trucks };
 

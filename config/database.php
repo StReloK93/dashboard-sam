@@ -100,9 +100,6 @@ return [
         ],
 
         'sqlsrv' => createConfigDB('DB_DATABASE'),
-        'wialonapi' => createConfigDB('DB_DATABASE5'),
-
-
     ],
 
     /*

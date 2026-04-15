@@ -5,7 +5,10 @@ import TruckStateRepository from "./truckstate/TruckStateRepository";
 
 export const TransportStates = defineStore("TransportStates", () => {
    const transports: Ref<any[] | null> = ref(null);
-
+   const smena = ref<{ date: string | null; smena: number | null }>({
+      date: null,
+      smena: null,
+   });
    async function getTransportState(
       transport_id: number,
       onLoad?: Function,
@@ -14,7 +17,8 @@ export const TransportStates = defineStore("TransportStates", () => {
       TruckStateRepository.show(
          transport_id,
          ({ data }: any) => {
-            transports.value = data;
+            transports.value = data.states;
+            smena.value = data.smena;
             onLoad?.();
          },
          formData,
@@ -70,6 +74,7 @@ export const TransportStates = defineStore("TransportStates", () => {
 
    return {
       transports,
+      smena,
       getTransportState,
       inATB,
       inOIL,
