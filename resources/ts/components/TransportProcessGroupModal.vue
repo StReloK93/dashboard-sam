@@ -161,7 +161,6 @@ function changeSmena(smena: number) {
 
 const group_id =
    props.color == "sky" ? [settings.WATERTRUCKS] : settings.DUMPTRUCKS;
-console.log(group_id);
 
 const selectedCars = ref([]);
 async function getDiagramDate() {

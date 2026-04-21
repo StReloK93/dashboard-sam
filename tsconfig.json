@@ -1,15 +1,17 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "importHelpers": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "allowSyntheticDefaultImports": true,
-    "paths": {
-      "@/*": [ // / to begin with.
-        "./resources/ts/*"
-      ]
-    },
-  }
+   "compilerOptions": {
+      "noImplicitAny": false,
+      "target": "esnext",
+      "module": "esnext",
+      "importHelpers": true,
+      "isolatedModules": true,
+      "noEmit": true,
+      "allowSyntheticDefaultImports": true,
+      "paths": {
+         "@/*": [
+            // / to begin with.
+            "./resources/ts/*"
+         ]
+      }
+   }
 }

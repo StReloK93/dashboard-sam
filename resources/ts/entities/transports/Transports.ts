@@ -20,7 +20,7 @@ export const Transports = defineStore("Transports", () => {
    const waterTrucks = computed(
       () =>
          useTrucks.truckStates.filter((truckState) =>
-            useTrucks.groups[settings.WATERTRUCKS]?.includes(
+            useTrucks.groups?.[settings.WATERTRUCKS]?.includes(
                truckState.transport_id,
             ),
          ) || [],
@@ -54,8 +54,6 @@ export const Transports = defineStore("Transports", () => {
    });
 
    const inProcess = computed(() => {
-      console.log(DumpTrucks.value);
-
       const process = DumpTrucks.value?.filter(
          (transport) =>
             transport.geozone == null || transport.geozone_type == 4,
