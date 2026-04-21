@@ -48,6 +48,7 @@ const urlExcavator = settings.excavator_page;
 const { locale, t } = useI18n({ useScope: "global" });
 
 const dashboardLinks = ref([
+   { url: "192.168.14.23:3030", name: "SHKB" },
    { url: "192.168.14.23:3017", name: "sharqiy" },
    { url: "192.168.14.23:3009", name: "daugiztau" },
    { url: "192.168.14.23:3016", name: "amantay" },

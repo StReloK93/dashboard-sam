@@ -21,6 +21,7 @@ export default {
    activeTrucks: "Активные самосвалы",
    chartspeed: "График средный скорости самосвалов",
 
+   SHKB: "СРУ",
    sharqiy: "Восточный",
    daugiztau: "Даугызтау",
    amantay: "Амантай",

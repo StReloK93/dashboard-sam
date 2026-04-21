@@ -21,6 +21,7 @@ export default {
    activeTrucks: "Faol Avtoag'dargichlar",
    chartspeed: "Avtoag'dargichlar o'rtacha tezlik grafigi",
 
+   SHKB: "SHKB",
    sharqiy: "Sharqiy",
    daugiztau: "Daugiztau",
    amantay: "Amantay",
