@@ -86,6 +86,11 @@ const COLORS_MAP: Record<string, { bg: string; text: string; border: string }> =
          text: "text-indigo-400",
          border: "border-indigo-500",
       },
+      indigo_red: {
+         bg: "bg-red-500",
+         text: "text-indigo-400",
+         border: "border-indigo-500",
+      },
    };
 
 const props = defineProps<{
@@ -99,7 +104,20 @@ const isMan = computed(
    () => props.state?.transport?.name?.toLowerCase().includes("man") ?? false,
 );
 
-const buttonColor = computed(() => COLORS_MAP[props.color] || COLORS_MAP.gray);
+const buttonColor = computed(() => {
+   const isLate =
+      props.color === "indigo" &&
+      props.state?.geozone_in &&
+      props.state?.geozone_out &&
+      moment(props.state.geozone_out).diff(
+         moment(props.state.geozone_in),
+         "minutes",
+      ) > 40;
+
+   return isLate
+      ? COLORS_MAP["indigo_red"]
+      : COLORS_MAP[props.color] || COLORS_MAP.gray;
+});
 
 const colorLine = computed(() =>
    props.state?.timer_type === 2 ? "bg-gray-400" : "bg-yellow-400",
