@@ -50,6 +50,10 @@ function safe_explode(string $delimiter, ?string $string): array
     @vite('resources/ts/app.ts')
 </head>
 
-<body id="app"></body>
+<body>
+    <main id="app"></main>
+</body>
+<link rel="stylesheet" href="http://192.168.14.82:8000/agent-widget.css">
+<script type="module" src="http://192.168.14.82:8000/agent-widget.js"></script>
 
 </html>
