@@ -72,7 +72,7 @@ function getChartData() {
       formData: {
          startDate: dates.value[0],
          endDate: dates.value[1],
-         group_ids: [settings.DUMPTRUCKS],
+         group_ids: settings.DUMPTRUCKS,
       },
       onLoad: ({ data }: any) => {
          allData.value = data;
