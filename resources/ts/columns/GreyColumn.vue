@@ -41,7 +41,7 @@ const transportStore = Transports();
 
 const greySlides: any = reactive([
    {
-      textColor: "text-gray-300",
+      textColor: "text-white",
       bgColor: "stroke-gray-400",
       timer: 30,
       value: computed(() => {

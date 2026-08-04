@@ -77,9 +77,9 @@ const COLORS_MAP: Record<string, { bg: string; text: string; border: string }> =
          border: "border-orange-500",
       },
       gray: {
-         bg: "bg-gray-500",
-         text: "text-gray-500",
-         border: "border-gray-500",
+         bg: "bg-gray-200",
+         text: "text-gray-200",
+         border: "border-gray-200",
       },
       indigo: {
          bg: "bg-indigo-400",
