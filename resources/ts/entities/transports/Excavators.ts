@@ -4,6 +4,7 @@ import { splitNumberAndText } from "@/helpers/timeFormat";
 import { useFetch } from "@/helpers/useFetchWialon";
 export const Excavators = defineStore("Excavators", () => {
    const ExcavatorList = ref<any[]>([]);
+   const BurovoyList = ref<any[]>([]);
 
    async function getExcavatorStates() {
       useFetch({
@@ -31,6 +32,16 @@ export const Excavators = defineStore("Excavators", () => {
       });
    }
 
+   async function getBurovoyStates() {
+      useFetch({
+         url: "drills/states",
+         method: "post",
+         onLoad: async function ({ data }: any) {
+            BurovoyList.value = data;
+         },
+      });
+   }
+
    const informationProsent = computed(() => {
       const activeCars = ExcavatorList.value.filter(
          (car) => car.status_of == "Ishda",
@@ -44,5 +55,29 @@ export const Excavators = defineStore("Excavators", () => {
       };
    });
 
-   return { getExcavatorStates, ExcavatorList, informationProsent };
+   const buravoyChartInfo = computed(() => {
+      const activeCars = BurovoyList.value.filter(
+         (car) => car.cause_old == null,
+      );
+      const acas = BurovoyList.value.filter((car) => car.cause_old != null);
+
+      console.log(acas);
+
+      return {
+         prosent: Math.round(
+            (activeCars.length / ExcavatorList.value?.length) * 100,
+         ),
+         max: ExcavatorList.value?.length,
+         current: activeCars.length,
+      };
+   });
+
+   return {
+      buravoyChartInfo,
+      getExcavatorStates,
+      getBurovoyStates,
+      ExcavatorList,
+      BurovoyList,
+      informationProsent,
+   };
 });

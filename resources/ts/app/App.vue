@@ -134,7 +134,7 @@ const setting = settings;
 
 const start = async () => {
    await truckStateStore.fetchData();
-
+   if (setting.excavators) await excavatorStore.getBurovoyStates();
    if (setting.excavators) await excavatorStore.getExcavatorStates();
    setTimeout(() => start(), 40000);
 };

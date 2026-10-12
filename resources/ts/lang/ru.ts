@@ -16,9 +16,10 @@ export default {
    signin: "Войти",
    exit: "Выйти",
    back: "Назад",
-   activeExcavators: "Активные экскаваторы",
-   activeMans: "Активные рудавозы",
-   activeTrucks: "Активные самосвалы",
+   activeExcavators: "Экскаваторы",
+   activeMans: "Рудавозы",
+   activeBurovoy: "Буровые станки",
+   activeTrucks: "Самосвалы",
    chartspeed: "График средный скорости самосвалов",
 
    SHKB: "СРУ",

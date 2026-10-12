@@ -16,9 +16,10 @@ export default {
    signin: "Kirish",
    exit: "Chiqish",
    back: "Orqaga",
-   activeExcavators: "Faol ekskavatorlar",
-   activeMans: "Faol ruda tashuvchilar",
-   activeTrucks: "Faol Avtoag'dargichlar",
+   activeExcavators: "Ekskavatorlar",
+   activeMans: "Ruda tashuvchilar",
+   activeTrucks: "Avtoag'dargichlar",
+   activeBurovoy: "Burg'ulash uskunalari",
    chartspeed: "Avtoag'dargichlar o'rtacha tezlik grafigi",
 
    SHKB: "SHKB",

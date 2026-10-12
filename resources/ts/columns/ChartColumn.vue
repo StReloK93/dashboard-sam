@@ -32,6 +32,15 @@
                v-model="excavatorState.informationProsent"
             />
          </template>
+         <template v-if="config.excavators">
+            <ChartCircle
+               v-if="excavatorState.BurovoyList.length != 0"
+               chartname="activeBurovoy"
+               :startcolor="'#01b0b0'"
+               :endcolor="'#2dd4bf'"
+               v-model="excavatorState.buravoyChartInfo"
+            />
+         </template>
 
          <template v-if="config.pistali_mans">
             <ChartCircle
