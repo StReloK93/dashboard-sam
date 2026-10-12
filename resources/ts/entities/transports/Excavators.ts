@@ -59,15 +59,12 @@ export const Excavators = defineStore("Excavators", () => {
       const activeCars = BurovoyList.value.filter(
          (car) => car.cause_old == null,
       );
-      const acas = BurovoyList.value.filter((car) => car.cause_old != null);
-
-      console.log(acas);
 
       return {
          prosent: Math.round(
-            (activeCars.length / ExcavatorList.value?.length) * 100,
+            (activeCars.length / BurovoyList.value?.length) * 100,
          ),
-         max: ExcavatorList.value?.length,
+         max: BurovoyList.value?.length,
          current: activeCars.length,
       };
    });
