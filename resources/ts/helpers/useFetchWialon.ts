@@ -2,7 +2,7 @@ import { ref } from "vue";
 import axios, { AxiosResponse } from "axios";
 type HttpMethod = "get" | "post" | "put" | "delete"; // Define allowed HTTP methods
 
-const wialonHttp = axios.create({
+export const wialonHttp = axios.create({
    baseURL: settings.API_LINK,
    headers: { "Content-Type": "application/json" },
    withCredentials: false,

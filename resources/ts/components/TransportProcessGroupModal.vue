@@ -116,8 +116,8 @@
 
 <script setup lang="ts">
 import TransportProcessGroupChart from "./TransportProcessGroupChart.vue";
-import TransportProcessGroupOilTable from "@/noname/TransportProcessGroupOilTable.vue";
-import TransportProcessGroupCauses from "@/noname/TransportProcessGroupCauses.vue";
+import TransportProcessGroupOilTable from "@/components/TransportProcessGroupOilTable.vue";
+import TransportProcessGroupCauses from "@/components/TransportProcessGroupCauses.vue";
 import { ref, onMounted, reactive, computed, provide } from "vue";
 import TruckStateRepository from "@/entities/transports/truckstate/TruckStateRepository";
 import {

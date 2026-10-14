@@ -1,21 +1,25 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import router from "@/app/router";
-import axios from "axios";
+import { wialonHttp } from "../helpers/useFetchWialon";
 
 export const AuthStore = defineStore("Auth", () => {
-   const user = ref<any>(null);
+   const user: any = ref(null);
 
    async function login(data: any) {
-      const result = await axios.post("api/login", data);
-      if (result.status == 299) return result.data;
-      else {
-         localStorage.setItem(
-            "token",
-            `${result.data.type} ${result.data.token}`,
-         ); // local
-         await getUser();
-         router.push({ name: "home" });
+      try {
+         const result = await wialonHttp.post("login", data);
+         if (result.status == 299) return result.data;
+         else {
+            localStorage.setItem(
+               "token",
+               `${result.data.type} ${result.data.token}`,
+            ); // local
+            await getUser();
+            router.push({ name: "home" });
+         }
+      } catch (error: any) {
+         return error.response.data;
       }
    }
 
@@ -26,10 +30,10 @@ export const AuthStore = defineStore("Auth", () => {
    });
 
    async function getUser() {
-      axios.defaults.headers.common["Authorization"] =
+      wialonHttp.defaults.headers.common["Authorization"] =
          localStorage.getItem("token");
-      await axios
-         .get("api/user")
+      await wialonHttp
+         .get("user")
          .then(({ data }) => {
             user.value = data;
          })
@@ -40,7 +44,7 @@ export const AuthStore = defineStore("Auth", () => {
 
    async function register(props: any) {
       try {
-         const result = await axios.post("api/register", props);
+         const result = await wialonHttp.post("register", props);
          if (result.status == 200) login(props);
          else return result.data;
       } catch (err: any) {
@@ -49,10 +53,10 @@ export const AuthStore = defineStore("Auth", () => {
    }
 
    async function logout() {
-      const data = await axios.get("api/logout");
+      const data = await wialonHttp.get("logout");
 
       if (data.status == 200) {
-         axios.defaults.headers.common["Authorization"] = null;
+         wialonHttp.defaults.headers.common["Authorization"] = null;
          localStorage.removeItem("token");
          user.value = null;
          router.push({ name: "login" });
@@ -60,12 +64,4 @@ export const AuthStore = defineStore("Auth", () => {
    }
 
    return { user, userRoles, getUser, login, register, logout };
-});
-
-export const printStore = defineStore("printStore", () => {
-   const printForm = ref(false);
-   const employe = ref(null);
-   const employeProducts = ref();
-   const position = ref(null);
-   return { printForm, employe, employeProducts, position };
 });
